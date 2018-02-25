@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package CAD; 
+//es que la señal llega tarde 
 
 import Config.Bandera;
 import Model.ConexionDB;
