@@ -200,7 +200,6 @@ public class vUsuarios extends javax.swing.JInternalFrame {
         TxtNombre.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         TxtNombre.setForeground(new java.awt.Color(255, 0, 0));
         TxtNombre.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        TxtNombre.setToolTipText("");
         TxtNombre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 TxtNombreActionPerformed(evt);
@@ -213,7 +212,6 @@ public class vUsuarios extends javax.swing.JInternalFrame {
         TxtApellido.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         TxtApellido.setForeground(new java.awt.Color(255, 0, 0));
         TxtApellido.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        TxtApellido.setToolTipText("");
         TxtApellido.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 TxtApellidoActionPerformed(evt);
@@ -360,7 +358,7 @@ public class vUsuarios extends javax.swing.JInternalFrame {
         BtnPrivilegios.setBackground(new java.awt.Color(255, 153, 0));
         BtnPrivilegios.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         BtnPrivilegios.setText("...");
-        BtnPrivilegios.setToolTipText("Examinar...");
+        BtnPrivilegios.setToolTipText("Asignar...");
         BtnPrivilegios.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BtnPrivilegiosActionPerformed(evt);

@@ -251,7 +251,6 @@
                   <Color blue="0" green="0" red="ff" type="rgb"/>
                 </Property>
                 <Property name="horizontalAlignment" type="int" value="0"/>
-                <Property name="toolTipText" type="java.lang.String" value=""/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="TxtNombreActionPerformed"/>
@@ -274,7 +273,6 @@
                   <Color blue="0" green="0" red="ff" type="rgb"/>
                 </Property>
                 <Property name="horizontalAlignment" type="int" value="0"/>
-                <Property name="toolTipText" type="java.lang.String" value=""/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="TxtApellidoActionPerformed"/>
@@ -578,7 +576,7 @@
                   <Font name="Agency FB" size="14" style="1"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="..."/>
-                <Property name="toolTipText" type="java.lang.String" value="Examinar..."/>
+                <Property name="toolTipText" type="java.lang.String" value="Asignar..."/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnPrivilegiosActionPerformed"/>
