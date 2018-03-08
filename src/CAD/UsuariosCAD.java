@@ -62,6 +62,34 @@ public class UsuariosCAD extends ConexionDB{
         }              
     }//FIN Metodo Guardar
     
+    public static boolean modificar(Usuarios Um){
+        PreparedStatement pst;
+        ResultSet rs = null;
+        boolean respuesta = false; 
+        
+        try {
+            String Sql = "CALL ModificarUsuarios(?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            pst = getConexion().prepareStatement(Sql);           
+            pst.setInt(1, Um.getTipoDocumento());
+            pst.setString(2, Um.getDocumento());
+            pst.setString(3, Um.getNombres());
+            pst.setString(4, Um.getApellidos());
+            pst.setString(5, Um.getTelefono());
+            pst.setString(6, Um.getDireccion());
+            pst.setString(7, Um.getFechaNacimiento());
+            pst.setString(8, Um.getEmail());
+            pst.setString(9, Um.getRoll());
+            pst.setString(10, Um.getUsuario());
+            pst.setString(11, Um.getContrasena());
+            pst.setInt(12, Um.getPregunta());
+            pst.setString(13, Um.getRespuesta());
+            
+            return pst.executeUpdate()>0; 
+                    } catch (SQLException ex) {
+            return false;
+        }
+    }//Fin Metodo Modificar
+    
     public static boolean acceder(Usuarios u){
         PreparedStatement pst;
         ResultSet rs = null;
@@ -85,7 +113,7 @@ public class UsuariosCAD extends ConexionDB{
                 Bandera.setApellido(rs.getString("Apellido")); 
                 Bandera.setUsuario(rs.getString("Usuario"));
                 Bandera.setRol(rs.getString("Roll"));
-                CargarRoll(Bandera.getRol());
+                //CargarRoll(Bandera.getRol());
                 //Bandera.setRespuesta(respuesta);
             }
         } catch (SQLException e) {

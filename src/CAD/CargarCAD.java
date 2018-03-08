@@ -8,6 +8,7 @@ package CAD;
 import Model.ConexionDB;
 import static Model.ConexionDB.getConexion;
 import Model.PreguntaSecreta;
+import Model.Roles;
 import Model.TipoDocumento;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
  */
 public class CargarCAD extends ConexionDB {
     
+    //<editor-fold desc="CARGAR TIPO DOCUMENTO" defaultstate="collapsed">
     public ArrayList CargarTipoDoc(){
         //Combo Tipo Documento
         PreparedStatement pst;
@@ -40,16 +42,18 @@ public class CargarCAD extends ConexionDB {
                 
             TipoDocumento Tp = new TipoDocumento(""+Codigo,Nombre,Siglas);            
             Lista.add(Tp);
-                System.out.println(""+Lista);
+               // System.out.println(""+Lista);
             }
             return Lista;
         } catch (SQLException ex) {            
         } 
         return Lista;
     }// FIN Metodo Cargar Tipo documento
+    //</editor-fold>
     
+    //<editor-fold desc="CARGAR PREGUNTA SEGURIDAD" defaultstate="collapsed"> 
     public ArrayList CargarPregunta(){
-        //Combo Tipo Documento
+        //Combo Pregunta Seguridad
         PreparedStatement pst;
         ResultSet rs = null;
         ArrayList Lista = new ArrayList();
@@ -67,13 +71,42 @@ public class CargarCAD extends ConexionDB {
                 
             PreguntaSecreta Ps = new PreguntaSecreta(""+Codigo,Nombre);            
             Lista.add(Ps);
-                System.out.println(""+Lista);
+             //   System.out.println(""+Lista);
             }
             return Lista;
         } catch (SQLException ex) {            
         } 
         return Lista;
-    }// FIN Metodo Cargar Tipo documento
+    }// FIN Metodo Cargar Pregunta Secreta
+    //</editor-fold>
     
-    
+    //<editor-fold desc="CARGAR ROLES" defaultstate="collapsed"> 
+    public ArrayList CargarRoles(){
+        //Combo Clase Roll
+        PreparedStatement pst;
+        ResultSet rs = null;
+        ArrayList Lista = new ArrayList();
+        try {
+            
+            String Sql = "CALL CargarRoles();";
+            pst = getConexion().prepareStatement(Sql);            
+            rs = pst.executeQuery();
+            
+            while (rs.next()) {   
+                String Nombre,Siglas;
+                int Codigo;
+                Codigo = (rs.getInt(1));                
+                Nombre = (rs.getString(2));                
+                Siglas = (rs.getString(3));
+                
+            Roles Rl = new Roles(""+Codigo,Nombre,Siglas);            
+            Lista.add(Rl);
+              //  System.out.println(""+Lista);
+            }
+            return Lista;
+        } catch (SQLException ex) {            
+        } 
+        return Lista;
+    }// FIN Metodo Cargar Roles
+    //</editor-fold>    
 }

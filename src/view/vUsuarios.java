@@ -368,6 +368,7 @@ public class vUsuarios extends javax.swing.JInternalFrame {
         LblRollUsuario.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         LblRollUsuario.setForeground(new java.awt.Color(255, 0, 0));
         LblRollUsuario.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        LblRollUsuario.setText("Root");
 
         jLabel7.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         jLabel7.setText("Roll de Usuario:");

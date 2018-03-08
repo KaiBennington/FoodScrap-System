@@ -67,6 +67,11 @@ public class vAcceso extends javax.swing.JFrame {
         TxtUsuario.setFont(new java.awt.Font("Agency FB", 1, 16)); // NOI18N
         TxtUsuario.setForeground(new java.awt.Color(255, 0, 0));
         TxtUsuario.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        TxtUsuario.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                TxtUsuarioKeyPressed(evt);
+            }
+        });
 
         jLabel3.setFont(new java.awt.Font("Agency FB", 1, 18)); // NOI18N
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -100,6 +105,11 @@ public class vAcceso extends javax.swing.JFrame {
         TxtContrasena.setFont(new java.awt.Font("Agency FB", 1, 16)); // NOI18N
         TxtContrasena.setForeground(new java.awt.Color(255, 0, 0));
         TxtContrasena.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        TxtContrasena.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                TxtContrasenaKeyPressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -197,6 +207,18 @@ public class vAcceso extends javax.swing.JFrame {
         // Boton de acceso
       Acceso();
     }//GEN-LAST:event_BtnAccederActionPerformed
+
+    private void TxtContrasenaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TxtContrasenaKeyPressed
+        if(evt.getKeyCode()==10){            
+                Acceso();            
+        }
+    }//GEN-LAST:event_TxtContrasenaKeyPressed
+
+    private void TxtUsuarioKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TxtUsuarioKeyPressed
+        if(evt.getKeyCode()==10){            
+                TxtContrasena.requestFocus();
+        }
+    }//GEN-LAST:event_TxtUsuarioKeyPressed
 
     /**
      * @param args the command line arguments
