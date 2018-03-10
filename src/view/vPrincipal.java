@@ -88,7 +88,7 @@ public class vPrincipal extends javax.swing.JFrame {
 
         jMenu1.setText("Archivo");
 
-        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/user-3-24.png"))); // NOI18N
+        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/profile2-24.png"))); // NOI18N
         jMenuItem1.setText("Mi Perfil");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -133,6 +133,7 @@ public class vPrincipal extends javax.swing.JFrame {
 
         jMenu3.setText("Gestionar");
 
+        jMenuItem5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/user-3-24.png"))); // NOI18N
         jMenuItem5.setText("Usuarios");
         jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -145,6 +146,7 @@ public class vPrincipal extends javax.swing.JFrame {
 
         jMenu4.setText("Consultas");
 
+        jMenuItem6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/user-3-24.png"))); // NOI18N
         jMenuItem6.setText("Consultar Usuarios");
         jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

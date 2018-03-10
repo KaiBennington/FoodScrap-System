@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Model;
+package CAD;
 
+import Model.ConexionDB;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,9 +15,9 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author USUARIO
  */
-public class TablaUsuarios extends ConexionDB{
+public class TablaUsuariosCAD extends ConexionDB{
 
-    public TablaUsuarios() {
+    public TablaUsuariosCAD() {
     }
     
     public DefaultTableModel getTablaUsuarios(String Valor){

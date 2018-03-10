@@ -40,9 +40,7 @@ public class Generador {
                 Rta = true;
             }	
         }
-        System.out.println("Contraseña generada: "+ Generado);
-        return Rta;
-			
+        return Rta;			
         }
     }
 

@@ -41,12 +41,7 @@ public class vUsuarios extends javax.swing.JInternalFrame {
         initComponents();
         botonesInicio();
         cargarCombos();
-        /////
-        JCTextField jCTextField1 = new JCTextField();
-        jCTextField1.setLocation(40, 40);
-        jCTextField1.setPlaceholder("Escribe tu E-Mail");
-        add(jCTextField1);
-        ////
+        /////        
     }
     
     //<editor-fold desc="CARGAR COMBOS" defaultstate="collapsed">    
@@ -190,6 +185,11 @@ public class vUsuarios extends javax.swing.JInternalFrame {
         });
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jPanel1MousePressed(evt);
+            }
+        });
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder(null, "", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.ABOVE_TOP, new java.awt.Font("Tahoma", 1, 12)), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(204, 204, 204))); // NOI18N
@@ -715,6 +715,10 @@ public class vUsuarios extends javax.swing.JInternalFrame {
     private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
         vPrincipal.ventana = "";
     }//GEN-LAST:event_formInternalFrameClosing
+
+    private void jPanel1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MousePressed
+        LblOk.setVisible(false);
+    }//GEN-LAST:event_jPanel1MousePressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

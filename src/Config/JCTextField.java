@@ -79,4 +79,11 @@ public class JCTextField extends JTextField {
                      getMargin().left,
                      (getSize().height)/2 + getFont().getSize()/2 );
       }
+    
+//    JCTextField Txt = new JCTextField();
+//        //Txt.setLocation(40, 40);
+//        Txt.setPlaceholder("Escribe tu E-Mail");
+//        //add(Txt);
+//        TxtCorreo.add(Txt);
+//        ////
 }

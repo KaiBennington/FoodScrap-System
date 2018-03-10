@@ -11,12 +11,9 @@ import Config.AccionesUsuario;
 import Config.Bandera;
 import Model.PreguntaSecreta;
 import Model.Roles;
-import Model.TablaUsuarios;
+import CAD.TablaUsuariosCAD;
 import Model.TipoDocumento;
 import Model.Usuarios;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -27,10 +24,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
-import javax.swing.table.TableModel;
-import static view.vUsuarios.LblRollUsuario;
 
 /**
  *
@@ -143,7 +137,7 @@ public class vConsultarUsuarios extends javax.swing.JInternalFrame {
     
     //<editor-fold desc="MOSTRAR DATOS" defaultstate="collapsed">
     void mostrarDatos(String Valor){        
-        TablaUsuarios ModelTable = new TablaUsuarios();         
+        TablaUsuariosCAD ModelTable = new TablaUsuariosCAD();         
         TblConsultarUsuario.setModel(ModelTable.getTablaUsuarios(Valor));      
         TableColumnModel columnModel = TblConsultarUsuario.getColumnModel();
         for (int i = 0; i < columnModel.getColumnCount(); i++) {
@@ -152,7 +146,7 @@ public class vConsultarUsuarios extends javax.swing.JInternalFrame {
     }       
     //</editor-fold>
     
-    //<editor-fold desc="HABILITAR B MODIFICAR" defaultstate="collapsed">
+    //<editor-fold desc="HABILITAR CAMPOS" defaultstate="collapsed">
     void habilitarCampos(boolean TipoDoc,boolean Textos,boolean Eliminar,boolean Modificar){        
         CbxTipoDoc.setEnabled(TipoDoc);
         TxtDocumento.setEnabled(TipoDoc);
@@ -250,8 +244,14 @@ public class vConsultarUsuarios extends javax.swing.JInternalFrame {
         PopM_Tabla.add(MnEliminar);
 
         setClosable(true);
+        addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                formFocusGained(evt);
+            }
+        });
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameActivated(evt);
             }
             public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
             }
@@ -267,10 +267,23 @@ public class vConsultarUsuarios extends javax.swing.JInternalFrame {
             public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
             }
         });
+        addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                formMouseClicked(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                formMousePressed(evt);
+            }
+        });
 
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jPanel1MousePressed(evt);
+            }
+        });
 
         jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/ConsultarUsuario.png"))); // NOI18N
@@ -559,6 +572,8 @@ public class vConsultarUsuarios extends javax.swing.JInternalFrame {
 
         LblBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/search-24.png"))); // NOI18N
 
+        LblOk.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
+        LblOk.setForeground(new java.awt.Color(0, 153, 51));
         LblOk.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Ok.png"))); // NOI18N
 
         BtnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/cancel-24.png"))); // NOI18N
@@ -595,7 +610,7 @@ public class vConsultarUsuarios extends javax.swing.JInternalFrame {
         ));
         TblConsultarUsuario.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         TblConsultarUsuario.setComponentPopupMenu(PopM_Tabla);
-        TblConsultarUsuario.getTableHeader().setReorderingAllowed(false);
+        TblConsultarUsuario.setSelectionBackground(new java.awt.Color(255, 0, 0));
         jScrollPane2.setViewportView(TblConsultarUsuario);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -672,25 +687,31 @@ public class vConsultarUsuarios extends javax.swing.JInternalFrame {
 
     private void BtnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnEliminarActionPerformed
         //<editor-fold desc="ELIMINAR" defaultstate="collapsed">
-        if (TxtDocumento.getText().equalsIgnoreCase("")) {
+        if (TxtDocumento.getText().equalsIgnoreCase("") || CbxTipoDoc.getSelectedIndex() < 0) {
             JOptionPane.showMessageDialog(null, "No se puede Eliminar el Usuario\nEl Campo 'Documento' se encuentra vacio\nVerifique que tenga conexion con la BD");
             TxtDocumento.requestFocus();
         }else{
             // Btn Eliminar
+            int TipoD = CbxTipoDoc.getSelectedIndex();
             String Documento = TxtDocumento.getText();
 
             Usuarios Us = new Usuarios();
+            Us.setTipoDocumento(TipoD);
             Us.setDocumento(Documento);
 
-//            if (UsuariosCAD.eliminar(Us)) {
-//
-//                mostrarDatos("");
-//                limpiarCampos();
-//                botonesInicio();
-//                LblOk.setVisible(true);
-//            }else{
-//                JOptionPane.showMessageDialog(null, "El Puerto no se pudo eliminar");
-//            }
+            boolean Eliminar = UsuariosCAD.eliminar(Us);
+
+                    if(!Eliminar){                        
+                        JOptionPane.showMessageDialog(null,Bandera.getRespuesta());
+                        limpiarCampos();
+                        mostrarDatos("");                        
+                        botonesInicio();
+                    }else{ 
+                        limpiarCampos();
+                        botonesInicio();
+                        LblOk.setText(Bandera.getRespuesta());
+                        LblOk.setVisible(true);
+                    }            
         }
         //</editor-fold>
     }//GEN-LAST:event_BtnEliminarActionPerformed
@@ -727,7 +748,7 @@ public class vConsultarUsuarios extends javax.swing.JInternalFrame {
         U.setFechaNacimiento(Fecha);
         U.setDireccion(TxtDireccion.getText());
         U.setEmail(TxtCorreo.getText());
-        U.setRoll(LblRollUsuario.getText());
+        U.setRoll(CbxRoles.getSelectedItem().toString());
         U.setUsuario(TxtUsuario.getText());
         U.setContrasena(TxtContrasena.getText());
         U.setPregunta(CbxPregunta.getSelectedIndex());
@@ -753,13 +774,15 @@ public class vConsultarUsuarios extends javax.swing.JInternalFrame {
             } else {
                 boolean Modificar = UsuariosCAD.modificar(U);
 
-                    if(!Modificar){
-                        TxtUsuario.setText("");
+                    if(!Modificar){                        
                         JOptionPane.showMessageDialog(null,Bandera.getRespuesta());
-                        TxtDocumento.requestFocus();
+                        limpiarCampos();
+                        mostrarDatos("");                        
+                        botonesInicio();
                     }else{ 
                         limpiarCampos();
-                        //botonesInicio();                
+                        botonesInicio();
+                        mostrarDatos(U.getNombres());
                         LblOk.setText(Bandera.getRespuesta());
                         LblOk.setVisible(true);
                     }
@@ -813,6 +836,27 @@ public class vConsultarUsuarios extends javax.swing.JInternalFrame {
         habilitarCampos(false,false,true,false);
         //</editor-fold>
     }//GEN-LAST:event_MnEliminarActionPerformed
+
+    private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
+        LblOk.setVisible(false);
+    }//GEN-LAST:event_formMouseClicked
+
+    private void formFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_formFocusGained
+        
+    }//GEN-LAST:event_formFocusGained
+
+    private void formInternalFrameActivated(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameActivated
+        mostrarDatos("");
+    }//GEN-LAST:event_formInternalFrameActivated
+
+    private void formMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMousePressed
+        
+    }//GEN-LAST:event_formMousePressed
+
+    private void jPanel1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MousePressed
+        LblOk.setVisible(false);
+        mostrarDatos("");
+    }//GEN-LAST:event_jPanel1MousePressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

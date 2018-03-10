@@ -12,6 +12,7 @@ import Config.Generador;
 import static Model.ConexionDB.getConexion;
 import Model.TipoDocumento;
 import Model.Usuarios;
+import java.awt.Color;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -424,7 +425,13 @@ public class vRecuperacionC extends javax.swing.JFrame {
                 TxtUsuario.setText("");
                 CbPregunta.setSelectedIndex(0);
                 TxtRespuesta.setText("");
+                if (Bandera.getRespuesta().equalsIgnoreCase("Datos Incorrectos")) {
+                    TxtNuevaContra.setForeground(Color.red);
+                    TxtNuevaContra.setText(Bandera.getRespuesta());
+                }else{
+                TxtNuevaContra.setForeground(Color.GREEN);
                 TxtNuevaContra.setText(Bandera.getRespuesta());
+                }
                 
             }
             }

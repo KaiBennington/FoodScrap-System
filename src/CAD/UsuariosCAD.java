@@ -83,12 +83,61 @@ public class UsuariosCAD extends ConexionDB{
             pst.setString(11, Um.getContrasena());
             pst.setInt(12, Um.getPregunta());
             pst.setString(13, Um.getRespuesta());
+            rs = pst.executeQuery();
             
-            return pst.executeUpdate()>0; 
-                    } catch (SQLException ex) {
-            return false;
+            String resul = "";
+            if (rs.next()) {                
+                resul = rs.getString("Mensaje");         
+            }
+            
+            if("Información del Usuario Actualizada".equalsIgnoreCase(resul)){
+               Bandera.setRespuesta(resul);
+               respuesta = true;
+            }else{
+               Bandera.setRespuesta(resul);
+               respuesta = false;
+            }
+        } catch (SQLException e){ 
+            System.err.println("Error "+e);
         }
+        finally{
+            desconectar();
+            return respuesta;
+        }      
     }//Fin Metodo Modificar
+    
+    public static boolean eliminar(Usuarios Ue){
+        PreparedStatement pst;
+        ResultSet rs = null;
+        boolean respuesta = false; 
+        
+        try {
+            String Sql = "CALL EliminarUsuarios(?,?)";
+            pst = getConexion().prepareStatement(Sql);           
+            pst.setInt(1, Ue.getTipoDocumento());
+            pst.setString(2, Ue .getDocumento());            
+            rs = pst.executeQuery();
+            
+            String resul = "";
+            if (rs.next()) {                
+                resul = rs.getString("Mensaje");         
+            }
+            
+            if("Usuario Eliminado".equalsIgnoreCase(resul)){
+               Bandera.setRespuesta(resul);
+               respuesta = true;
+            }else{
+               Bandera.setRespuesta(resul);
+               respuesta = false;
+            }
+        } catch (SQLException e){ 
+            System.err.println("Error "+e);
+        }
+        finally{
+            desconectar();
+            return respuesta;
+        }      
+    }//Fin Metodo Eliminar
     
     public static boolean acceder(Usuarios u){
         PreparedStatement pst;

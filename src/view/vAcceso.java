@@ -8,6 +8,7 @@ package view;
 import CAD.UsuariosCAD;
 import Config.Bandera;
 import Model.Usuarios;
+import javax.swing.*;
 import javax.swing.JOptionPane;
 
 /**
@@ -231,6 +232,7 @@ public class vAcceso extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                //Nimbus,Windows,ios
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
@@ -245,6 +247,12 @@ public class vAcceso extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(vAcceso.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+
+//        try {
+//            UIManager.setLookAndFeel("org.gtk.java.swing.plaf.gtk.GtkLookAndFeel");
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
         //</editor-fold>
 
         /* Create and display the form */
