@@ -6,6 +6,7 @@
 package view;
 
 import CAD.CargarCAD;
+import CAD.PermisosCAD;
 import CAD.UsuariosCAD;
 import Config.AccionesUsuario;
 import Config.Bandera;
@@ -35,6 +36,7 @@ public class vConsultarUsuarios extends javax.swing.JInternalFrame {
     /**
      * Creates new form vConsultarUsuarios
      */
+    PermisosCAD oPermisos = new PermisosCAD();
     public vConsultarUsuarios() {
         initComponents();
         cargarCombos();
@@ -142,7 +144,11 @@ public class vConsultarUsuarios extends javax.swing.JInternalFrame {
         TableColumnModel columnModel = TblConsultarUsuario.getColumnModel();
         for (int i = 0; i < columnModel.getColumnCount(); i++) {
         columnModel.getColumn(i).setPreferredWidth(100);
+        ocultarFilas(13);
+        ocultarFilas(14);
+        ocultarFilas(15);
         }
+        
     }       
     //</editor-fold>
     
@@ -171,6 +177,16 @@ public class vConsultarUsuarios extends javax.swing.JInternalFrame {
     }       
     //</editor-fold>
 
+    //<editor-fold desc="Ocultar Filas" defaultstate="collapsed">
+    void ocultarFilas(int index){        
+        TblConsultarUsuario.getColumnModel().getColumn(index).setMaxWidth(0);
+        TblConsultarUsuario.getColumnModel().getColumn(index).setMinWidth(0);
+        TblConsultarUsuario.getColumnModel().getColumn(index).setPreferredWidth(0);
+        
+    }       
+    //</editor-fold>
+    
+ 
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -823,6 +839,7 @@ public class vConsultarUsuarios extends javax.swing.JInternalFrame {
         jScrollPane2.setVisible(false);
         TblConsultarUsuario.setVisible(false);
         habilitarCampos(false,true,false,true);
+        BtnModificar.setVisible(oPermisos.validarPermiso("Guardar","Usuarios"));
         //</editor-fold>
     }//GEN-LAST:event_MnModificarActionPerformed
 
@@ -913,7 +930,7 @@ public class vConsultarUsuarios extends javax.swing.JInternalFrame {
         int fila=TblConsultarUsuario.getSelectedRow();        
         if (fila >= 0) {
         
-        CbxTipoDoc.setSelectedIndex(Integer.parseInt(TblConsultarUsuario.getValueAt(fila, 0).toString()));
+        CbxTipoDoc.setSelectedIndex(Integer.parseInt(TblConsultarUsuario.getValueAt(fila, 13).toString()));
         TxtDocumento.setText(TblConsultarUsuario.getValueAt(fila, 1).toString());        
         TxtNombre.setText(TblConsultarUsuario.getValueAt(fila, 2).toString());
         TxtApellido.setText(TblConsultarUsuario.getValueAt(fila, 3).toString());
@@ -926,11 +943,11 @@ public class vConsultarUsuarios extends javax.swing.JInternalFrame {
                 Logger.getLogger(vConsultarUsuarios.class.getName()).log(Level.SEVERE, null, ex);
             }        
         TxtCorreo.setText(TblConsultarUsuario.getValueAt(fila, 7).toString());
-        CbxRoles.setSelectedIndex(Integer.parseInt(TblConsultarUsuario.getValueAt(fila, 8).toString()));
+        CbxRoles.setSelectedIndex(Integer.parseInt(TblConsultarUsuario.getValueAt(fila, 14).toString()));
         TxtUsuario.setText(TblConsultarUsuario.getValueAt(fila, 9).toString());
         TxtContrasena.setText(TblConsultarUsuario.getValueAt(fila, 10).toString());
         TxtConfirmar.setText(TblConsultarUsuario.getValueAt(fila, 10).toString());
-        CbxPregunta.setSelectedIndex(Integer.parseInt(TblConsultarUsuario.getValueAt(fila, 11).toString()));
+        CbxPregunta.setSelectedIndex(Integer.parseInt(TblConsultarUsuario.getValueAt(fila, 15).toString()));
         TxtRespuesta.setText(TblConsultarUsuario.getValueAt(fila, 12).toString());
                                     
         }else{

@@ -5,6 +5,14 @@
  */
 package view;
 
+import CAD.PermisosCAD;
+import Config.Bandera;
+import Model.Permisos;
+import Model.TipoDocumento;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author USUARIO
@@ -14,9 +22,54 @@ public class vPrivilegios extends javax.swing.JInternalFrame {
     /**
      * Creates new form vPrivilegios
      */
+    boolean iniciando = false;
+    PermisosCAD oPermisosCAD = new PermisosCAD() ;
     public vPrivilegios() {
         initComponents();
+        txtIdPermiso.setVisible(false);
+        cargarCombos();
     }
+
+      //<editor-fold desc="CARGAR COMBOS" defaultstate="collapsed">    
+    void cargarCombos(){
+        //Combo Modulos
+        List ListaComboModulos =  oPermisosCAD.CargarModulos();
+        
+        cbxModulo.removeAllItems();        
+            for (int i = 0; i < ListaComboModulos.size(); i++) {
+                Permisos oPermiso = (Permisos)ListaComboModulos.get(i);
+                cbxModulo.addItem(oPermiso.getCodigoPermiso());
+            }
+        llenarTabla();
+//                 
+    }
+    //</editor-fold>
+
+          //<editor-fold desc="LLENAR TABLA PERMISOS" defaultstate="collapsed">    
+    void llenarTabla(){
+        // Tabla Permisos Del Usuario
+        String modulo = cbxModulo.getSelectedItem().toString();
+        List listaPermisosUsuario = oPermisosCAD.CargarPermisos(modulo);
+        DefaultTableModel modelTblPermisos = new DefaultTableModel();
+        
+        String[] NombreClmns = {"Permiso","Habilitado","IdPermiso"};
+        Object[][] data = new Object[listaPermisosUsuario.size()][3];
+        
+        for (int i = 0; i < listaPermisosUsuario.size(); i++) {
+            Permisos oPermisoUsuario = (Permisos) listaPermisosUsuario.get(i);
+//            Object datos[] = new Object[3];
+            data[i][0] = oPermisoUsuario.getNombrePermiso();
+            data[i][1] = oPermisoUsuario.getHabilitado();
+            data[i][2] = oPermisoUsuario.getIdPermiso();
+        }
+        modelTblPermisos.setDataVector(data, NombreClmns);
+        tblPermisos.setModel(modelTblPermisos);
+        tblPermisos.getColumnModel().getColumn(2).setMaxWidth(0);
+        tblPermisos.getColumnModel().getColumn(2).setMinWidth(0);
+        tblPermisos.getColumnModel().getColumn(2).setPreferredWidth(0);
+//                 
+    }
+    //</editor-fold>
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -27,23 +80,190 @@ public class vPrivilegios extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel1 = new javax.swing.JLabel();
+        checkHabilitar = new javax.swing.JCheckBox();
+        jLabel2 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblPermisos = new javax.swing.JTable();
+        jLabel3 = new javax.swing.JLabel();
+        lblPermiso = new javax.swing.JLabel();
+        btnGuardar = new javax.swing.JButton();
+        cbxModulo = new javax.swing.JComboBox<>();
+        txtIdPermiso = new javax.swing.JTextField();
+        lblMensaje = new javax.swing.JLabel();
+
         setClosable(true);
+
+        jLabel1.setText("Modulo");
+
+        checkHabilitar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkHabilitarActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setText("Permiso");
+
+        tblPermisos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Permiso", "Habilitado", ""
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.Integer.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblPermisos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblPermisosMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tblPermisos);
+        if (tblPermisos.getColumnModel().getColumnCount() > 0) {
+            tblPermisos.getColumnModel().getColumn(2).setResizable(false);
+            tblPermisos.getColumnModel().getColumn(2).setPreferredWidth(0);
+        }
+
+        jLabel3.setText("Habilitar");
+
+        lblPermiso.setText("TextoPermiso");
+
+        btnGuardar.setText("Guardar");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
+
+        cbxModulo.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbxModuloItemStateChanged(evt);
+            }
+        });
+
+        txtIdPermiso.setEditable(false);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 687, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cbxModulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 11, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblPermiso, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btnGuardar)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGap(10, 10, 10)
+                                    .addComponent(checkHabilitar)))))
+                    .addComponent(lblMensaje, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(14, 14, 14)
+                .addComponent(txtIdPermiso, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 347, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(59, 59, 59)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cbxModulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(17, 17, 17)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(79, 79, 79)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3))
+                        .addGap(6, 6, 6)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblPermiso)
+                            .addComponent(checkHabilitar)
+                            .addComponent(txtIdPermiso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(btnGuardar)
+                        .addGap(12, 12, 12)
+                        .addComponent(lblMensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(230, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void checkHabilitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkHabilitarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_checkHabilitarActionPerformed
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        String Habilitado = checkHabilitar.isSelected() ? "S" : "N";
+        if(txtIdPermiso.getText().equals("")){
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un permiso");
+        }
+        oPermisosCAD.GuardarPermiso(Habilitado, Integer.parseInt(txtIdPermiso.getText()), Bandera.getUsuario());
+        lblMensaje.setText(Bandera.getRespuesta());
+        llenarTabla();
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void cbxModuloItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxModuloItemStateChanged
+        if(iniciando){
+            llenarTabla();
+        }else{
+            iniciando = true;
+        }
+    }//GEN-LAST:event_cbxModuloItemStateChanged
+
+    private void tblPermisosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblPermisosMouseClicked
+        int fila = tblPermisos.getSelectedRow();
+        if(fila>=0){
+            lblPermiso.setText(tblPermisos.getValueAt(fila, 0).toString());
+            String habilitado = tblPermisos.getValueAt(fila, 1).toString();
+            checkHabilitar.setSelected("S".equalsIgnoreCase(habilitado));
+            txtIdPermiso.setText(""+tblPermisos.getValueAt(fila, 2));
+        }
+    }//GEN-LAST:event_tblPermisosMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnGuardar;
+    private javax.swing.JComboBox<String> cbxModulo;
+    private javax.swing.JCheckBox checkHabilitar;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblMensaje;
+    private javax.swing.JLabel lblPermiso;
+    private javax.swing.JTable tblPermisos;
+    private javax.swing.JTextField txtIdPermiso;
     // End of variables declaration//GEN-END:variables
 }

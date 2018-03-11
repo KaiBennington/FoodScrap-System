@@ -14,7 +14,7 @@ public class ConexionDB {
     private static Connection conn;
     private static final String Driver="com.mysql.jdbc.Driver";
     private static final String User ="root";
-    private static final String Password ="";
+    private static final String Password ="jepetto987";
     private static final String DataBase ="foodscrap";
     private static final String Url ="jdbc:mysql://localhost:3306/"+DataBase+"";
      
@@ -28,7 +28,7 @@ public class ConexionDB {
             Class.forName(Driver);
             conn = DriverManager.getConnection(Url, User, Password);
             if (conn != null) {
-                System.out.println("conexion Establecida...");
+//                System.out.println("conexion Establecida...");
             }            
         } catch (ClassNotFoundException | SQLException e) {
             System.err.println("Error al conectar : "+e);
@@ -40,7 +40,7 @@ public class ConexionDB {
     public static void desconectar(){
         conn = null;
         if (conn == null) {
-            System.out.println("conexion Terminada...");
+//            System.out.println("conexion Terminada...");
         }
     }
     

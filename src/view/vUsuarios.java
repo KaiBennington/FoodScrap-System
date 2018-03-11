@@ -16,6 +16,7 @@ import Model.PreguntaSecreta;
 import Model.TipoDocumento;
 import Model.Usuarios;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -25,6 +26,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.swing.JOptionPane;
+import static view.vPrincipal.Escritorio;
 
 
 
@@ -37,6 +39,7 @@ public class vUsuarios extends javax.swing.JInternalFrame {
     /**
      * Creates new form vUsuarios
      */
+    
     public vUsuarios() {
         initComponents();
         botonesInicio();
@@ -588,26 +591,26 @@ public class vUsuarios extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_CbxTipoDocActionPerformed
 
     private void BtnPrivilegiosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnPrivilegiosActionPerformed
-//        // Item Privilegios
-//        vistaPrivilegio vP = new vistaPrivilegio();
-//        if (!ventana.equalsIgnoreCase("Privilegios")) {
-//            ventana="Privilegios";
-//
-//            Escritorio.add(vP);
-//            Dimension desktopSize = Escritorio.getSize();
-//            Dimension FrameSize = vP.getSize();
-//            vP.setLocation((desktopSize.width - FrameSize.width)/2, (desktopSize.height- FrameSize.height)/2);
-//            vP.show();
-//        }
-//        else
-//        {
-//            JOptionPane.showMessageDialog(null,"LA VENTANA 'CONSULTAR PUERTOS' YA SE ENCUENTRA ABIERTA");
-//
-//        }
-        //   vistaPrivilegios vp = new vistaPrivilegios();
-        // vp.setVisible(true);
+//         Item Privilegios;
+        vPrivilegios vP = new vPrivilegios();
+        if (!vPrincipal.ventana.equalsIgnoreCase("Privilegios")) {
+            vPrincipal.ventana="Privilegios";
 
-        //       this.dispose();
+            Escritorio.add(vP);
+            Dimension desktopSize = Escritorio.getSize();
+            Dimension FrameSize = vP.getSize();
+            vP.setLocation((desktopSize.width - FrameSize.width)/2, (desktopSize.height- FrameSize.height)/2);
+            vP.show();
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null,"LA VENTANA 'Privilegios' YA SE ENCUENTRA ABIERTA");
+
+        }
+         vPrivilegios vp = new vPrivilegios();
+         vp.setVisible(true);
+
+               this.dispose();
     }//GEN-LAST:event_BtnPrivilegiosActionPerformed
 
     private void BtnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAgregarActionPerformed

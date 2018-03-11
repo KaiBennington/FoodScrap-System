@@ -68,6 +68,7 @@ public class vAcceso extends javax.swing.JFrame {
         TxtUsuario.setFont(new java.awt.Font("Agency FB", 1, 16)); // NOI18N
         TxtUsuario.setForeground(new java.awt.Color(255, 0, 0));
         TxtUsuario.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        TxtUsuario.setText("Jepetto308");
         TxtUsuario.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 TxtUsuarioKeyPressed(evt);
@@ -106,6 +107,7 @@ public class vAcceso extends javax.swing.JFrame {
         TxtContrasena.setFont(new java.awt.Font("Agency FB", 1, 16)); // NOI18N
         TxtContrasena.setForeground(new java.awt.Color(255, 0, 0));
         TxtContrasena.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        TxtContrasena.setText("123456789");
         TxtContrasena.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 TxtContrasenaKeyPressed(evt);
