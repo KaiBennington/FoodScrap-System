@@ -14,7 +14,7 @@ public class ConexionDB {
     private static Connection conn;
     private static final String Driver="com.mysql.jdbc.Driver";
     private static final String User ="root";
-    private static final String Password ="jepetto987";
+    private static final String Password ="";
     private static final String DataBase ="foodscrap";
     private static final String Url ="jdbc:mysql://localhost:3306/"+DataBase+"";
      

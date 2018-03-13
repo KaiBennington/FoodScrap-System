@@ -56,7 +56,7 @@ public class vAcceso extends javax.swing.JFrame {
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Logo.png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Titles/Logo.png"))); // NOI18N
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -68,7 +68,6 @@ public class vAcceso extends javax.swing.JFrame {
         TxtUsuario.setFont(new java.awt.Font("Agency FB", 1, 16)); // NOI18N
         TxtUsuario.setForeground(new java.awt.Color(255, 0, 0));
         TxtUsuario.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        TxtUsuario.setText("Jepetto308");
         TxtUsuario.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 TxtUsuarioKeyPressed(evt);
@@ -107,7 +106,6 @@ public class vAcceso extends javax.swing.JFrame {
         TxtContrasena.setFont(new java.awt.Font("Agency FB", 1, 16)); // NOI18N
         TxtContrasena.setForeground(new java.awt.Color(255, 0, 0));
         TxtContrasena.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        TxtContrasena.setText("123456789");
         TxtContrasena.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 TxtContrasenaKeyPressed(evt);

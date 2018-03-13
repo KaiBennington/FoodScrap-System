@@ -76,7 +76,7 @@ public class vCambiarContra extends javax.swing.JInternalFrame {
 
         jLabel1.setBackground(new java.awt.Color(255, 255, 255));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/CambiarContra.png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Titles/CambiarContra.png"))); // NOI18N
         jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         jSeparator1.setForeground(new java.awt.Color(204, 204, 204));
@@ -177,7 +177,7 @@ public class vCambiarContra extends javax.swing.JInternalFrame {
 
         jLabel10.setBackground(new java.awt.Color(255, 255, 255));
         jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Lock.png"))); // NOI18N
+        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Titles/Lock.png"))); // NOI18N
         jLabel10.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         LblMensajeNo.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N

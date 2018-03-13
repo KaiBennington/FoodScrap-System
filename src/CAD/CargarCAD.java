@@ -10,6 +10,7 @@ import static Model.ConexionDB.getConexion;
 import Model.PreguntaSecreta;
 import Model.Roles;
 import Model.TipoDocumento;
+import Model.Zonas;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -49,6 +50,36 @@ public class CargarCAD extends ConexionDB {
         } 
         return Lista;
     }// FIN Metodo Cargar Tipo documento
+    //</editor-fold>
+    
+    //<editor-fold desc="CARGAR ZONAS" defaultstate="collapsed">
+    public ArrayList CargarZona(){
+        //Combo Zonas
+        PreparedStatement pst;
+        ResultSet rs = null;
+        ArrayList Lista = new ArrayList();
+        try {
+            
+            String Sql = "CALL CargarZonas();";
+            pst = getConexion().prepareStatement(Sql);            
+            rs = pst.executeQuery();
+            
+            while (rs.next()) {   
+                String Nombre,Comuna;
+                int Codigo;
+                Codigo = (rs.getInt(1));                
+                Nombre = (rs.getString(2));                
+                Comuna = (rs.getString(3));
+                
+            Zonas Zn = new Zonas(""+Codigo,Nombre,Comuna);            
+            Lista.add(Zn);
+               // System.out.println(""+Lista);
+            }
+            return Lista;
+        } catch (SQLException ex) {            
+        } 
+        return Lista;
+    }// FIN Metodo Cargar Zonas
     //</editor-fold>
     
     //<editor-fold desc="CARGAR PREGUNTA SEGURIDAD" defaultstate="collapsed"> 

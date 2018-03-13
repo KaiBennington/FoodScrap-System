@@ -8,7 +8,7 @@ package view;
 import CAD.CargarCAD;
 import CAD.PermisosCAD;
 import CAD.UsuariosCAD;
-import Config.AccionesUsuario;
+import Config.Validaciones;
 import Config.Bandera;
 import Model.PreguntaSecreta;
 import Model.Roles;
@@ -302,7 +302,7 @@ public class vConsultarUsuarios extends javax.swing.JInternalFrame {
         });
 
         jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/ConsultarUsuario.png"))); // NOI18N
+        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Titles/ConsultarUsuario.png"))); // NOI18N
         jLabel10.setText(" ");
 
         PnDatos.setBackground(new java.awt.Color(255, 255, 255));
@@ -586,27 +586,27 @@ public class vConsultarUsuarios extends javax.swing.JInternalFrame {
             }
         });
 
-        LblBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/search-24.png"))); // NOI18N
+        LblBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Buscar.png"))); // NOI18N
 
         LblOk.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         LblOk.setForeground(new java.awt.Color(0, 153, 51));
-        LblOk.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Ok.png"))); // NOI18N
+        LblOk.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Titles/Ok.png"))); // NOI18N
 
-        BtnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/cancel-24.png"))); // NOI18N
+        BtnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Cancelar.png"))); // NOI18N
         BtnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BtnCancelarActionPerformed(evt);
             }
         });
 
-        BtnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/delete-24.png"))); // NOI18N
+        BtnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Eliminar.png"))); // NOI18N
         BtnEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BtnEliminarActionPerformed(evt);
             }
         });
 
-        BtnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/edit-24.png"))); // NOI18N
+        BtnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Modificar.png"))); // NOI18N
         BtnModificar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BtnModificarActionPerformed(evt);
@@ -652,7 +652,7 @@ public class vConsultarUsuarios extends javax.swing.JInternalFrame {
                         .addComponent(BtnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(PnDatos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(67, Short.MAX_VALUE))
+                .addContainerGap(42, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -685,7 +685,7 @@ public class vConsultarUsuarios extends javax.swing.JInternalFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 518, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 522, Short.MAX_VALUE)
         );
 
         pack();
@@ -772,7 +772,7 @@ public class vConsultarUsuarios extends javax.swing.JInternalFrame {
         
         rsp.put("User",U);
         
-        AccionesUsuario AU = new AccionesUsuario();
+        Validaciones AU = new Validaciones();
         AU.validarCampos(rsp);
         
         if (rsp.containsKey("Mensaje")) {

@@ -8,7 +8,7 @@ package view;
 
 import CAD.CargarCAD;
 import CAD.UsuariosCAD;
-import Config.AccionesUsuario;
+import Config.Validaciones;
 import Config.Bandera;
 import Config.JCTextField;
 import static Model.ConexionDB.getConexion;
@@ -381,7 +381,7 @@ public class vUsuarios extends javax.swing.JInternalFrame {
 
         BtnAgregar.setBackground(new java.awt.Color(255, 153, 0));
         BtnAgregar.setFont(new java.awt.Font("Agency FB", 1, 18)); // NOI18N
-        BtnAgregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/check-24.png"))); // NOI18N
+        BtnAgregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Guardar.png"))); // NOI18N
         BtnAgregar.setToolTipText("Guardar");
         BtnAgregar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -392,7 +392,7 @@ public class vUsuarios extends javax.swing.JInternalFrame {
 
         BtnCancelar.setBackground(new java.awt.Color(255, 153, 0));
         BtnCancelar.setFont(new java.awt.Font("Agency FB", 1, 18)); // NOI18N
-        BtnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/cancel-24.png"))); // NOI18N
+        BtnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Cancelar.png"))); // NOI18N
         BtnCancelar.setToolTipText("Cancelar");
         BtnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -403,7 +403,7 @@ public class vUsuarios extends javax.swing.JInternalFrame {
 
         BtnNuevo.setBackground(new java.awt.Color(255, 153, 0));
         BtnNuevo.setFont(new java.awt.Font("Agency FB", 1, 18)); // NOI18N
-        BtnNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/add-24.png"))); // NOI18N
+        BtnNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Nuevo.png"))); // NOI18N
         BtnNuevo.setToolTipText("Nuevo");
         BtnNuevo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -414,7 +414,7 @@ public class vUsuarios extends javax.swing.JInternalFrame {
 
         LblOk.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         LblOk.setForeground(new java.awt.Color(0, 153, 51));
-        LblOk.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Ok.png"))); // NOI18N
+        LblOk.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Titles/Ok.png"))); // NOI18N
         LblOk.setToolTipText("Operación Exitosa");
 
         DCFechaNac.setBackground(new java.awt.Color(255, 255, 255));
@@ -466,7 +466,7 @@ public class vUsuarios extends javax.swing.JInternalFrame {
                                 .addComponent(TxtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(LblOk)
-                        .addGap(0, 383, Short.MAX_VALUE))
+                        .addGap(0, 372, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel8)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -533,7 +533,7 @@ public class vUsuarios extends javax.swing.JInternalFrame {
         );
 
         jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/GUsuarios.png"))); // NOI18N
+        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Titles/GUsuarios.png"))); // NOI18N
         jLabel10.setText(" ");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -645,8 +645,8 @@ public class vUsuarios extends javax.swing.JInternalFrame {
         
         rsp.put("User",U);
         
-        AccionesUsuario AU = new AccionesUsuario();
-        AU.validarCampos(rsp);
+        Validaciones V = new Validaciones();
+        V.validarCampos(rsp);
         
         if (rsp.containsKey("Mensaje")) {
             JOptionPane.showMessageDialog(null,rsp.get("Mensaje"));

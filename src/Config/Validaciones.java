@@ -5,6 +5,7 @@
  */
 package Config;
 
+import Model.Sucursales;
 import Model.Usuarios;
 import java.util.Map;
 
@@ -12,8 +13,9 @@ import java.util.Map;
  *
  * @author USUARIO
  */
-public class AccionesUsuario {
+public class Validaciones {
     
+    //<editor-fold desc="VALIDAR USUARIO" defaultstate="collapsed">
     public Map validarCampos(Map respuesta){
         
         Usuarios U = (Usuarios)respuesta.get("User");
@@ -79,5 +81,43 @@ public class AccionesUsuario {
 //        System.out.println("valor vacio "+val);
         return respuesta;
     }
+    //</editor-fold>
+    
+    //<editor-fold desc="VALIDAR SUCURSAL" defaultstate="collapsed">
+    public Map validarCamposSucursales(Map respuesta){
+        
+        Sucursales S = (Sucursales)respuesta.get("Sucursal");
+        
+        if (S.getCodigo().equals("")) {
+            respuesta.put("Mensaje","Error en el ID de la Sucursal");
+            return respuesta;
+        } 
+        if (S.getNombre().equals("")) {
+            respuesta.put("Mensaje","El campo Nombre se encuentra Vacio");
+            respuesta.put("campo","TxtNombre.requestFocusInWindow()");
+            return respuesta;
+        } 
+        if (S.getDireccion().equals("")) {
+            respuesta.put("Mensaje","El campo Dirección se encuentra Vacio");
+            respuesta.put("campo","TxtDireccion.requestFocusInWindow()");
+            return respuesta;
+        } 
+        if (S.getZona() <= 0) {
+            respuesta.put("Mensaje","Debe Seleccionar Una Zona");
+            respuesta.put("campo","CbxZona.requestFocusInWindow()");
+            return respuesta;
+        } 
+        if (S.getTelefono().equals("")) {
+            respuesta.put("Mensaje","El campo Telefono se encuentra Vacio");
+            respuesta.put("campo","TxtTelefono.requestFocusInWindow()");
+            return respuesta;
+        }         
+        
+        respuesta.remove("Mensaje");
+//        boolean val = respuesta.isEmpty();
+//        System.out.println("valor vacio "+val);
+        return respuesta;
+    }
+    //</editor-fold>
     
 }
