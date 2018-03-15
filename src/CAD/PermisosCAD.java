@@ -79,7 +79,7 @@ public class PermisosCAD extends ConexionDB {
         } catch (SQLException ex) {            
         } 
         return Lista;
-    }// FIN Metodo Cargar Permisos
+    }// FIN Metodo Cargar Modulos
     //</editor-fold>
     
     //<editor-fold desc="GUARDAR PERMISOS" defaultstate="collapsed">
@@ -113,9 +113,8 @@ public class PermisosCAD extends ConexionDB {
     }// FIN Metodo Guardar Permiso
     //</editor-fold>
     
-    //<editor-fold desc="Validar Permisos" defaultstate="collapsed">
+    //<editor-fold desc="VALIDAR PERMISOS" defaultstate="collapsed">
     public boolean validarPermiso(String permiso,String modulo){
-        //Combo Modulos
         PreparedStatement pst;
         ResultSet rs = null;
         boolean existePermiso = false;

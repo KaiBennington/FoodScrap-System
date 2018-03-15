@@ -273,7 +273,7 @@ public class vCambiarContra extends javax.swing.JInternalFrame {
         String Actual = TxtContraActual.getText();
         String Nueva = TxtNuevaContra.getText();
         String Confirmar = TxtConfirmeContra.getText();
-        if (!TxtContraActual.getText().equalsIgnoreCase("")) {
+        if (!"".equals(Actual)) {
             if (!Confirmar.equals(Nueva)) {
                 JOptionPane.showMessageDialog(null,"Las Contraseñas No coinciden\nVerifique de Nuevo");
                 TxtNuevaContra.setText("");
