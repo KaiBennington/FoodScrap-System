@@ -23,9 +23,20 @@ public class Bandera {
     
 //    --------------------
     public static String Respuesta; 
+    private String Codigo;
     //</editor-fold> 
     
     //<editor-fold desc="PROPIEDADES" defaultstate="collapsed">
+
+    public String getCodigo() {
+        return Codigo;
+    }
+
+    public void setCodigo(String Codigo) {
+        this.Codigo = Codigo;
+    }
+    
+    
     public static String getNombre() {
         return Nombre;
     }

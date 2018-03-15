@@ -163,9 +163,6 @@ public class UsuariosCAD extends ConexionDB{
                 Bandera.setUsuario(rs.getString("Usuario"));
                 Bandera.setNombreRol(rs.getString("Nombre_Rol"));
                 Bandera.setSiglasRol(rs.getString("Siglas_Rol"));
-//                Bandera.setRol(rs.getString("Roll"));
-                //CargarRoll(Bandera.getRol());
-                //Bandera.setRespuesta(respuesta);
             }
         } catch (SQLException e) {
             System.err.println("Error "+e);

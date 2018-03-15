@@ -7,6 +7,7 @@ package view;
 
 import CAD.CargarCAD;
 import CAD.SucursalesCAD;
+import Config.Bandera;
 import Config.Validaciones;
 import Model.Sucursales;
 import Model.Zonas;
@@ -28,6 +29,7 @@ public class vSucursales extends javax.swing.JInternalFrame {
         initComponents();
         botonesInicio(false, false, false, false, false, false, true, false, false);
         cargarCombos();
+        cargarId();
     }
     
     //<editor-fold desc="CARGAR COMBOS" defaultstate="collapsed">    
@@ -35,7 +37,7 @@ public class vSucursales extends javax.swing.JInternalFrame {
         //Combo Zonas
         CargarCAD oCargarCAD = new CargarCAD() ;
         List ListaComboZ =  oCargarCAD.CargarZona();
-        
+                
         CbxZona.removeAllItems();        
             for (int i = 0; i < ListaComboZ.size(); i++) {
                 Zonas Zn = (Zonas)ListaComboZ.get(i);
@@ -45,6 +47,13 @@ public class vSucursales extends javax.swing.JInternalFrame {
                     CbxZona.addItem("Comuna "+Zn.getComuna()+" ("+Zn.getNombre()+")");                    
                 }
             }       
+    }
+    
+    void cargarId(){
+        //Cargar ID
+        CargarCAD oCargarCAD = new CargarCAD() ;
+        String S = oCargarCAD.cargarId();        
+        Lbl_IdSucursal.setText(S);
     }
     //</editor-fold>
     
@@ -108,6 +117,23 @@ public class vSucursales extends javax.swing.JInternalFrame {
         BtnCancelar = new javax.swing.JButton();
 
         setClosable(true);
+        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameClosing(evt);
+            }
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -120,7 +146,6 @@ public class vSucursales extends javax.swing.JInternalFrame {
         Lbl_IdSucursal.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         Lbl_IdSucursal.setForeground(new java.awt.Color(255, 0, 0));
         Lbl_IdSucursal.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        Lbl_IdSucursal.setText("0001");
 
         jLabel3.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         jLabel3.setText("ID Sucursal :");
@@ -214,9 +239,9 @@ public class vSucursales extends javax.swing.JInternalFrame {
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(TxtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(LblOk)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
@@ -286,7 +311,9 @@ public class vSucursales extends javax.swing.JInternalFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(24, 24, 24)
+                                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addGap(54, 54, 54)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -298,7 +325,7 @@ public class vSucursales extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(23, 23, 23))
@@ -324,6 +351,7 @@ public class vSucursales extends javax.swing.JInternalFrame {
 
     private void BtnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnNuevoActionPerformed
         //<editor-fold desc="NUEVO" defaultstate="collapsed">
+        cargarId();
         botonesInicio(false, true, true, true, true, true, false, true, true);
         //</editor-fold>
     }//GEN-LAST:event_BtnNuevoActionPerformed
@@ -355,12 +383,12 @@ public class vSucursales extends javax.swing.JInternalFrame {
                 boolean guardar = SucursalesCAD.guardar(S);
 
                 if(!guardar){
-                    TxtUsuario.setText("");
+                    limpiarCampos();
                     JOptionPane.showMessageDialog(null,Bandera.getRespuesta());
-                    TxtDocumento.requestFocus();
+                    TxtNombre.requestFocus();
                 }else{
                     limpiarCampos();
-                    //botonesInicio();
+                    cargarId();
                     LblOk.setText(Bandera.getRespuesta());
                     LblOk.setVisible(true);
                 }
@@ -371,9 +399,14 @@ public class vSucursales extends javax.swing.JInternalFrame {
     private void BtnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCancelarActionPerformed
         //<editor-fold desc="CANCELAR" defaultstate="collapsed">
         limpiarCampos();
+        cargarId();
         botonesInicio(false, false, false, false, false, false, true, false, false);
         //</editor-fold>
     }//GEN-LAST:event_BtnCancelarActionPerformed
+
+    private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
+        vPrincipal.ventana = "";
+    }//GEN-LAST:event_formInternalFrameClosing
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

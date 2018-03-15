@@ -5,6 +5,7 @@
  */
 package CAD;
 
+import Config.Bandera;
 import Model.ConexionDB;
 import static Model.ConexionDB.getConexion;
 import Model.PreguntaSecreta;
@@ -139,5 +140,26 @@ public class CargarCAD extends ConexionDB {
         } 
         return Lista;
     }// FIN Metodo Cargar Roles
-    //</editor-fold>    
+    //</editor-fold>   
+    
+    //<editor-fold desc="CARGAR ID SUCURSALES" defaultstate="collapsed">
+    public String cargarId(){
+        PreparedStatement pst;
+        ResultSet rs = null;
+        String CI = "" ;        
+        try {
+            String Sql = "select COALESCE(MAX(Id_Sucursal), 0)+1 FROM Sucursales;";
+            pst = getConexion().prepareStatement(Sql);            
+            rs = pst.executeQuery();
+            
+            while (rs.next()) {                 
+                CI = rs.getString(1);
+            }
+            
+        } catch (SQLException ex) {            
+        }
+        desconectar();
+        return CI;
+    }
+    //</editor-fold>
 }
