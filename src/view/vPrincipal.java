@@ -23,7 +23,7 @@ public class vPrincipal extends javax.swing.JFrame {
     static String ventana="";
     public vPrincipal() {
         initComponents();
-        setIconImage(new ImageIcon(getClass().getResource("/img/Titles/LogoFoodScrap.png")).getImage());
+        setIconImage(new ImageIcon(getClass().getResource("/img/Titles/IconoLogo.png")).getImage());
         setExtendedState(MAXIMIZED_BOTH);
         LblNombre.setText("Usuario Actual : "+ Bandera.getNombre() + " " + Bandera.getApellido());
         LblNombre.setForeground(Color.red);
@@ -65,6 +65,11 @@ public class vPrincipal extends javax.swing.JFrame {
         jMenuItem11 = new javax.swing.JMenuItem();
         jMenuItem12 = new javax.swing.JMenuItem();
         jMenuItem6 = new javax.swing.JMenuItem();
+        jMenu5 = new javax.swing.JMenu();
+        jMenuItem15 = new javax.swing.JMenuItem();
+        jMenuItem16 = new javax.swing.JMenuItem();
+        jMenuItem17 = new javax.swing.JMenuItem();
+        jMenuItem18 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -223,6 +228,22 @@ public class vPrincipal extends javax.swing.JFrame {
         jMenu4.add(jMenuItem6);
 
         jMenuBar1.add(jMenu4);
+
+        jMenu5.setText("Configuración");
+
+        jMenuItem15.setText("Tipo Documentos");
+        jMenu5.add(jMenuItem15);
+
+        jMenuItem16.setText("Unidad de Medidas");
+        jMenu5.add(jMenuItem16);
+
+        jMenuItem17.setText("Categorias");
+        jMenu5.add(jMenuItem17);
+
+        jMenuItem18.setText("Roles");
+        jMenu5.add(jMenuItem18);
+
+        jMenuBar1.add(jMenu5);
 
         setJMenuBar(jMenuBar1);
 
@@ -484,6 +505,7 @@ public class vPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenu jMenu5;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem10;
@@ -491,6 +513,10 @@ public class vPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem12;
     private javax.swing.JMenuItem jMenuItem13;
     private javax.swing.JMenuItem jMenuItem14;
+    private javax.swing.JMenuItem jMenuItem15;
+    private javax.swing.JMenuItem jMenuItem16;
+    private javax.swing.JMenuItem jMenuItem17;
+    private javax.swing.JMenuItem jMenuItem18;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
