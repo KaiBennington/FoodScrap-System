@@ -12,7 +12,7 @@ import Config.Validaciones;
 import Config.Bandera;
 import Model.PreguntaSecreta;
 import Model.Roles;
-import CAD.TablaUsuariosCAD;
+import CAD.TablasCAD;
 import Model.TipoDocumento;
 import Model.Usuarios;
 import java.text.ParseException;
@@ -139,7 +139,7 @@ public class vConsultarUsuarios extends javax.swing.JInternalFrame {
     
     //<editor-fold desc="MOSTRAR DATOS" defaultstate="collapsed">
     void mostrarDatos(String Valor){        
-        TablaUsuariosCAD ModelTable = new TablaUsuariosCAD();         
+        TablasCAD ModelTable = new TablasCAD();         
         TblConsultarUsuario.setModel(ModelTable.getTablaUsuarios(Valor));      
         TableColumnModel columnModel = TblConsultarUsuario.getColumnModel();
         for (int i = 0; i < columnModel.getColumnCount(); i++) {

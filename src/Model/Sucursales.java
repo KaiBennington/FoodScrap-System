@@ -30,6 +30,14 @@ public class Sucursales {
         this.Zona = Zona;
         this.Telefono = Telefono;
     }
+
+    public Sucursales(String Codigo, String Nombre, int Zona) {
+        this.Codigo = Codigo;
+        this.Nombre = Nombre;
+        this.Zona = Zona;
+    }
+    
+    
     //</editor-fold>
     
     //<editor-fold desc="PROPIEDADES" defaultstate="collapsed">

@@ -10,6 +10,7 @@ import Model.ConexionDB;
 import static Model.ConexionDB.getConexion;
 import Model.PreguntaSecreta;
 import Model.Roles;
+import Model.Sucursales;
 import Model.TipoDocumento;
 import Model.Zonas;
 import java.sql.PreparedStatement;
@@ -51,6 +52,35 @@ public class CargarCAD extends ConexionDB {
         } 
         return Lista;
     }// FIN Metodo Cargar Tipo documento
+    //</editor-fold>
+    
+    //<editor-fold desc="CARGAR SUCURSALES" defaultstate="collapsed">
+    public ArrayList CargarSucursal(){
+        //Combo Sucursales
+        PreparedStatement pst;
+        ResultSet rs = null;
+        ArrayList Lista = new ArrayList();
+        try {
+            
+            String Sql = "CALL CargarSucursal();";
+            pst = getConexion().prepareStatement(Sql);            
+            rs = pst.executeQuery();
+            
+            while (rs.next()) {   
+                String Nombre,Codigo; int Zona;
+                Codigo = (rs.getString("Id_Sucursal"));                
+                Nombre = (rs.getString("Nombre"));                
+                Zona = (rs.getInt("IdZona"));
+                
+            Sucursales Sc = new Sucursales(Codigo, Nombre, Zona);
+            Lista.add(Sc);
+               // System.out.println(""+Lista);
+            }
+            return Lista;
+        } catch (SQLException ex) {            
+        } 
+        return Lista;
+    }// FIN Metodo Cargar Sucursales
     //</editor-fold>
     
     //<editor-fold desc="CARGAR ZONAS" defaultstate="collapsed">

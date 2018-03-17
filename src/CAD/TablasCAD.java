@@ -15,9 +15,9 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author USUARIO
  */
-public class TablaUsuariosCAD extends ConexionDB{
+public class TablasCAD extends ConexionDB{
 
-    public TablaUsuariosCAD() {
+    public TablasCAD() {
     }
     
     public DefaultTableModel getTablaUsuarios(String Valor){

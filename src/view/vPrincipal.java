@@ -58,8 +58,11 @@ public class vPrincipal extends javax.swing.JFrame {
         jMenuItem9 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
-        jMenuItem6 = new javax.swing.JMenuItem();
+        jMenuItem13 = new javax.swing.JMenuItem();
+        jMenuItem14 = new javax.swing.JMenuItem();
         jMenuItem11 = new javax.swing.JMenuItem();
+        jMenuItem12 = new javax.swing.JMenuItem();
+        jMenuItem6 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -123,9 +126,9 @@ public class vPrincipal extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu1);
 
-        jMenu2.setText("Ver");
+        jMenu2.setText("Movimientos");
 
-        jMenuItem4.setText("Productos");
+        jMenuItem4.setText("Cierre Sucursales");
         jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem4ActionPerformed(evt);
@@ -181,6 +184,27 @@ public class vPrincipal extends javax.swing.JFrame {
 
         jMenu4.setText("Consultas");
 
+        jMenuItem13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Platos.png"))); // NOI18N
+        jMenuItem13.setText("Consultar Platos");
+        jMenu4.add(jMenuItem13);
+
+        jMenuItem14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Productos.png"))); // NOI18N
+        jMenuItem14.setText("Consultar Productos");
+        jMenu4.add(jMenuItem14);
+
+        jMenuItem11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Proveedores.png"))); // NOI18N
+        jMenuItem11.setText("Consultar Proveedores");
+        jMenu4.add(jMenuItem11);
+
+        jMenuItem12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Sucursales.png"))); // NOI18N
+        jMenuItem12.setText("Consultar Sucursales");
+        jMenuItem12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem12ActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jMenuItem12);
+
         jMenuItem6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Usuarios.png"))); // NOI18N
         jMenuItem6.setText("Consultar Usuarios");
         jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
@@ -189,10 +213,6 @@ public class vPrincipal extends javax.swing.JFrame {
             }
         });
         jMenu4.add(jMenuItem6);
-
-        jMenuItem11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Sucursales.png"))); // NOI18N
-        jMenuItem11.setText("Consultar Proveedores");
-        jMenu4.add(jMenuItem11);
 
         jMenuBar1.add(jMenu4);
 
@@ -268,7 +288,24 @@ public class vPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        //<editor-fold desc="CIERRE SUCURSAL" defaultstate="collapsed">
+        // Item Perfil
+         vCierreSucursal vS = new vCierreSucursal();
+         if (!ventana.equalsIgnoreCase("Cierre Sucursal")) {
+            ventana="Cierre Sucursal";
+            
+            Escritorio.add(vS);
+            Dimension desktopSize = Escritorio.getSize();
+            Dimension FrameSize = vS.getSize();
+            vS.setLocation((desktopSize.width - FrameSize.width)/2, (desktopSize.height- FrameSize.height)/2);
+            vS.show();             
+        }
+        else
+        {
+        JOptionPane.showMessageDialog(null,"LA VENTANA YA SE ENCUENTRA ABIERTA");
         
+        }
+        //</editor-fold>
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
@@ -356,6 +393,26 @@ public class vPrincipal extends javax.swing.JFrame {
         //</editor-fold>
     }//GEN-LAST:event_jMenuItem9ActionPerformed
 
+    private void jMenuItem12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem12ActionPerformed
+        //<editor-fold desc="CONSULTAR SUCURSALES" defaultstate="collapsed">
+         vConsultarSucursal vCS = new vConsultarSucursal();
+         if (!ventana.equalsIgnoreCase("Consultar Sucursal")) {
+            ventana="Consultar Sucursal";
+            
+            Escritorio.add(vCS);
+            Dimension desktopSize = Escritorio.getSize();
+            Dimension FrameSize = vCS.getSize();
+            vCS.setLocation((desktopSize.width - FrameSize.width)/2, (desktopSize.height- FrameSize.height)/2);
+            vCS.show();             
+        }
+        else
+        {
+        JOptionPane.showMessageDialog(null,"LA VENTANA YA SE ENCUENTRA ABIERTA");
+        
+        }
+        //</editor-fold>
+    }//GEN-LAST:event_jMenuItem12ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -403,6 +460,9 @@ public class vPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem10;
     private javax.swing.JMenuItem jMenuItem11;
+    private javax.swing.JMenuItem jMenuItem12;
+    private javax.swing.JMenuItem jMenuItem13;
+    private javax.swing.JMenuItem jMenuItem14;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
