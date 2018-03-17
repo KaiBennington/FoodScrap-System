@@ -1,0 +1,126 @@
+Create table UnidadMedidas(
+	IdUndMedida int primary key auto_increment,
+	Nombre varchar (30) unique not null,
+	Siglas varchar (5) unique not null
+);
+
+Create table Categorias (
+	IdCategoria int primary key auto_increment,
+	Nombre varchar (30) unique not null
+);
+
+create table Zonas (
+
+    IdZona int primary key not null auto_increment,
+
+    Nombre varchar (30) unique not null,
+
+    Comuna varchar (3) not null
+
+);
+
+Create table TipoDocumento (
+	IdTipoDoc int primary key auto_increment,
+	Nombre varchar (30) Unique not null,
+	Siglas varchar (5) Unique not null
+);
+
+Create table Roles (
+	Id_Roll int primary key auto_increment,
+	Nombre varchar (30) Unique not null,
+	Siglas varchar (5) Unique not null
+);
+
+Create table PreguntaSecreta (
+	Id_Pregunta int primary key auto_increment,
+	Pregunta varchar (50) Unique not null
+);
+
+Create table Persona (
+	Id_Persona int primary key auto_increment ,
+	IdTipoDoc int, foreign key (IdTipoDoc) references TipoDocumento (IdTipoDoc),
+	Documento varchar (20) Unique not null,
+	Nombre varchar (30) not null,
+	Apellidos varchar (30) not null,
+	FechaNacimiento date not null,
+	Telefono varchar (20) not null,
+	Direccion varchar (30),
+	Correo varchar (40)
+);
+
+Create table Usuario (
+	Id_Usuario int Primary key auto_increment,
+	Id_Persona int,foreign key (Id_Persona) references Persona (Id_Persona),
+	Usuario varchar (30) unique not null,
+	Contraseña varchar (30) not null,
+	Id_Pregunta int, foreign key (Id_Pregunta) references PreguntaSecreta (Id_Pregunta),
+	Respuesta varchar (40) not null,
+	Id_Roll int, foreign key (Id_Roll) references Roles (Id_Roll)
+);
+
+create table Sucursales (
+	Id_Sucursal int Primary key auto_increment,
+	Nombre varchar (30) unique not null,
+	Direccion varchar (30) not null,
+	Zona varchar (30) not null,
+	Telefono varchar (20) 	
+);
+
+Create table Proveedores (
+	IdProveedor int Primary key auto_increment,
+	Nit varchar (20) unique not null,
+	Nombre varchar (30) unique not null,
+	Razon Social (10) not null,
+	Correo varchar (40) unique not null,
+	Direccion varchar (30) not null,
+	Telefono varchar (20) not null,
+	Fax varchar (20)
+);
+
+Create table Productos (
+	IdProducto int Primary key auto_increment,
+	IdProveedor int, Foreign key (IdProveedor) references Proveedores (IdProveedor),
+	IdCategoria int, Foreign key (IdCategoria) references Categorias (IdCategoria),
+	Nombre varchar (30) not null,
+	PrecioC Decimal (10,2) not null,
+	Cantidad int not null,
+	IdUndMedida int, Foreign key (IdUndMedida) references UnidadMedidas (IdUndMedida),
+	Stock int
+);
+
+
+
+-----
+
+
+
+
+create table Gastos (
+	Id_Gasto int Primary key auto_increment,
+	Id_Sucursal int,foreign key (Id_Sucursal) references Sucursales (Id_Sucursal),
+	Descripcion varchar (30) not null,
+	valor double not null	
+);
+
+create table Bebidas (
+	Id_bebida int Primary key auto_increment,
+	Nombre varchar (30) unique not null,
+	valor_Und double not null
+);
+
+create table Liquidacion (
+	Id_Liquidacion int Primary key auto_increment,
+	NFactura varchar (10) unique not null ,
+	Fecha date not null,
+	Cant_Gastos int not null,
+	valor_Gastos int not null,	
+	Cant_Bebidas int not null,
+	valor_Bebidas int not null,
+	Cant_Fritos int not null,
+	valor_Fritos int not null,
+	Cant_Plancha int not null,
+	valor_Plancha int not null,
+	
+Base double not null, 
+	
+);
