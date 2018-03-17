@@ -8,6 +8,7 @@ package view;
 import Config.Bandera;
 import java.awt.Color;
 import java.awt.Dimension;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 /**
@@ -22,6 +23,7 @@ public class vPrincipal extends javax.swing.JFrame {
     static String ventana="";
     public vPrincipal() {
         initComponents();
+        setIconImage(new ImageIcon(getClass().getResource("/img/Titles/LogoFoodScrap.png")).getImage());
         setExtendedState(MAXIMIZED_BOTH);
         LblNombre.setText("Usuario Actual : "+ Bandera.getNombre() + " " + Bandera.getApellido());
         LblNombre.setForeground(Color.red);
@@ -128,6 +130,7 @@ public class vPrincipal extends javax.swing.JFrame {
 
         jMenu2.setText("Movimientos");
 
+        jMenuItem4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Cierre.png"))); // NOI18N
         jMenuItem4.setText("Cierre Sucursales");
         jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

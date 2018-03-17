@@ -279,6 +279,9 @@
             </Component>
             <Component class="javax.swing.JComboBox" name="CbxCategoria">
               <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Agency FB" size="14" style="0"/>
+                </Property>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                   <StringArray count="1">
                     <StringItem index="0" value="Seleccione..."/>
@@ -339,7 +342,7 @@
                                   <Component id="jLabel9" alignment="3" max="32767" attributes="0"/>
                                   <Component id="CbxIngrediente" alignment="3" max="32767" attributes="0"/>
                                   <Component id="jLabel8" alignment="3" max="32767" attributes="0"/>
-                                  <Component id="TxtCantidad" alignment="3" pref="0" max="32767" attributes="0"/>
+                                  <Component id="TxtCantidad" alignment="3" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
@@ -352,6 +355,9 @@
               <SubComponents>
                 <Component class="javax.swing.JComboBox" name="CbxIngrediente">
                   <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Agency FB" size="14" style="0"/>
+                    </Property>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                       <StringArray count="2">
                         <StringItem index="0" value="Seleccione..."/>
@@ -391,7 +397,7 @@
                       <Font name="Agency FB" size="18" style="1"/>
                     </Property>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/Img/download-24.png"/>
+                      <Image iconType="3" name="/Img/Agregar.png"/>
                     </Property>
                     <Property name="toolTipText" type="java.lang.String" value="Nuevo"/>
                   </Properties>

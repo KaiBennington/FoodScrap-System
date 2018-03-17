@@ -22,6 +22,7 @@ public class vAcceso extends javax.swing.JFrame {
      */
     public vAcceso() {
         initComponents();
+        setIconImage(new ImageIcon(getClass().getResource("/img/Titles/IconoLogo.png")).getImage());
         setLocationRelativeTo(null);
         setTitle("Ventana de acceso");
         LblMensajeNo.setText("");

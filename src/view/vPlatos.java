@@ -116,11 +116,13 @@ public class vPlatos extends javax.swing.JInternalFrame {
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel7.setText("Categoria :");
 
+        CbxCategoria.setFont(new java.awt.Font("Agency FB", 0, 14)); // NOI18N
         CbxCategoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione..." }));
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Ingredientes", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.BELOW_TOP, new java.awt.Font("Agency FB", 1, 14))); // NOI18N
 
+        CbxIngrediente.setFont(new java.awt.Font("Agency FB", 0, 14)); // NOI18N
         CbxIngrediente.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione...", " " }));
 
         jLabel8.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
@@ -132,7 +134,7 @@ public class vPlatos extends javax.swing.JInternalFrame {
 
         BtnAgregar.setBackground(new java.awt.Color(255, 153, 0));
         BtnAgregar.setFont(new java.awt.Font("Agency FB", 1, 18)); // NOI18N
-        BtnAgregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/download-24.png"))); // NOI18N
+        BtnAgregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Agregar.png"))); // NOI18N
         BtnAgregar.setToolTipText("Nuevo");
         BtnAgregar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -189,7 +191,7 @@ public class vPlatos extends javax.swing.JInternalFrame {
                         .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(CbxIngrediente)
                         .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(TxtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                        .addComponent(TxtCantidad)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(16, 16, 16))
