@@ -142,6 +142,11 @@ public class vPrincipal extends javax.swing.JFrame {
 
         jMenuItem7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Platos.png"))); // NOI18N
         jMenuItem7.setText("Platos");
+        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem7ActionPerformed(evt);
+            }
+        });
         jMenu3.add(jMenuItem7);
 
         jMenuItem8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Productos.png"))); // NOI18N
@@ -412,6 +417,26 @@ public class vPrincipal extends javax.swing.JFrame {
         }
         //</editor-fold>
     }//GEN-LAST:event_jMenuItem12ActionPerformed
+
+    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+        //<editor-fold desc="GESTION PLATOS" defaultstate="collapsed">
+         vPlatos vPl = new vPlatos();
+         if (!ventana.equalsIgnoreCase("Gestion Platos")) {
+            ventana="Gestion Platos";
+            
+            Escritorio.add(vPl);
+            Dimension desktopSize = Escritorio.getSize();
+            Dimension FrameSize = vPl.getSize();
+            vPl.setLocation((desktopSize.width - FrameSize.width)/2, (desktopSize.height- FrameSize.height)/2);
+            vPl.show();             
+        }
+        else
+        {
+        JOptionPane.showMessageDialog(null,"LA VENTANA YA SE ENCUENTRA ABIERTA");
+        
+        }
+        //</editor-fold>
+    }//GEN-LAST:event_jMenuItem7ActionPerformed
 
     /**
      * @param args the command line arguments
