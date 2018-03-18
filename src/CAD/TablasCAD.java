@@ -20,6 +20,7 @@ public class TablasCAD extends ConexionDB{
     public TablasCAD() {
     }
     
+    //<editor-fold desc="TABLA USUARIOS" defaultstate="collapsed">
     public DefaultTableModel getTablaUsuarios(String Valor){
         
       DefaultTableModel modelo = new DefaultTableModel();          
@@ -87,5 +88,56 @@ public class TablasCAD extends ConexionDB{
             System.err.println( e.getMessage() );
         }
         return modelo;
-    }    
+    } //FIN Tabla Usuarios
+    //</editor-fold>
+    
+    //<editor-fold desc="TABLA TIPO DOCUMENTO" defaultstate="collapsed">
+    public DefaultTableModel getTablaTDocumento(String Valor){
+        
+      DefaultTableModel modelo = new DefaultTableModel();          
+      int registros = 0;
+      String[] NombreClmns = {"Id Tipo","Nombre","Siglas"};
+      
+      PreparedStatement pst;
+      ResultSet rs = null;
+      try{
+         String Sql = "SELECT count(*) as total FROM TipoDocumento";
+         pst = getConexion().prepareStatement(Sql);
+         rs = pst.executeQuery();
+         
+         rs.next();
+         registros = rs.getInt("total");
+         rs.close();
+      }catch(SQLException e){
+         System.err.println( e.getMessage() );
+      }      
+    
+    Object[][] data = new String[registros][3];
+      try{
+         String Sql;
+         if(Valor.equals(""))
+    {
+        Sql=" SELECT * FROM TipoDocumento ";
+    }
+    else{
+        Sql=" SELECT * FROM TipoDocumento WHERE upper (Nombre) LIKE upper ('"+Valor+"%')";        
+    }
+         pst = getConexion().prepareStatement(Sql);
+         rs = pst.executeQuery();         
+         int i=0;
+         while(rs.next()){
+                data[i][0] = rs.getString( "IdTipoDoc" );
+                data[i][1] = rs.getString( "Nombre" );
+                data[i][2] = rs.getString( "Siglas" );
+            i++;
+         }
+         rs.close();         
+         modelo.setDataVector(data, NombreClmns );
+         
+         }catch(SQLException e){
+            System.err.println( e.getMessage() );
+        }
+        return modelo;
+    } //FIN Tabla Tipo Documento
+    //</editor-fold>    
 }

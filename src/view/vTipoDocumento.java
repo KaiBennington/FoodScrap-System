@@ -35,7 +35,7 @@ public class vTipoDocumento extends javax.swing.JInternalFrame {
     //<editor-fold desc="MOSTRAR DATOS" defaultstate="collapsed">
     void mostrarDatos(String Valor){        
         TablasCAD ModelTable = new TablasCAD();         
-        TblTipoDocu.setModel(ModelTable.getTablaUsuarios(Valor));      
+        TblTipoDocu.setModel(ModelTable.getTablaTDocumento(Valor));      
         TableColumnModel columnModel = TblTipoDocu.getColumnModel();
         for (int i = 0; i < columnModel.getColumnCount(); i++) {
         columnModel.getColumn(i).setPreferredWidth(100);
@@ -336,7 +336,7 @@ public class vTipoDocumento extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(LblOk)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
+                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 55, Short.MAX_VALUE)
                 .addGap(14, 14, 14))
         );
 
