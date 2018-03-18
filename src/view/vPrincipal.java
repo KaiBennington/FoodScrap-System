@@ -232,6 +232,11 @@ public class vPrincipal extends javax.swing.JFrame {
         jMenu5.setText("Configuración");
 
         jMenuItem15.setText("Tipo Documentos");
+        jMenuItem15.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem15ActionPerformed(evt);
+            }
+        });
         jMenu5.add(jMenuItem15);
 
         jMenuItem16.setText("Unidad de Medidas");
@@ -461,6 +466,26 @@ public class vPrincipal extends javax.swing.JFrame {
         }
         //</editor-fold>
     }//GEN-LAST:event_jMenuItem7ActionPerformed
+
+    private void jMenuItem15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem15ActionPerformed
+        //<editor-fold desc="C TIPO DOCUMENTO" defaultstate="collapsed">
+         vTipoDocumento vTd = new vTipoDocumento();
+         if (!ventana.equalsIgnoreCase("Config Tipo Documento")) {
+            ventana="Config Tipo Documento";
+            
+            Escritorio.add(vTd);
+            Dimension desktopSize = Escritorio.getSize();
+            Dimension FrameSize = vTd.getSize();
+            vTd.setLocation((desktopSize.width - FrameSize.width)/2, (desktopSize.height- FrameSize.height)/2);
+            vTd.show();             
+        }
+        else
+        {
+        JOptionPane.showMessageDialog(null,"LA VENTANA YA SE ENCUENTRA ABIERTA");
+        
+        }
+        //</editor-fold>
+    }//GEN-LAST:event_jMenuItem15ActionPerformed
 
     /**
      * @param args the command line arguments

@@ -6,6 +6,7 @@
 package Config;
 
 import Model.Sucursales;
+import Model.TipoDocumento;
 import Model.Usuarios;
 import java.util.Map;
 
@@ -113,6 +114,32 @@ public class Validaciones {
             return respuesta;
         }         
         
+        respuesta.remove("Mensaje");
+//        boolean val = respuesta.isEmpty();
+//        System.out.println("valor vacio "+val);
+        return respuesta;
+    }
+    //</editor-fold>
+    
+    //<editor-fold desc="VALIDAR TIPO DOCUMENTO" defaultstate="collapsed">
+    public Map validarCamposTDocumento(Map respuesta){
+        
+        TipoDocumento T = (TipoDocumento)respuesta.get("TDocumento");
+        
+        if (T.getCodigo().equals("")) {
+            respuesta.put("Mensaje","Error en el ID del Tipo documento");
+            return respuesta;
+        } 
+        if (T.getNombre().equals("")) {
+            respuesta.put("Mensaje","El campo Nombre se encuentra Vacio");
+            respuesta.put("campo","TxtNombre.requestFocusInWindow()");
+            return respuesta;
+        } 
+        if (T.getSiglas().equals("")) {
+            respuesta.put("Mensaje","El campo Siglas se encuentra Vacio");
+            respuesta.put("campo","TxtSiglas.requestFocusInWindow()");
+            return respuesta;
+        }
         respuesta.remove("Mensaje");
 //        boolean val = respuesta.isEmpty();
 //        System.out.println("valor vacio "+val);
