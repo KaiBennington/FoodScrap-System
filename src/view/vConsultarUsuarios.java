@@ -15,6 +15,7 @@ import Model.Roles;
 import CAD.TablasCAD;
 import Model.TipoDocumento;
 import Model.Usuarios;
+import java.awt.Dimension;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -26,6 +27,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.TableColumnModel;
+import static view.vPrincipal.Escritorio;
 
 /**
  *
@@ -234,6 +236,7 @@ public class vConsultarUsuarios extends javax.swing.JInternalFrame {
         jSeparator2 = new javax.swing.JSeparator();
         DCFechaNac = new com.toedter.calendar.JDateChooser();
         CbxRoles = new javax.swing.JComboBox<>();
+        BtnPrivilegios = new javax.swing.JButton();
         TxtBuscar = new javax.swing.JTextField();
         LblBuscar = new javax.swing.JLabel();
         LblOk = new javax.swing.JLabel();
@@ -478,6 +481,16 @@ public class vConsultarUsuarios extends javax.swing.JInternalFrame {
         CbxRoles.setFont(new java.awt.Font("Agency FB", 0, 14)); // NOI18N
         CbxRoles.setForeground(new java.awt.Color(255, 0, 0));
 
+        BtnPrivilegios.setBackground(new java.awt.Color(255, 153, 0));
+        BtnPrivilegios.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
+        BtnPrivilegios.setText("...");
+        BtnPrivilegios.setToolTipText("Asignar...");
+        BtnPrivilegios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnPrivilegiosActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout PnDatosLayout = new javax.swing.GroupLayout(PnDatos);
         PnDatos.setLayout(PnDatosLayout);
         PnDatosLayout.setHorizontalGroup(
@@ -516,7 +529,9 @@ public class vConsultarUsuarios extends javax.swing.JInternalFrame {
                                 .addComponent(jLabel7)
                                 .addGap(18, 18, 18)
                                 .addComponent(CbxRoles, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(136, 136, 136))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(BtnPrivilegios, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(75, 75, 75))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PnDatosLayout.createSequentialGroup()
                                 .addComponent(jLabel13)
                                 .addGap(18, 18, 18)
@@ -566,10 +581,11 @@ public class vConsultarUsuarios extends javax.swing.JInternalFrame {
                         .addGroup(PnDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel13)
                             .addComponent(TxtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(19, 19, 19)
+                        .addGap(18, 18, 18)
                         .addGroup(PnDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel7)
-                            .addComponent(CbxRoles, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(CbxRoles, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(BtnPrivilegios)))
                     .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -875,11 +891,34 @@ public class vConsultarUsuarios extends javax.swing.JInternalFrame {
         mostrarDatos("");
     }//GEN-LAST:event_jPanel1MousePressed
 
+    private void BtnPrivilegiosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnPrivilegiosActionPerformed
+        vPrivilegios vP = new vPrivilegios();
+        if (!vPrincipal.ventana.equalsIgnoreCase("Privilegios")) {
+            vPrincipal.ventana="Privilegios";
+
+            Escritorio.add(vP);
+            Dimension desktopSize = Escritorio.getSize();
+            Dimension FrameSize = vP.getSize();
+            vP.setLocation((desktopSize.width - FrameSize.width)/2, (desktopSize.height- FrameSize.height)/2);
+            vP.show();
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null,"LA VENTANA 'Privilegios' YA SE ENCUENTRA ABIERTA");
+
+        }
+         vPrivilegios vp = new vPrivilegios();
+         vp.setVisible(true);
+
+         this.dispose();
+    }//GEN-LAST:event_BtnPrivilegiosActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnCancelar;
     private javax.swing.JButton BtnEliminar;
     private javax.swing.JButton BtnModificar;
+    private javax.swing.JButton BtnPrivilegios;
     private javax.swing.JComboBox<String> CbxPregunta;
     private javax.swing.JComboBox<String> CbxRoles;
     private javax.swing.JComboBox<String> CbxTipoDoc;

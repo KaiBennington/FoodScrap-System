@@ -316,6 +316,9 @@ public class vPrivilegios extends javax.swing.JInternalFrame {
     private void cbxModuloItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxModuloItemStateChanged
         if(iniciando){
             llenarTabla();
+            checkHabilitar.setSelected(false);
+            txtIdPermiso.setText("");
+            lblPermiso.setVisible(false);
         }else{
             iniciando = true;
         }

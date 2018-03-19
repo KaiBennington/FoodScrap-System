@@ -610,7 +610,7 @@ public class vUsuarios extends javax.swing.JInternalFrame {
          vPrivilegios vp = new vPrivilegios();
          vp.setVisible(true);
 
-               this.dispose();
+         this.dispose();
     }//GEN-LAST:event_BtnPrivilegiosActionPerformed
 
     private void BtnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAgregarActionPerformed

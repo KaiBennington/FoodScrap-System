@@ -48,8 +48,8 @@ public class vConsultarSucursal extends javax.swing.JInternalFrame {
     void cargarId(){
         //Cargar ID
         CargarCAD oCargarCAD = new CargarCAD() ;
-        String S = oCargarCAD.cargarId();        
-        Lbl_IdSucursal.setText(S);
+//        String S = oCargarCAD.cargarId();        
+//        Lbl_IdSucursal.setText(S);
     }
     //</editor-fold>
     

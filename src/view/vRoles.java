@@ -5,6 +5,10 @@
  */
 package view;
 
+import java.awt.Dimension;
+import javax.swing.JOptionPane;
+import static view.vPrincipal.Escritorio;
+
 /**
  *
  * @author USUARIO
@@ -281,26 +285,26 @@ public class vRoles extends javax.swing.JInternalFrame {
 
         }else{
             // Btn Guardar
-            String Id_Tipo = Lbl_Id.getText();
-            String NomDocumento = TxtNomRoll.getText();
-            String SiglasDoc = TxtSiglasRoll.getText();
-
-            TDocumento TD = new TDocumento();
-            TD.setIdTipo(Id_Tipo);
-            TD.setNombreDocumento(NomDocumento);
-            TD.setSiglasDocumento(SiglasDoc);
-
-            if (TDocumentoCAD.guardar(TD)) {
-                mostrarDatos("");
-                limpiarCampos();
-                cargarId(Lbl_Id.getText());
-                botonesInicio();
-                LblOk.setVisible(true);
-
-            }else{
-                JOptionPane.showMessageDialog(null, "El Nuevo Tipo no se pudo guardar");
-                TxtNomRoll.requestFocus();
-            }
+//            String Id_Tipo = Lbl_Id.getText();
+//            String NomDocumento = TxtNomRoll.getText();
+//            String SiglasDoc = TxtSiglasRoll.getText();
+//
+//            TDocumento TD = new TDocumento();
+//            TD.setIdTipo(Id_Tipo);
+//            TD.setNombreDocumento(NomDocumento);
+//            TD.setSiglasDocumento(SiglasDoc);
+//
+//            if (TDocumentoCAD.guardar(TD)) {
+//                mostrarDatos("");
+//                limpiarCampos();
+//                cargarId(Lbl_Id.getText());
+//                botonesInicio();
+//                LblOk.setVisible(true);
+//
+//            }else{
+//                JOptionPane.showMessageDialog(null, "El Nuevo Tipo no se pudo guardar");
+//                TxtNomRoll.requestFocus();
+//            }
         }
         //</editor-fold>
     }//GEN-LAST:event_BtnAgregarActionPerformed
@@ -313,29 +317,29 @@ public class vRoles extends javax.swing.JInternalFrame {
             // Btn Eliminar
             String Id_Tipo = Lbl_Id.getText();
 
-            TDocumento TD = new TDocumento();
-            TD.setIdTipo(Id_Tipo);
-
-            if (TDocumentoCAD.eliminar(TD)) {
-
-                mostrarDatos("");
-                limpiarCampos();
-                cargarId(Lbl_Id.getText());
-                botonesInicio();
-                LblOk.setVisible(true);
-            }else{
-                JOptionPane.showMessageDialog(null, "El Tipo Documento no se pudo eliminar");
-            }
+//            TDocumento TD = new TDocumento();
+//            TD.setIdTipo(Id_Tipo);
+//
+//            if (TDocumentoCAD.eliminar(TD)) {
+//
+//                mostrarDatos("");
+//                limpiarCampos();
+//                cargarId(Lbl_Id.getText());
+//                botonesInicio();
+//                LblOk.setVisible(true);
+//            }else{
+//                JOptionPane.showMessageDialog(null, "El Tipo Documento no se pudo eliminar");
+//            }
         }
         //</editor-fold>
     }//GEN-LAST:event_BtnEliminarActionPerformed
 
     private void BtnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCancelarActionPerformed
         //<editor-fold desc="CANCELAR" defaultstate="collapsed">
-        limpiarCampos();
-        buscarSi();
-        cargarId("");
-        botonesInicio();
+//        limpiarCampos();
+//        buscarSi();
+//        cargarId("");
+//        botonesInicio();
         //        BtnNuevo.setVisible(true);
         //        BtnEliminar.setVisible(false);
         //        /////////////////////
@@ -349,7 +353,7 @@ public class vRoles extends javax.swing.JInternalFrame {
         //<editor-fold desc="NUEVO" defaultstate="collapsed">
         LblOk.setVisible(false);
         Lbl_Id.setVisible(true);
-        buscarNo();
+//        buscarNo();
         TxtNomRoll.setEnabled(true);
         TxtNomRoll.requestFocus();
         TxtSiglasRoll.setEnabled(true);
@@ -372,32 +376,32 @@ public class vRoles extends javax.swing.JInternalFrame {
             String NomDocumento = TxtNomRoll.getText();
             String SiglasDoc = TxtSiglasRoll.getText();
 
-            TDocumento TD = new TDocumento();
-            TD.setIdTipo(Id_Tipo);
-            TD.setNombreDocumento(NomDocumento);
-            TD.setSiglasDocumento(SiglasDoc);
-
-            if (TDocumentoCAD.modificar(TD)) {
-                mostrarDatos("");
-                limpiarCampos();
-                cargarId(Lbl_Id.getText());
-                botonesInicio();
-                LblOk.setVisible(true);
-            }else{
-                JOptionPane.showMessageDialog(null, "El Tipo Documento no se pudo modificar");
-            }
+//            TDocumento TD = new TDocumento();
+//            TD.setIdTipo(Id_Tipo);
+//            TD.setNombreDocumento(NomDocumento);
+//            TD.setSiglasDocumento(SiglasDoc);
+//
+//            if (TDocumentoCAD.modificar(TD)) {
+//                mostrarDatos("");
+//                limpiarCampos();
+//                cargarId(Lbl_Id.getText());
+//                botonesInicio();
+//                LblOk.setVisible(true);
+//            }else{
+//                JOptionPane.showMessageDialog(null, "El Tipo Documento no se pudo modificar");
+//            }
         }
         //</editor-fold>
     }//GEN-LAST:event_BtnModificarActionPerformed
 
     private void TxtBuscarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TxtBuscarKeyPressed
         if(evt.getKeyCode()==10){
-            mostrarDatos(TxtBuscar.getText());
+//            mostrarDatos(TxtBuscar.getText());
         }
     }//GEN-LAST:event_TxtBuscarKeyPressed
 
     private void TxtBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TxtBuscarKeyReleased
-        mostrarDatos(TxtBuscar.getText());
+//        mostrarDatos(TxtBuscar.getText());
     }//GEN-LAST:event_TxtBuscarKeyReleased
 
     private void BtnPrivilegiosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnPrivilegiosActionPerformed

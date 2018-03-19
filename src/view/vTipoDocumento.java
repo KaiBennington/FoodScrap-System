@@ -385,6 +385,7 @@ public class vTipoDocumento extends javax.swing.JInternalFrame {
                         LblOk.setText(Bandera.getRespuesta());
                         LblOk.setVisible(true);
                         cargarId();
+                        mostrarDatos("");
                     }
                 }
             }
