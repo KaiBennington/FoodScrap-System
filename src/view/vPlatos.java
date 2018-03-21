@@ -135,7 +135,7 @@ public class vPlatos extends javax.swing.JInternalFrame {
         BtnAgregar.setBackground(new java.awt.Color(255, 153, 0));
         BtnAgregar.setFont(new java.awt.Font("Agency FB", 1, 18)); // NOI18N
         BtnAgregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Agregar.png"))); // NOI18N
-        BtnAgregar.setToolTipText("Nuevo");
+        BtnAgregar.setToolTipText("Agregar");
         BtnAgregar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BtnAgregarActionPerformed(evt);

@@ -11,8 +11,7 @@ package Model;
  */
 public class Platos {
     
-    //<editor-fold desc="ATRIBUTOS" defaultstate="collapsed">
-    
+    //<editor-fold desc="ATRIBUTOS" defaultstate="collapsed">    
     private int CodigoPlato;    
     private String Categoria;
     private String Nombre;
@@ -53,7 +52,7 @@ public class Platos {
     }
     //</editor-fold> 
     
-    //<editor-fold desc="CONTRUCTOR" defaultstate="collapsed">
+    //<editor-fold desc="CONSTRUCTOR" defaultstate="collapsed">
     public Platos(int CodigoPlato,String Categoria,String Nombre,int Valor) {
         this.CodigoPlato = CodigoPlato;
         this.Categoria = Categoria;

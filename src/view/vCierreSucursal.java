@@ -32,7 +32,6 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
     public vCierreSucursal() {
         initComponents();
         cargarCombos();
-        //Date dia = new Date (System.currentTimeMillis()); 
         Date d = new Date();
         LblFecha.setText(d.getDate() + "/" + (d.getMonth() + 1) + "/" + (d.getYear() + 1900));
         
@@ -87,7 +86,7 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
             componenteFritos jpc = new componenteFritos(index);
             Platos oPlatoDetalle = (Platos) listaPlatos.get(index);
             
-            jpc.lblNombre.setText(oPlatoDetalle.getNombre()+": ");
+            jpc.lblNombre.setText(oPlatoDetalle.getNombre()+"");
             jpc.lblValor.setText(""+oPlatoDetalle.getValor());
             jpc.txtValorUnitario.setText(""+oPlatoDetalle.getValor());
             // damos valores a X,Y,Ancho,Alto

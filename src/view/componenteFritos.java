@@ -22,7 +22,7 @@ public class componenteFritos extends javax.swing.JPanel {
         txtCantidad = new javax.swing.JTextField();
         jLabel19 = new javax.swing.JLabel();
         lblValor = new javax.swing.JLabel();
-        txtValorUnitario = new javax.swing.JTextField();
+        txtValorUnitario = new javax.swing.JLabel();
 
         jLabel1.setText("Pruebaaa:");
 
@@ -30,14 +30,14 @@ public class componenteFritos extends javax.swing.JPanel {
         btn.setMargin(new java.awt.Insets(2, 2, 2, 2));
         btn.setPreferredSize(new java.awt.Dimension(47, 26));
 
-        setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
+        setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
+        lblNombre.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         lblNombre.setText("Sencillas :");
 
         txtCantidad.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         txtCantidad.setForeground(new java.awt.Color(255, 0, 0));
         txtCantidad.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtCantidad.setText("Cant");
         txtCantidad.setToolTipText("Cantidad");
         txtCantidad.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         txtCantidad.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -51,38 +51,38 @@ public class componenteFritos extends javax.swing.JPanel {
         jLabel19.setText("$");
 
         lblValor.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
-        lblValor.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblValor.setForeground(new java.awt.Color(255, 0, 0));
+        lblValor.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblValor.setText("3.000");
 
-        txtValorUnitario.setEditable(false);
         txtValorUnitario.setText("1500");
-        txtValorUnitario.setEnabled(false);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(lblNombre)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel19)
+                .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtValorUnitario, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblValor, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(txtValorUnitario, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lblValor, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(txtCantidad, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
-                .addComponent(lblNombre)
-                .addComponent(jLabel19)
-                .addComponent(lblValor)
-                .addComponent(txtValorUnitario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(0, 0, 0)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtValorUnitario, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)
+                    .addComponent(lblValor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -94,13 +94,13 @@ public class componenteFritos extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btn;
+    public javax.swing.JButton btn;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel19;
     public javax.swing.JLabel lblNombre;
     public javax.swing.JLabel lblValor;
     public javax.swing.JTextField txtCantidad;
-    public javax.swing.JTextField txtValorUnitario;
+    public javax.swing.JLabel txtValorUnitario;
     // End of variables declaration//GEN-END:variables
 
 

@@ -102,6 +102,9 @@ public class vTipoDocumento extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        PopM_Tabla = new javax.swing.JPopupMenu();
+        MnModificar = new javax.swing.JMenuItem();
+        MnEliminar = new javax.swing.JMenuItem();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -122,6 +125,24 @@ public class vTipoDocumento extends javax.swing.JInternalFrame {
         LblBuscar = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         TblTipoDocu = new javax.swing.JTable();
+
+        MnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Modificar.png"))); // NOI18N
+        MnModificar.setText("Modificar");
+        MnModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MnModificarActionPerformed(evt);
+            }
+        });
+        PopM_Tabla.add(MnModificar);
+
+        MnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Eliminar.png"))); // NOI18N
+        MnEliminar.setText("Eliminar");
+        MnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MnEliminarActionPerformed(evt);
+            }
+        });
+        PopM_Tabla.add(MnEliminar);
 
         setClosable(true);
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
@@ -296,6 +317,7 @@ public class vTipoDocumento extends javax.swing.JInternalFrame {
             }
         ));
         TblTipoDocu.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        TblTipoDocu.setComponentPopupMenu(PopM_Tabla);
         jScrollPane1.setViewportView(TblTipoDocu);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -436,6 +458,47 @@ public class vTipoDocumento extends javax.swing.JInternalFrame {
 
     private void BtnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnModificarActionPerformed
         //<editor-fold desc="MODIFICAR" defaultstate="collapsed">
+        //Boton Modificar
+        Map rsp = new HashMap();
+        TipoDocumento Td = new TipoDocumento();
+        
+        Td.setCodigo(Lbl_Id.getText());
+        Td.setNombre(TxtNombre.getText());
+        Td.setSiglas(TxtSiglas.getText());        
+        
+        rsp.put("TDocumento",Td);
+        
+        Validaciones V = new Validaciones();
+        V.validarCamposTDocumento(rsp);
+        
+        if (rsp.containsKey("Mensaje")) {
+            JOptionPane.showMessageDialog(null,rsp.get("Mensaje"));
+//            rsp.get("campo");
+//            String Focus = (String)rsp.get("campo");
+//            System.out.println(""+Focus);
+        }else{
+            
+            if (Lbl_Id.getText().equalsIgnoreCase("")) {
+            JOptionPane.showMessageDialog(null,"No se encuentra el ID '"+Lbl_Id.getText()+"' en la BD");
+                } else {
+                boolean Modificar = TipoDocumentoCAD.modificar(Td);
+
+                    if(!Modificar){                        
+                        JOptionPane.showMessageDialog(null,Bandera.getRespuesta());
+                        limpiarCampos();
+                        mostrarDatos("");                        
+                        botonesInicio(false, false, false, false, true, false, false, false, false);
+                        cargarId();
+                    }else{ 
+                        limpiarCampos();
+                        botonesInicio(true, false, false, false, true, false, false, false, false);
+                        mostrarDatos(Td.getNombre());
+                        cargarId();
+                        LblOk.setText(Bandera.getRespuesta());
+                        LblOk.setVisible(true);
+                    }
+                }
+            }
 //        if (Lbl_Id.getText().equalsIgnoreCase("")) {
 //            JOptionPane.showMessageDialog(null,"No se encuentra el ID '"+Lbl_Id.getText()+"' en la BD");
 //        }else{
@@ -475,6 +538,25 @@ public class vTipoDocumento extends javax.swing.JInternalFrame {
         vPrincipal.ventana = "";
     }//GEN-LAST:event_formInternalFrameClosing
 
+    private void MnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnModificarActionPerformed
+        //<editor-fold desc="MENU MODIFICAR" defaultstate="collapsed">
+        //Seleccion fila modificar
+        Seleccion();
+        botonesInicio(false, false, true, true, false, false, true, false, true);
+        TxtNombre.requestFocus();
+        buscarNo();
+        //</editor-fold>
+    }//GEN-LAST:event_MnModificarActionPerformed
+
+    private void MnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnEliminarActionPerformed
+        //<editor-fold desc="MENU ELIMINAR" defaultstate="collapsed">
+        //Seleccion fila Eliminar
+        Seleccion();
+        botonesInicio(false, false, false, false, false, false, false, true, true);
+        buscarNo();
+        //</editor-fold>
+    }//GEN-LAST:event_MnEliminarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnAgregar;
@@ -485,6 +567,9 @@ public class vTipoDocumento extends javax.swing.JInternalFrame {
     private javax.swing.JLabel LblBuscar;
     private javax.swing.JLabel LblOk;
     private javax.swing.JLabel Lbl_Id;
+    private javax.swing.JMenuItem MnEliminar;
+    private javax.swing.JMenuItem MnModificar;
+    private javax.swing.JPopupMenu PopM_Tabla;
     public javax.swing.JTable TblTipoDocu;
     private javax.swing.JTextField TxtBuscar;
     private javax.swing.JTextField TxtNombre;
@@ -498,4 +583,15 @@ public class vTipoDocumento extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
+
+    void Seleccion(){
+        int fila=TblTipoDocu.getSelectedRow();
+        if (fila >= 0) {            
+            Lbl_Id.setText(TblTipoDocu.getValueAt(fila, 0).toString());
+            TxtNombre.setText(TblTipoDocu.getValueAt(fila, 1).toString());
+            TxtSiglas.setText(TblTipoDocu.getValueAt(fila,2).toString());                       
+        }else{
+            JOptionPane.showMessageDialog(null,"No se ha seleccionado ningun Tipo Documento de la tabla");
+        }
+    }
 }
