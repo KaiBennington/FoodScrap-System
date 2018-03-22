@@ -120,7 +120,7 @@ public class TablasCAD extends ConexionDB{
         Sql=" SELECT * FROM TipoDocumento ";
     }
     else{
-        Sql=" SELECT * FROM TipoDocumento WHERE upper (Nombre) LIKE upper ('%"+Valor+"%')";        
+        Sql=" SELECT * FROM TipoDocumento WHERE upper (Nombre) LIKE upper ('"+Valor+"%')";        
     }
          pst = getConexion().prepareStatement(Sql);
          rs = pst.executeQuery();         

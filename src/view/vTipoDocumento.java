@@ -318,6 +318,7 @@ public class vTipoDocumento extends javax.swing.JInternalFrame {
         ));
         TblTipoDocu.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         TblTipoDocu.setComponentPopupMenu(PopM_Tabla);
+        TblTipoDocu.setSelectionBackground(new java.awt.Color(255, 0, 0));
         jScrollPane1.setViewportView(TblTipoDocu);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -403,9 +404,9 @@ public class vTipoDocumento extends javax.swing.JInternalFrame {
                         TxtNombre.requestFocus();
                     }else{ 
                         limpiarCampos();
-                        botonesInicio(false, false, false, false, true, false, false, false, false);
+                        botonesInicio(true, false, false, false, true, false, false, false, false);
                         LblOk.setText(Bandera.getRespuesta());
-                        LblOk.setVisible(true);
+                        //LblOk.setVisible(true);
                         cargarId();
                         mostrarDatos("");
                     }
@@ -416,26 +417,32 @@ public class vTipoDocumento extends javax.swing.JInternalFrame {
 
     private void BtnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnEliminarActionPerformed
         //<editor-fold desc="ELIMINAR" defaultstate="collapsed">
-//        if (Lbl_Id.getText().equalsIgnoreCase("")) {
-//            JOptionPane.showMessageDialog(null, "No se puede Eliminar el Tipo Documento\nEl Campo 'ID' se encuentra vacio\nVerifique que tenga conexion con la BD");
-//        }else{
-//            // Btn Eliminar
-//            String Id_Tipo = Lbl_Id.getText();
-//
-//            TDocumento TD = new TDocumento();
-//            TD.setIdTipo(Id_Tipo);
-//
-//            if (TDocumentoCAD.eliminar(TD)) {
-//
-//                mostrarDatos("");
-//                limpiarCampos();
-//                cargarId(Lbl_Id.getText());
-//                botonesInicio();
-//                LblOk.setVisible(true);
-//            }else{
-//                JOptionPane.showMessageDialog(null, "El Tipo Documento no se pudo eliminar");
-//            }
-//        }
+        if (Lbl_Id.getText().equalsIgnoreCase("")) {
+            JOptionPane.showMessageDialog(null, "No se puede Eliminar el Tipo Documento\nEl Campo 'ID' se encuentra vacio\nVerifique que tenga conexion con la BD");
+            TxtNombre.requestFocus();
+        }else{
+            // Btn Eliminar
+            String Codigo = Lbl_Id.getText();
+            
+            TipoDocumento Td = new TipoDocumento();
+            Td.setCodigo(Codigo);
+
+            boolean Eliminar = TipoDocumentoCAD.eliminar(Td);
+
+                    if(!Eliminar){                                                
+                        limpiarCampos();
+                        mostrarDatos("");                        
+                        botonesInicio(false,false,false,false,true,false,false,false,false);
+                        cargarId();
+                        JOptionPane.showMessageDialog(null,Bandera.getRespuesta());
+                    }else{ 
+                        limpiarCampos();                        
+                        LblOk.setText(Bandera.getRespuesta());
+                        botonesInicio(true,false,false,false,true,false,false,false,false);
+                        cargarId();
+                        mostrarDatos("");
+                    }            
+        }
         //</editor-fold>
     }//GEN-LAST:event_BtnEliminarActionPerformed
 
