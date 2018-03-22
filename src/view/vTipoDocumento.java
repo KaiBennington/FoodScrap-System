@@ -506,28 +506,6 @@ public class vTipoDocumento extends javax.swing.JInternalFrame {
                     }
                 }
             }
-//        if (Lbl_Id.getText().equalsIgnoreCase("")) {
-//            JOptionPane.showMessageDialog(null,"No se encuentra el ID '"+Lbl_Id.getText()+"' en la BD");
-//        }else{
-//            String Id_Tipo = Lbl_Id.getText();
-//            String NomDocumento = TxtNombre.getText();
-//            String SiglasDoc = TxtSiglas.getText();
-//
-//            TipoDocumento TD = new TipoDocumento();
-//            TD.setIdTipo(Id_Tipo);
-//            TD.setNombreDocumento(NomDocumento);
-//            TD.setSiglasDocumento(SiglasDoc);
-//
-//            if (TDocumentoCAD.modificar(TD)) {
-//                mostrarDatos("");
-//                limpiarCampos();
-//                cargarId(Lbl_Id.getText());
-//                botonesInicio();
-//                LblOk.setVisible(true);
-//            }else{
-//                JOptionPane.showMessageDialog(null, "El Tipo Documento no se pudo modificar");
-//            }
-//        }
         //</editor-fold>
     }//GEN-LAST:event_BtnModificarActionPerformed
 
