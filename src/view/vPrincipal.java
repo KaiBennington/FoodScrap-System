@@ -240,6 +240,11 @@ public class vPrincipal extends javax.swing.JFrame {
         jMenu5.add(jMenuItem15);
 
         jMenuItem16.setText("Unidad de Medidas");
+        jMenuItem16.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem16ActionPerformed(evt);
+            }
+        });
         jMenu5.add(jMenuItem16);
 
         jMenuItem17.setText("Categorias");
@@ -486,6 +491,26 @@ public class vPrincipal extends javax.swing.JFrame {
         }
         //</editor-fold>
     }//GEN-LAST:event_jMenuItem15ActionPerformed
+
+    private void jMenuItem16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem16ActionPerformed
+        //<editor-fold desc="C UNIDAD MEDIDAS" defaultstate="collapsed">
+         vUnidadMedidas vUm = new vUnidadMedidas();
+         if (!ventana.equalsIgnoreCase("Config Unidad Medidas")) {
+            ventana="Config Unidad Medidas";
+            
+            Escritorio.add(vUm);
+            Dimension desktopSize = Escritorio.getSize();
+            Dimension FrameSize = vUm.getSize();
+            vUm.setLocation((desktopSize.width - FrameSize.width)/2, (desktopSize.height- FrameSize.height)/2);
+            vUm.show();             
+        }
+        else
+        {
+        JOptionPane.showMessageDialog(null,"LA VENTANA YA SE ENCUENTRA ABIERTA");
+        
+        }
+        //</editor-fold>
+    }//GEN-LAST:event_jMenuItem16ActionPerformed
 
     /**
      * @param args the command line arguments

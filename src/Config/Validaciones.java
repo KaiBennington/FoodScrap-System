@@ -7,6 +7,7 @@ package Config;
 
 import Model.Sucursales;
 import Model.TipoDocumento;
+import Model.UnidadMedidas;
 import Model.Usuarios;
 import java.util.Map;
 
@@ -136,6 +137,32 @@ public class Validaciones {
             return respuesta;
         } 
         if (T.getSiglas().equals("")) {
+            respuesta.put("Mensaje","El campo Siglas se encuentra Vacio");
+            respuesta.put("campo","TxtSiglas.requestFocusInWindow()");
+            return respuesta;
+        }
+        respuesta.remove("Mensaje");
+//        boolean val = respuesta.isEmpty();
+//        System.out.println("valor vacio "+val);
+        return respuesta;
+    }
+    //</editor-fold>
+    
+    //<editor-fold desc="VALIDAR UNIDAD MEDIDAS" defaultstate="collapsed">
+    public Map validarCamposUndMedida(Map respuesta){
+        
+        UnidadMedidas Um = (UnidadMedidas)respuesta.get("UndMedidas");
+        
+        if (Um.getCodigo().equals("")) {
+            respuesta.put("Mensaje","Error en el ID de la Unidad de Medida");
+            return respuesta;
+        } 
+        if (Um.getNombre().equals("")) {
+            respuesta.put("Mensaje","El campo Nombre se encuentra Vacio");
+            respuesta.put("campo","TxtNombre.requestFocusInWindow()");
+            return respuesta;
+        } 
+        if (Um.getSiglas().equals("")) {
             respuesta.put("Mensaje","El campo Siglas se encuentra Vacio");
             respuesta.put("campo","TxtSiglas.requestFocusInWindow()");
             return respuesta;

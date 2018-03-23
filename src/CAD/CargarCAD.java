@@ -213,4 +213,25 @@ public class CargarCAD extends ConexionDB {
         return CI;
     }
     //</editor-fold>
+    
+    //<editor-fold desc="CARGAR ID UNIDAD DE MEDIDAS" defaultstate="collapsed">
+    public String cargarIdUnidadMedidas(){
+        PreparedStatement pst;
+        ResultSet rs = null;
+        String CI = "" ;        
+        try {
+            String Sql = "select COALESCE(MAX(IdUndMedida), 0)+1 FROM UnidadMedidas;";
+            pst = getConexion().prepareStatement(Sql);            
+            rs = pst.executeQuery();
+            
+            while (rs.next()) {                 
+                CI = rs.getString(1);
+            }
+            
+        } catch (SQLException ex) {            
+        }
+        desconectar();
+        return CI;
+    }
+    //</editor-fold>
 }

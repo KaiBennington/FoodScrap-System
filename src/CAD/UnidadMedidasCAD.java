@@ -7,7 +7,7 @@ package CAD;
 
 import Config.Bandera;
 import Model.ConexionDB;
-import Model.TipoDocumento;
+import Model.UnidadMedidas;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,21 +16,21 @@ import java.sql.SQLException;
  *
  * @author USUARIO
  */
-public class TipoDocumentoCAD extends ConexionDB {
+public class UnidadMedidasCAD extends ConexionDB {
     
-    //<editor-fold desc="GUARDAR TIPO DOCUMENTO" defaultstate="collapsed">
-    public static boolean guardar(TipoDocumento TDg){
+    //<editor-fold desc="GUARDAR UNIDAD MEDIDA" defaultstate="collapsed">
+    public static boolean guardar(UnidadMedidas UMg){
         
         PreparedStatement pst;
         ResultSet rs = null;
         boolean respuesta = false;
         
         try {
-            String Sql = "CALL InsertarTDocumento(?,?,?)";
+            String Sql = "CALL InsertarUndMedida(?,?,?)";
             pst = getConexion().prepareStatement(Sql);
-            pst.setString(1, TDg.getCodigo());
-            pst.setString(2, TDg.getNombre());
-            pst.setString(3, TDg.getSiglas());
+            pst.setString(1, UMg.getCodigo());
+            pst.setString(2, UMg.getNombre());
+            pst.setString(3, UMg.getSiglas());
             rs = pst.executeQuery();
             
             String resul = "";
@@ -38,7 +38,7 @@ public class TipoDocumentoCAD extends ConexionDB {
                 resul = rs.getString("Mensaje");         
             }
             
-            if("Tipo Documento registrado con exito".equalsIgnoreCase(resul)){
+            if("Unidad de Medida registrada con exito".equalsIgnoreCase(resul)){
                Bandera.setRespuesta(resul);
                respuesta = true;
             }else{
@@ -55,19 +55,19 @@ public class TipoDocumentoCAD extends ConexionDB {
     }//FIN Metodo Guardar
     //</editor-fold>
     
-    //<editor-fold desc="MODIFICAR TIPO DOCUMENTO" defaultstate="collapsed">
-    public static boolean modificar(TipoDocumento TDm){
+    //<editor-fold desc="MODIFICAR UNIDAD MEDIDA" defaultstate="collapsed">
+    public static boolean modificar(UnidadMedidas UMm){
         
         PreparedStatement pst;
         ResultSet rs = null;
         boolean respuesta = false;
         
         try {
-            String Sql = "CALL ModificarTDocumento(?,?,?)";
+            String Sql = "CALL ModificarUndMedida(?,?,?)";
             pst = getConexion().prepareStatement(Sql);
-            pst.setString(1, TDm.getCodigo());
-            pst.setString(2, TDm.getNombre());
-            pst.setString(3, TDm.getSiglas());
+            pst.setString(1, UMm.getCodigo());
+            pst.setString(2, UMm.getNombre());
+            pst.setString(3, UMm.getSiglas());
             rs = pst.executeQuery();
             
             String resul = "";
@@ -75,7 +75,7 @@ public class TipoDocumentoCAD extends ConexionDB {
                 resul = rs.getString("Mensaje");         
             }
             
-            if("Tipo Documento Actualizado con exito".equalsIgnoreCase(resul)){
+            if("Unidad de Medida Actualizada con exito".equalsIgnoreCase(resul)){
                Bandera.setRespuesta(resul);
                respuesta = true;
             }else{
@@ -92,17 +92,17 @@ public class TipoDocumentoCAD extends ConexionDB {
     }//Fin Metodo Modificar
     //</editor-fold>
     
-    //<editor-fold desc="ELIMINAR TIPO DOCUMENTO" defaultstate="collapsed">
-    public static boolean eliminar(TipoDocumento TDe){
+    //<editor-fold desc="ELIMINAR UNIDAD MEDIDAS" defaultstate="collapsed">
+    public static boolean eliminar(UnidadMedidas UMe){
         
         PreparedStatement pst;
         ResultSet rs = null;
         boolean respuesta = false;
         
         try {
-            String Sql = "CALL EliminarTDocumento(?)";
+            String Sql = "CALL EliminarUndMedida(?)";
             pst = getConexion().prepareStatement(Sql);
-            pst.setString(1, TDe.getCodigo());
+            pst.setString(1, UMe.getCodigo());
             rs = pst.executeQuery();
             
             String resul = "";
@@ -110,7 +110,7 @@ public class TipoDocumentoCAD extends ConexionDB {
                 resul = rs.getString("Mensaje");         
             }
             
-            if("Tipo Documento Eliminado con exito".equalsIgnoreCase(resul)){
+            if("Unidad de Medida Eliminada con exito".equalsIgnoreCase(resul)){
                Bandera.setRespuesta(resul);
                respuesta = true;
             }else{

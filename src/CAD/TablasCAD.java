@@ -140,4 +140,54 @@ public class TablasCAD extends ConexionDB{
         return modelo;
     } //FIN Tabla Tipo Documento
     //</editor-fold>    
+    
+    //<editor-fold desc="TABLA UNIDAD MEDIDAS" defaultstate="collapsed">
+    public DefaultTableModel getTablaUndMedida(String Valor){
+        
+      DefaultTableModel modelo = new DefaultTableModel();          
+      int registros = 0;
+      String[] NombreClmns = {"Id Und","Nombre","Siglas"};
+      
+      PreparedStatement pst;
+      ResultSet rs = null;
+      try{
+         String Sql = "SELECT count(*) as total FROM UnidadMedidas";
+         pst = getConexion().prepareStatement(Sql);
+         rs = pst.executeQuery();
+         
+         rs.next();
+         registros = rs.getInt("total");
+         rs.close();
+      }catch(SQLException e){
+         System.err.println( e.getMessage() );
+      }      
+    
+    Object[][] data = new String[registros][3];
+      try{
+         String Sql;
+         if(Valor.equals(""))
+    {
+        Sql=" SELECT * FROM UnidadMedidas ";
+    }
+    else{
+        Sql=" SELECT * FROM UnidadMedidas WHERE upper (Nombre) LIKE upper ('"+Valor+"%')";        
+    }
+         pst = getConexion().prepareStatement(Sql);
+         rs = pst.executeQuery();         
+         int i=0;
+         while(rs.next()){
+                data[i][0] = rs.getString( "IdUndMedida" );
+                data[i][1] = rs.getString( "Nombre" );
+                data[i][2] = rs.getString( "Siglas" );
+            i++;
+         }
+         rs.close();         
+         modelo.setDataVector(data, NombreClmns );
+         
+         }catch(SQLException e){
+            System.err.println( e.getMessage() );
+        }
+        return modelo;
+    } //FIN Tabla Unidad Medidas
+    //</editor-fold>    
 }
