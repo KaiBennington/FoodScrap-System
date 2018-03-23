@@ -189,5 +189,54 @@ public class TablasCAD extends ConexionDB{
         }
         return modelo;
     } //FIN Tabla Unidad Medidas
+    //</editor-fold>   
+    
+    //<editor-fold desc="TABLA CATEGORIAS" defaultstate="collapsed">
+    public DefaultTableModel getTablaCategorias(String Valor){
+        
+      DefaultTableModel modelo = new DefaultTableModel();          
+      int registros = 0;
+      String[] NombreClmns = {"Id Cat","Nombre"};
+      
+      PreparedStatement pst;
+      ResultSet rs = null;
+      try{
+         String Sql = "SELECT count(*) as total FROM Categorias";
+         pst = getConexion().prepareStatement(Sql);
+         rs = pst.executeQuery();
+         
+         rs.next();
+         registros = rs.getInt("total");
+         rs.close();
+      }catch(SQLException e){
+         System.err.println( e.getMessage() );
+      }      
+    
+    Object[][] data = new String[registros][2];
+      try{
+         String Sql;
+         if(Valor.equals(""))
+    {
+        Sql=" SELECT * FROM Categorias ";
+    }
+    else{
+        Sql=" SELECT * FROM Categorias WHERE upper (Nombre) LIKE upper ('"+Valor+"%')";        
+    }
+         pst = getConexion().prepareStatement(Sql);
+         rs = pst.executeQuery();         
+         int i=0;
+         while(rs.next()){
+                data[i][0] = rs.getString( "IdCategoria" );
+                data[i][1] = rs.getString( "Nombre" );
+            i++;
+         }
+         rs.close();         
+         modelo.setDataVector(data, NombreClmns );
+         
+         }catch(SQLException e){
+            System.err.println( e.getMessage() );
+        }
+        return modelo;
+    } //FIN Tabla Categorias
     //</editor-fold>    
 }

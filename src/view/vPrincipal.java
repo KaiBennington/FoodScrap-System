@@ -101,6 +101,8 @@ public class vPrincipal extends javax.swing.JFrame {
             .addComponent(Escritorio, javax.swing.GroupLayout.Alignment.TRAILING)
         );
 
+        jMenuBar1.setBackground(new java.awt.Color(255, 255, 255));
+
         jMenu1.setText("Archivo");
 
         jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Perfil.png"))); // NOI18N
@@ -231,6 +233,7 @@ public class vPrincipal extends javax.swing.JFrame {
 
         jMenu5.setText("Configuración");
 
+        jMenuItem15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/TipoDocumento.png"))); // NOI18N
         jMenuItem15.setText("Tipo Documentos");
         jMenuItem15.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -239,6 +242,7 @@ public class vPrincipal extends javax.swing.JFrame {
         });
         jMenu5.add(jMenuItem15);
 
+        jMenuItem16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Balanza2.png"))); // NOI18N
         jMenuItem16.setText("Unidad de Medidas");
         jMenuItem16.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -247,9 +251,16 @@ public class vPrincipal extends javax.swing.JFrame {
         });
         jMenu5.add(jMenuItem16);
 
+        jMenuItem17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menu-24.png"))); // NOI18N
         jMenuItem17.setText("Categorias");
+        jMenuItem17.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem17ActionPerformed(evt);
+            }
+        });
         jMenu5.add(jMenuItem17);
 
+        jMenuItem18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/unlock-24.png"))); // NOI18N
         jMenuItem18.setText("Roles");
         jMenu5.add(jMenuItem18);
 
@@ -511,6 +522,26 @@ public class vPrincipal extends javax.swing.JFrame {
         }
         //</editor-fold>
     }//GEN-LAST:event_jMenuItem16ActionPerformed
+
+    private void jMenuItem17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem17ActionPerformed
+        //<editor-fold desc="C CATEGORIAS" defaultstate="collapsed">
+         vCategorias vCt = new vCategorias();
+         if (!ventana.equalsIgnoreCase("Config Categorias")) {
+            ventana="Config Categorias";
+            
+            Escritorio.add(vCt);
+            Dimension desktopSize = Escritorio.getSize();
+            Dimension FrameSize = vCt.getSize();
+            vCt.setLocation((desktopSize.width - FrameSize.width)/2, (desktopSize.height- FrameSize.height)/2);
+            vCt.show();             
+        }
+        else
+        {
+        JOptionPane.showMessageDialog(null,"LA VENTANA YA SE ENCUENTRA ABIERTA");
+        
+        }
+        //</editor-fold>
+    }//GEN-LAST:event_jMenuItem17ActionPerformed
 
     /**
      * @param args the command line arguments

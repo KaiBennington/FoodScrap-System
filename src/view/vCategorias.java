@@ -5,7 +5,16 @@
  */
 package view;
 
+import CAD.CargarCAD;
+import CAD.CategoriasCAD;
+import CAD.TablasCAD;
+import Config.Bandera;
+import Config.Validaciones;
+import Model.Categorias;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.JOptionPane;
+import javax.swing.table.TableColumnModel;
 
 /**
  *
@@ -18,7 +27,68 @@ public class vCategorias extends javax.swing.JInternalFrame {
      */
     public vCategorias() {
         initComponents();
+        cargarId();
+        botonesInicio(false, false, false, true, false, false, false, false);
+        mostrarDatos("");
     }
+    
+    //<editor-fold desc="CARGAR ID" defaultstate="collapsed">
+    void cargarId(){
+        //Cargar ID
+        CargarCAD oCargarCAD = new CargarCAD() ;
+        String Ct = oCargarCAD.cargarIdCategorias();        
+        Lbl_Id.setText(Ct);
+    }
+    //</editor-fold>
+    
+    //<editor-fold desc="BOTONES INICIO" defaultstate="collapsed">
+    void botonesInicio(boolean Ok,boolean id,boolean nombre,boolean nuevo,boolean agregar,boolean modificar,boolean eliminar,boolean cancelar){ 
+        
+        BtnNuevo.requestFocus();
+        LblOk.setVisible(Ok);
+        /////
+        Lbl_Id.setEnabled(id);
+        TxtNombre.setEnabled(nombre);      
+        /////
+        BtnNuevo.setVisible(nuevo);
+        BtnEliminar.setVisible(eliminar);        
+        /////
+        BtnAgregar.setVisible(agregar);
+        BtnModificar.setVisible(modificar);
+        BtnCancelar.setVisible(cancelar);      
+        buscarSi();        
+    }
+    //</editor-fold>
+    
+    //<editor-fold desc="BUSCAR" defaultstate="collapsed">
+    void buscarSi(){
+        TxtBuscar.setVisible(true);
+        LblBuscar.setVisible(true);
+    }
+    void buscarNo(){
+        TxtBuscar.setVisible(false);
+        LblBuscar.setVisible(false);
+    }
+    //</editor-fold>
+    
+    //<editor-fold desc="MOSTRAR DATOS" defaultstate="collapsed">
+    void mostrarDatos(String Valor){        
+        TablasCAD ModelTable = new TablasCAD();         
+        TblCategorias.setModel(ModelTable.getTablaCategorias(Valor));      
+        TableColumnModel columnModel = TblCategorias.getColumnModel();
+        for (int i = 0; i < columnModel.getColumnCount(); i++) {
+        columnModel.getColumn(i).setPreferredWidth(100);
+        }
+        
+    }       
+    //</editor-fold>
+    
+    //<editor-fold desc="LIMPIAR CAMPOS" defaultstate="collapsed">
+    public void limpiarCampos(){
+        TxtNombre.setText("");
+        TxtBuscar.setText("");        
+    }
+    //</editor-fold>
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -29,12 +99,15 @@ public class vCategorias extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        PopM_Tabla = new javax.swing.JPopupMenu();
+        MnModificar = new javax.swing.JMenuItem();
+        MnEliminar = new javax.swing.JMenuItem();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         Lbl_Id = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        TxtNomCategoria = new javax.swing.JTextField();
+        TxtNombre = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         BtnAgregar = new javax.swing.JButton();
@@ -48,7 +121,42 @@ public class vCategorias extends javax.swing.JInternalFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         TblCategorias = new javax.swing.JTable();
 
+        MnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Modificar.png"))); // NOI18N
+        MnModificar.setText("Modificar");
+        MnModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MnModificarActionPerformed(evt);
+            }
+        });
+        PopM_Tabla.add(MnModificar);
+
+        MnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Eliminar.png"))); // NOI18N
+        MnEliminar.setText("Eliminar");
+        MnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MnEliminarActionPerformed(evt);
+            }
+        });
+        PopM_Tabla.add(MnEliminar);
+
         setClosable(true);
+        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameClosing(evt);
+            }
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -68,9 +176,9 @@ public class vCategorias extends javax.swing.JInternalFrame {
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         jLabel3.setText("Nombre de Categoria :");
 
-        TxtNomCategoria.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
-        TxtNomCategoria.setForeground(new java.awt.Color(255, 0, 0));
-        TxtNomCategoria.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        TxtNombre.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
+        TxtNombre.setForeground(new java.awt.Color(255, 0, 0));
+        TxtNombre.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -86,7 +194,7 @@ public class vCategorias extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(Lbl_Id, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(TxtNomCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(TxtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -99,7 +207,7 @@ public class vCategorias extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(TxtNomCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(TxtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -109,6 +217,7 @@ public class vCategorias extends javax.swing.JInternalFrame {
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
         jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        BtnAgregar.setBackground(new java.awt.Color(255, 153, 0));
         BtnAgregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Guardar.png"))); // NOI18N
         BtnAgregar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -117,6 +226,7 @@ public class vCategorias extends javax.swing.JInternalFrame {
         });
         jPanel5.add(BtnAgregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(44, 11, 32, -1));
 
+        BtnEliminar.setBackground(new java.awt.Color(255, 153, 0));
         BtnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Eliminar.png"))); // NOI18N
         BtnEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -125,6 +235,7 @@ public class vCategorias extends javax.swing.JInternalFrame {
         });
         jPanel5.add(BtnEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 11, 32, -1));
 
+        BtnCancelar.setBackground(new java.awt.Color(255, 153, 0));
         BtnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Cancelar.png"))); // NOI18N
         BtnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -133,21 +244,23 @@ public class vCategorias extends javax.swing.JInternalFrame {
         });
         jPanel5.add(BtnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(158, 11, 32, -1));
 
+        BtnNuevo.setBackground(new java.awt.Color(255, 153, 0));
         BtnNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Nuevo.png"))); // NOI18N
         BtnNuevo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BtnNuevoActionPerformed(evt);
             }
         });
-        jPanel5.add(BtnNuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 11, 32, 30));
+        jPanel5.add(BtnNuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 11, 32, -1));
 
+        BtnModificar.setBackground(new java.awt.Color(255, 153, 0));
         BtnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Modificar.png"))); // NOI18N
         BtnModificar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BtnModificarActionPerformed(evt);
             }
         });
-        jPanel5.add(BtnModificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(82, 11, 32, 29));
+        jPanel5.add(BtnModificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(82, 11, 32, -1));
 
         LblOk.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         LblOk.setForeground(new java.awt.Color(0, 153, 51));
@@ -180,6 +293,8 @@ public class vCategorias extends javax.swing.JInternalFrame {
 
             }
         ));
+        TblCategorias.setComponentPopupMenu(PopM_Tabla);
+        TblCategorias.setSelectionBackground(new java.awt.Color(255, 0, 0));
         jScrollPane1.setViewportView(TblCategorias);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -223,153 +338,185 @@ public class vCategorias extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(LblOk)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
+        getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void BtnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAgregarActionPerformed
         //<editor-fold desc="GUARDAR" defaultstate="collapsed">
-        if (Lbl_Id.getText().equalsIgnoreCase("")) {
-            JOptionPane.showMessageDialog(null, "No se puede Guardar el Tipo de Documento\nEl Campo 'ID' se encuentra vacio\nVerifique que tenga conexion con la BD");
-
+        // Btn Guardar
+        Map rsp = new HashMap();
+        Categorias Ct = new Categorias();
+        
+        Ct.setCodigo(Lbl_Id.getText());
+        Ct.setNombre(TxtNombre.getText());
+        
+        rsp.put("Categorias",Ct);
+        
+        Validaciones V = new Validaciones();
+        V.validarCamposCategorias(rsp);
+        
+        if (rsp.containsKey("Mensaje")) {
+            JOptionPane.showMessageDialog(null,rsp.get("Mensaje"));
+//            rsp.get("campo");
+//            String Focus = (String)rsp.get("campo");
+//            System.out.println(""+Focus);
         }else{
-            // Btn Guardar
-            String Id_Tipo = Lbl_Id.getText();
-            String NomDocumento = TxtNomCategoria.getText();
-//            String SiglasDoc = TxtSiglasDocu.getText();
+            
+            if (Lbl_Id.getText().equalsIgnoreCase("")) {
+            JOptionPane.showMessageDialog(null, "No se puede Guardar la Categoria\nEl Campo 'ID' se encuentra vacio\nVerifique que tenga conexion con la BD");
 
-//            TDocumento TD = new TDocumento();
-//            TD.setIdTipo(Id_Tipo);
-//            TD.setNombreDocumento(NomDocumento);
-//            TD.setSiglasDocumento(SiglasDoc);
-//
-//            if (TDocumentoCAD.guardar(TD)) {
-//                mostrarDatos("");
-//                limpiarCampos();
-//                cargarId(Lbl_Id.getText());
-//                botonesInicio();
-//                LblOk.setVisible(true);
-//
-//            }else{
-//                JOptionPane.showMessageDialog(null, "El Nuevo Tipo no se pudo guardar");
-//                TxtNomCategoria.requestFocus();
-//            }
-        }
+            } else {
+                boolean guardar = CategoriasCAD.guardar(Ct);
+
+                    if(!guardar){
+                        limpiarCampos();
+                        mostrarDatos("");
+                        cargarId();
+                        JOptionPane.showMessageDialog(null,Bandera.getRespuesta());
+                        TxtNombre.requestFocus();
+                    }else{ 
+                        limpiarCampos();
+                        botonesInicio(true, false, false, true, false, false, false, false);
+                        LblOk.setText(Bandera.getRespuesta());
+                        cargarId();
+                        mostrarDatos("");
+                    }
+                }
+            }
         //</editor-fold>
     }//GEN-LAST:event_BtnAgregarActionPerformed
 
     private void BtnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnEliminarActionPerformed
         //<editor-fold desc="ELIMINAR" defaultstate="collapsed">
         if (Lbl_Id.getText().equalsIgnoreCase("")) {
-            JOptionPane.showMessageDialog(null, "No se puede Eliminar el Tipo Documento\nEl Campo 'ID' se encuentra vacio\nVerifique que tenga conexion con la BD");
+            JOptionPane.showMessageDialog(null, "No se puede Eliminar la Categoria\nEl Campo 'ID' se encuentra vacio\nVerifique que tenga conexion con la BD");
+            TxtNombre.requestFocus();
         }else{
             // Btn Eliminar
-            String Id_Tipo = Lbl_Id.getText();
+            String Codigo = Lbl_Id.getText();
+            
+            Categorias Ct = new Categorias();
+            Ct.setCodigo(Codigo);
 
-//            TDocumento TD = new TDocumento();
-//            TD.setIdTipo(Id_Tipo);
-//
-//            if (TDocumentoCAD.eliminar(TD)) {
-//
-//                mostrarDatos("");
-//                limpiarCampos();
-//                cargarId(Lbl_Id.getText());
-//                botonesInicio();
-//                LblOk.setVisible(true);
-//            }else{
-//                JOptionPane.showMessageDialog(null, "El Tipo Documento no se pudo eliminar");
-//            }
+            boolean Eliminar = CategoriasCAD.eliminar(Ct);
+
+                    if(!Eliminar){                                                
+                        limpiarCampos();
+                        mostrarDatos("");                        
+                        botonesInicio(false,false,false,true,false,false,false,false);
+                        cargarId();
+                        JOptionPane.showMessageDialog(null,Bandera.getRespuesta());
+                    }else{ 
+                        limpiarCampos();                        
+                        LblOk.setText(Bandera.getRespuesta());
+                        botonesInicio(true,false,false,true,false,false,false,false);
+                        cargarId();
+                        mostrarDatos("");
+                    }            
         }
         //</editor-fold>
     }//GEN-LAST:event_BtnEliminarActionPerformed
 
     private void BtnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCancelarActionPerformed
         //<editor-fold desc="CANCELAR" defaultstate="collapsed">
-//        limpiarCampos();
-//        buscarSi();
-//        cargarId("");
-//        botonesInicio();
-        //        BtnNuevo.setVisible(true);
-        //        BtnEliminar.setVisible(false);
-        //        /////////////////////
-        //        BtnAgregar.setVisible(false);
-        //        BtnModificar.setVisible(false);
-        //        BtnCancelar.setVisible(false);
+        limpiarCampos();
+        botonesInicio(false, false, false, true, false, false, false, false);
+        cargarId();
         //</editor-fold>
     }//GEN-LAST:event_BtnCancelarActionPerformed
 
     private void BtnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnNuevoActionPerformed
         //<editor-fold desc="NUEVO" defaultstate="collapsed">
-        LblOk.setVisible(false);
-        Lbl_Id.setVisible(true);
-//        buscarNo();
-        TxtNomCategoria.setEnabled(true);
-        TxtNomCategoria.requestFocus();
-//        TxtSiglasDocu.setEnabled(true);
-        /////
-        BtnEliminar.setVisible(false);
-        BtnNuevo.setVisible(false);
-        BtnModificar.setVisible(false);
-        /////
-        BtnAgregar.setVisible(true);
-        BtnCancelar.setVisible(true);
+        botonesInicio(false, true, true, false, true, false, false, true);
+        cargarId();
+        buscarNo();        
+        TxtNombre.requestFocus();
         //</editor-fold>
     }//GEN-LAST:event_BtnNuevoActionPerformed
 
     private void BtnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnModificarActionPerformed
         //<editor-fold desc="MODIFICAR" defaultstate="collapsed">
-//        if (Lbl_Id.getText().equalsIgnoreCase("")) {
-//            JOptionPane.showMessageDialog(null,"No se encuentra el ID '"+Lbl_Id.getText()+"' en la BD");
-//        }else{
-//            String Id_Tipo = Lbl_Id.getText();
-//            String NomDocumento = TxtNomCategoria.getText();
-//            String SiglasDoc = TxtSiglasDocu.getText();
-//
-//            TDocumento TD = new TDocumento();
-//            TD.setIdTipo(Id_Tipo);
-//            TD.setNombreDocumento(NomDocumento);
-//            TD.setSiglasDocumento(SiglasDoc);
-//
-//            if (TDocumentoCAD.modificar(TD)) {
-//                mostrarDatos("");
-//                limpiarCampos();
-//                cargarId(Lbl_Id.getText());
-//                botonesInicio();
-//                LblOk.setVisible(true);
-//            }else{
-//                JOptionPane.showMessageDialog(null, "El Tipo Documento no se pudo modificar");
-//            }
-//        }
+        //Boton Modificar
+        Map rsp = new HashMap();
+        Categorias Ct = new Categorias();
+        
+        Ct.setCodigo(Lbl_Id.getText());
+        Ct.setNombre(TxtNombre.getText());       
+        
+        rsp.put("Categorias",Ct);
+        
+        Validaciones V = new Validaciones();
+        V.validarCamposCategorias(rsp);
+        
+        if (rsp.containsKey("Mensaje")) {
+            JOptionPane.showMessageDialog(null,rsp.get("Mensaje"));
+//            rsp.get("campo");
+//            String Focus = (String)rsp.get("campo");
+//            System.out.println(""+Focus);
+        }else{
+            
+            if (Lbl_Id.getText().equalsIgnoreCase("")) {
+            JOptionPane.showMessageDialog(null,"No se encuentra el ID '"+Lbl_Id.getText()+"' en la BD");
+                } else {
+                boolean Modificar = CategoriasCAD.modificar(Ct);
+
+                    if(!Modificar){                        
+                        JOptionPane.showMessageDialog(null,Bandera.getRespuesta());
+                        limpiarCampos();
+                        mostrarDatos("");                        
+                        botonesInicio(false, false, false, true, false, false, false, false);
+                        cargarId();
+                    }else{ 
+                        limpiarCampos();
+                        botonesInicio(true, false, false, true, false, false, false, false);
+                        mostrarDatos(Ct.getNombre());
+                        cargarId();
+                        LblOk.setText(Bandera.getRespuesta());
+                        LblOk.setVisible(true);
+                    }
+                }
+            }
         //</editor-fold>
     }//GEN-LAST:event_BtnModificarActionPerformed
 
     private void TxtBuscarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TxtBuscarKeyPressed
         if(evt.getKeyCode()==10){
-//            mostrarDatos(TxtBuscar.getText());
+            mostrarDatos(TxtBuscar.getText());
         }
     }//GEN-LAST:event_TxtBuscarKeyPressed
 
     private void TxtBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TxtBuscarKeyReleased
-//        mostrarDatos(TxtBuscar.getText());
+        mostrarDatos(TxtBuscar.getText());
     }//GEN-LAST:event_TxtBuscarKeyReleased
+
+    private void MnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnModificarActionPerformed
+        //<editor-fold desc="MENU MODIFICAR" defaultstate="collapsed">
+        //Seleccion fila modificar
+        Seleccion();
+        botonesInicio(false, false, true, false, false, true, false, true);
+        TxtNombre.requestFocus();
+        buscarNo();
+        //</editor-fold>
+    }//GEN-LAST:event_MnModificarActionPerformed
+
+    private void MnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnEliminarActionPerformed
+        //<editor-fold desc="MENU ELIMINAR" defaultstate="collapsed">
+        //Seleccion fila Eliminar
+        Seleccion();
+        botonesInicio(false, false, false, false, false, false, true, true);
+        buscarNo();
+        //</editor-fold>
+    }//GEN-LAST:event_MnEliminarActionPerformed
+
+    private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
+        vPrincipal.ventana = "";
+    }//GEN-LAST:event_formInternalFrameClosing
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -381,9 +528,12 @@ public class vCategorias extends javax.swing.JInternalFrame {
     private javax.swing.JLabel LblBuscar;
     private javax.swing.JLabel LblOk;
     private javax.swing.JLabel Lbl_Id;
+    private javax.swing.JMenuItem MnEliminar;
+    private javax.swing.JMenuItem MnModificar;
+    private javax.swing.JPopupMenu PopM_Tabla;
     public javax.swing.JTable TblCategorias;
     private javax.swing.JTextField TxtBuscar;
-    private javax.swing.JTextField TxtNomCategoria;
+    private javax.swing.JTextField TxtNombre;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
@@ -392,4 +542,14 @@ public class vCategorias extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
+
+    void Seleccion(){
+        int fila=TblCategorias.getSelectedRow();
+        if (fila >= 0) {            
+            Lbl_Id.setText(TblCategorias.getValueAt(fila, 0).toString());
+            TxtNombre.setText(TblCategorias.getValueAt(fila, 1).toString());                      
+        }else{
+            JOptionPane.showMessageDialog(null,"No se ha seleccionado ninguna Unidad de Medida de la tabla");
+        }
+    }
 }

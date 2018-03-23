@@ -5,6 +5,7 @@
  */
 package Config;
 
+import Model.Categorias;
 import Model.Sucursales;
 import Model.TipoDocumento;
 import Model.UnidadMedidas;
@@ -165,6 +166,27 @@ public class Validaciones {
         if (Um.getSiglas().equals("")) {
             respuesta.put("Mensaje","El campo Siglas se encuentra Vacio");
             respuesta.put("campo","TxtSiglas.requestFocusInWindow()");
+            return respuesta;
+        }
+        respuesta.remove("Mensaje");
+//        boolean val = respuesta.isEmpty();
+//        System.out.println("valor vacio "+val);
+        return respuesta;
+    }
+    //</editor-fold>
+    
+    //<editor-fold desc="VALIDAR UNIDAD MEDIDAS" defaultstate="collapsed">
+    public Map validarCamposCategorias(Map respuesta){
+        
+        Categorias Ct = (Categorias)respuesta.get("Categorias");
+        
+        if (Ct.getCodigo().equals("")) {
+            respuesta.put("Mensaje","Error en el ID de la Categoria");
+            return respuesta;
+        } 
+        if (Ct.getNombre().equals("")) {
+            respuesta.put("Mensaje","El campo Nombre se encuentra Vacio");
+            respuesta.put("campo","TxtNombre.requestFocusInWindow()");
             return respuesta;
         }
         respuesta.remove("Mensaje");
