@@ -9,7 +9,10 @@ import Config.Bandera;
 import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
+import javax.swing.MenuElement;
 
 /**
  *
@@ -28,7 +31,7 @@ public class vPrincipal extends javax.swing.JFrame {
         LblNombre.setText("Usuario Actual : "+ Bandera.getNombre() + " " + Bandera.getApellido());
         LblNombre.setForeground(Color.red);
         LblRoll.setText(Bandera.getNombreRol() + " ( " + Bandera.getSiglasRol()+" )");
-        
+//        recorrerMenu(jMenuBar1.getSubElements());
                 
     }
 
@@ -197,7 +200,7 @@ public class vPrincipal extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu3);
 
-        jMenu4.setText("Consultas");
+        jMenu4.setText("Consultar");
 
         jMenuItem13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Platos.png"))); // NOI18N
         jMenuItem13.setText("Consultar Platos");
@@ -251,7 +254,7 @@ public class vPrincipal extends javax.swing.JFrame {
         });
         jMenu5.add(jMenuItem16);
 
-        jMenuItem17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/menu-24.png"))); // NOI18N
+        jMenuItem17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Categorias.png"))); // NOI18N
         jMenuItem17.setText("Categorias");
         jMenuItem17.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -260,8 +263,13 @@ public class vPrincipal extends javax.swing.JFrame {
         });
         jMenu5.add(jMenuItem17);
 
-        jMenuItem18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/unlock-24.png"))); // NOI18N
+        jMenuItem18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Roles.png"))); // NOI18N
         jMenuItem18.setText("Roles");
+        jMenuItem18.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem18ActionPerformed(evt);
+            }
+        });
         jMenu5.add(jMenuItem18);
 
         jMenuBar1.add(jMenu5);
@@ -543,6 +551,26 @@ public class vPrincipal extends javax.swing.JFrame {
         //</editor-fold>
     }//GEN-LAST:event_jMenuItem17ActionPerformed
 
+    private void jMenuItem18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem18ActionPerformed
+        //<editor-fold desc="C ROLES" defaultstate="collapsed">
+         vRoles vRl = new vRoles();
+         if (!ventana.equalsIgnoreCase("Config Roles") && !ventana.equalsIgnoreCase("Permisos")) {
+            ventana="Config Roles";
+            
+            Escritorio.add(vRl);
+            Dimension desktopSize = Escritorio.getSize();
+            Dimension FrameSize = vRl.getSize();
+            vRl.setLocation((desktopSize.width - FrameSize.width)/2, (desktopSize.height- FrameSize.height)/2);
+            vRl.show();             
+        }
+        else
+        {
+        JOptionPane.showMessageDialog(null,"LA VENTANA YA SE ENCUENTRA ABIERTA");
+        
+        }
+        //</editor-fold>
+    }//GEN-LAST:event_jMenuItem18ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -609,4 +637,30 @@ public class vPrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     // End of variables declaration//GEN-END:variables
+
+//Primero obtener el JMenuBar
+MenuElement[] topLevelElements = frame.getJMenuBar().getSubElements();
+ 
+ 
+//Funcion para recorrer todos los items del menu recursivamente
+ 
+public void recorrerMenu(MenuElement[] topLevelElements) {
+ 
+		for (MenuElement menuElement : topLevelElements) {
+ 
+                        //Imprimir en nombre de cada menu item o hacer lo que se desee con cada item
+ 
+			System.out.println(menuElement.getComponent().getName());
+ 
+			for (MenuElement subElement : menuElement.getSubElements()) {
+ 
+				if (subElement.getSubElements().length != 0) {
+ 
+					recorrerMenu(subElement.getSubElements());
+				}
+ 
+			}
+		}
+ 
+	}
 }
