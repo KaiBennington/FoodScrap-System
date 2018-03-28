@@ -165,7 +165,7 @@ public class vCategorias extends javax.swing.JInternalFrame {
 
         jLabel1.setFont(new java.awt.Font("Agency FB", 1, 16)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-        jLabel1.setText("Id Tipo :");
+        jLabel1.setText("Id Cat :");
 
         Lbl_Id.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         Lbl_Id.setForeground(new java.awt.Color(255, 0, 0));

@@ -186,7 +186,7 @@
                   <Font name="Agency FB" size="16" style="1"/>
                 </Property>
                 <Property name="horizontalAlignment" type="int" value="11"/>
-                <Property name="text" type="java.lang.String" value="Id Tipo :"/>
+                <Property name="text" type="java.lang.String" value="Id Cat :"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="Lbl_Id">

@@ -255,4 +255,25 @@ public class CargarCAD extends ConexionDB {
         return CI;
     }
     //</editor-fold>
+    
+    //<editor-fold desc="CARGAR ID ROLES" defaultstate="collapsed">
+    public String cargarIdRoles(){
+        PreparedStatement pst;
+        ResultSet rs = null;
+        String CI = "" ;        
+        try {
+            String Sql = "select COALESCE(MAX(Id_Roll), 0)+1 FROM Roles;";
+            pst = getConexion().prepareStatement(Sql);            
+            rs = pst.executeQuery();
+            
+            while (rs.next()) {                 
+                CI = rs.getString(1);
+            }
+            
+        } catch (SQLException ex) {            
+        }
+        desconectar();
+        return CI;
+    }
+    //</editor-fold>
 }

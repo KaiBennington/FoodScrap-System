@@ -638,29 +638,4 @@ public class vPrincipal extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator1;
     // End of variables declaration//GEN-END:variables
 
-//Primero obtener el JMenuBar
-MenuElement[] topLevelElements = frame.getJMenuBar().getSubElements();
- 
- 
-//Funcion para recorrer todos los items del menu recursivamente
- 
-public void recorrerMenu(MenuElement[] topLevelElements) {
- 
-		for (MenuElement menuElement : topLevelElements) {
- 
-                        //Imprimir en nombre de cada menu item o hacer lo que se desee con cada item
- 
-			System.out.println(menuElement.getComponent().getName());
- 
-			for (MenuElement subElement : menuElement.getSubElements()) {
- 
-				if (subElement.getSubElements().length != 0) {
- 
-					recorrerMenu(subElement.getSubElements());
-				}
- 
-			}
-		}
- 
-	}
 }

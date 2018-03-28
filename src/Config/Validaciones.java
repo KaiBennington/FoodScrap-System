@@ -6,6 +6,7 @@
 package Config;
 
 import Model.Categorias;
+import Model.Roles;
 import Model.Sucursales;
 import Model.TipoDocumento;
 import Model.UnidadMedidas;
@@ -175,7 +176,7 @@ public class Validaciones {
     }
     //</editor-fold>
     
-    //<editor-fold desc="VALIDAR UNIDAD MEDIDAS" defaultstate="collapsed">
+    //<editor-fold desc="VALIDAR CATEGORIAS" defaultstate="collapsed">
     public Map validarCamposCategorias(Map respuesta){
         
         Categorias Ct = (Categorias)respuesta.get("Categorias");
@@ -187,6 +188,32 @@ public class Validaciones {
         if (Ct.getNombre().equals("")) {
             respuesta.put("Mensaje","El campo Nombre se encuentra Vacio");
             respuesta.put("campo","TxtNombre.requestFocusInWindow()");
+            return respuesta;
+        }
+        respuesta.remove("Mensaje");
+//        boolean val = respuesta.isEmpty();
+//        System.out.println("valor vacio "+val);
+        return respuesta;
+    }
+    //</editor-fold>
+    
+    //<editor-fold desc="VALIDAR ROLES" defaultstate="collapsed">
+    public Map validarCamposRoles(Map respuesta){
+        
+        Roles Rl = (Roles)respuesta.get("Roles");
+        
+        if (Rl.getCodigo().equals("")) {
+            respuesta.put("Mensaje","Error en el ID de la Categoria");
+            return respuesta;
+        } 
+        if (Rl.getNombre().equals("")) {
+            respuesta.put("Mensaje","El campo Nombre se encuentra Vacio");
+            respuesta.put("campo","TxtNombre.requestFocusInWindow()");
+            return respuesta;
+        }
+        if (Rl.getSiglas().equals("")) {
+            respuesta.put("Mensaje","El campo Siglas se encuentra Vacio");
+            respuesta.put("campo","TxtSiglas.requestFocusInWindow()");
             return respuesta;
         }
         respuesta.remove("Mensaje");
