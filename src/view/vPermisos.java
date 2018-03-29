@@ -33,6 +33,9 @@ public class vPermisos extends javax.swing.JInternalFrame {
         jPanel2 = new javax.swing.JPanel();
         TabPanes = new javax.swing.JTabbedPane();
         TabPane_Archivo = new javax.swing.JPanel();
+        jLabel18 = new javax.swing.JLabel();
+        Chk_MiPerfil = new javax.swing.JCheckBox();
+        jSeparator18 = new javax.swing.JSeparator();
         TabPane_Movimientos = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         Chk_CierreSucursal = new javax.swing.JCheckBox();
@@ -121,15 +124,37 @@ public class vPermisos extends javax.swing.JInternalFrame {
 
         TabPane_Archivo.setBackground(new java.awt.Color(255, 255, 255));
 
+        jLabel18.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
+        jLabel18.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Perfil.png"))); // NOI18N
+        jLabel18.setText("Mi Perfil :");
+
+        Chk_MiPerfil.setText("Habilitar");
+
         javax.swing.GroupLayout TabPane_ArchivoLayout = new javax.swing.GroupLayout(TabPane_Archivo);
         TabPane_Archivo.setLayout(TabPane_ArchivoLayout);
         TabPane_ArchivoLayout.setHorizontalGroup(
             TabPane_ArchivoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 333, Short.MAX_VALUE)
+            .addGroup(TabPane_ArchivoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(TabPane_ArchivoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jSeparator18)
+                    .addGroup(TabPane_ArchivoLayout.createSequentialGroup()
+                        .addComponent(jLabel18)
+                        .addGap(36, 36, 36)
+                        .addComponent(Chk_MiPerfil)))
+                .addContainerGap(147, Short.MAX_VALUE))
         );
         TabPane_ArchivoLayout.setVerticalGroup(
             TabPane_ArchivoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 284, Short.MAX_VALUE)
+            .addGroup(TabPane_ArchivoLayout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addGroup(TabPane_ArchivoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel18)
+                    .addComponent(Chk_MiPerfil))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator18, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(227, Short.MAX_VALUE))
         );
 
         TabPanes.addTab("Archivo", TabPane_Archivo);
@@ -166,7 +191,7 @@ public class vPermisos extends javax.swing.JInternalFrame {
                     .addComponent(Chk_CierreSucursal))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator12, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(227, Short.MAX_VALUE))
+                .addContainerGap(228, Short.MAX_VALUE))
         );
 
         TabPanes.addTab("Movimientos", TabPane_Movimientos);
@@ -502,7 +527,7 @@ public class vPermisos extends javax.swing.JInternalFrame {
                 .addComponent(jSeparator16, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel21)
-                .addContainerGap(44, Short.MAX_VALUE))
+                .addContainerGap(45, Short.MAX_VALUE))
         );
 
         TabPanes.addTab("Configuración", TabPane_Configuracion);
@@ -614,6 +639,7 @@ public class vPermisos extends javax.swing.JInternalFrame {
     private javax.swing.JCheckBox Chk_ConsultarProveedores;
     private javax.swing.JCheckBox Chk_ConsultarSucursales;
     private javax.swing.JCheckBox Chk_ConsultarUsuarios;
+    private javax.swing.JCheckBox Chk_MiPerfil;
     private javax.swing.JCheckBox Chk_Platos;
     private javax.swing.JCheckBox Chk_Productos;
     private javax.swing.JCheckBox Chk_Proveedores;
@@ -637,6 +663,7 @@ public class vPermisos extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
@@ -659,6 +686,7 @@ public class vPermisos extends javax.swing.JInternalFrame {
     private javax.swing.JSeparator jSeparator15;
     private javax.swing.JSeparator jSeparator16;
     private javax.swing.JSeparator jSeparator17;
+    private javax.swing.JSeparator jSeparator18;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;

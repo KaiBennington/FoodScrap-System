@@ -84,7 +84,8 @@ public class vRoles extends javax.swing.JInternalFrame {
     public void limpiarCampos(){
         TxtNombre.setText("");
         TxtSiglas.setText("");
-        TxtBuscar.setText("");        
+        TxtBuscar.setText("");
+        mostrarDatos("");        
     }
     //</editor-fold>
     
@@ -480,6 +481,7 @@ public class vRoles extends javax.swing.JInternalFrame {
         limpiarCampos();
         botonesInicio(false, false, false, false, true, false, false, false, false,false);
         cargarId();
+        mostrarDatos("");
         //</editor-fold>
     }//GEN-LAST:event_BtnCancelarActionPerformed
 
@@ -487,7 +489,8 @@ public class vRoles extends javax.swing.JInternalFrame {
         //<editor-fold desc="NUEVO" defaultstate="collapsed">
         botonesInicio(false, true, true, true, false, true, false, false, true,true);
         cargarId();
-        buscarNo();        
+        buscarNo();
+        limpiarCampos();
         TxtNombre.requestFocus();
         //</editor-fold>
     }//GEN-LAST:event_BtnNuevoActionPerformed
