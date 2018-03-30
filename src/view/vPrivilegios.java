@@ -9,6 +9,7 @@ import CAD.PermisosCAD;
 import Config.Bandera;
 import Model.Permisos;
 import Model.TipoDocumento;
+import Model.Usuarios;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -342,7 +343,12 @@ public class vPrivilegios extends javax.swing.JInternalFrame {
         if(txtIdPermiso.getText().equals("")){
             JOptionPane.showMessageDialog(null, "Debe seleccionar un permiso");
         }
-        oPermisosCAD.GuardarPermiso(Habilitado, Integer.parseInt(txtIdPermiso.getText()), Bandera.getUsuario());
+        
+        vConsultarUsuarios vCU = new vConsultarUsuarios();
+        Usuarios oUsuario = (Usuarios) vCU.getMapParameter().get("oUsuario");
+        
+        oPermisosCAD.GuardarPermiso(Habilitado, Integer.parseInt(txtIdPermiso.getText()), oUsuario.getUsuario());
+        System.out.println(oUsuario.getUsuario());
         LblMensaje.setText(Bandera.getRespuesta());
         LblMensaje.setVisible(true);
         txtIdPermiso.setText("");

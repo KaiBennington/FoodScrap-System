@@ -161,7 +161,7 @@ public class CargarCAD extends ConexionDB {
                 Nombre = (rs.getString(2));                
                 Siglas = (rs.getString(3));
                 
-            Roles Rl = new Roles(""+Codigo,Nombre,Siglas);            
+            Roles Rl = new Roles(Codigo,Nombre,Siglas);            
             Lista.add(Rl);
               //  System.out.println(""+Lista);
             }

@@ -120,8 +120,7 @@ public class PermisosCAD extends ConexionDB {
         boolean existePermiso = false;
         try {
             
-            String Sql = "SELECT COUNT(1) FROM PERMISOS_USUARIOS B INNER JOIN PERMISOS A ON A.ID_PERMISO = B.ID_PERMISO "
-                    + "WHERE B.Usuario = ? AND A.NOMBRE_PERMISO = ? AND A.CODIGO_PERMISO = ?";
+            String Sql = "SELECT COUNT(1) FROM PERMISOS_USUARIOS B WHERE B.Usuario = ? AND B.NOMBRE_PERMISO = ? AND B.CODIGO_PERMISO = ?";
             pst = getConexion().prepareStatement(Sql);  
             pst.setString(1, Bandera.getUsuario());
             pst.setString(2, permiso);

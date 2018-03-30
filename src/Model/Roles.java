@@ -11,12 +11,12 @@ package Model;
  */
 public class Roles {
     
-    private String Codigo;
+    private int IdRol;
     private String Nombre;
     private String Siglas;
 
-    public Roles(String Codigo, String Nombre, String Siglas) {
-        this.Codigo = Codigo;
+    public Roles(int IdRol, String Nombre, String Siglas) {
+        this.IdRol = IdRol;
         this.Nombre = Nombre;
         this.Siglas = Siglas;
     }
@@ -24,12 +24,12 @@ public class Roles {
     public Roles() {
     }
 
-    public String getCodigo() {
-        return Codigo;
+    public int getIdRol() {
+        return IdRol;
     }
 
-    public void setCodigo(String Codigo) {
-        this.Codigo = Codigo;
+    public void setIdRol(int IdRol) {
+        this.IdRol = IdRol;
     }
 
     public String getNombre() {

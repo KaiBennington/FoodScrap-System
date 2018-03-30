@@ -404,7 +404,7 @@ public class vRoles extends javax.swing.JInternalFrame {
         Map rsp = new HashMap();
         Roles Rl = new Roles();
         
-        Rl.setCodigo(Lbl_Id.getText());
+        Rl.setIdRol(Integer.parseInt(Lbl_Id.getText()));
         Rl.setNombre(TxtNombre.getText());
         Rl.setSiglas(TxtSiglas.getText());
         
@@ -424,7 +424,9 @@ public class vRoles extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, "No se puede Guardar el Roll\nEl Campo 'ID' se encuentra vacio\nVerifique que tenga conexion con la BD");
 
             } else {
-                boolean guardar = RolesCAD.guardar(Rl);
+                vPermisos oVistaPermisos = new vPermisos();
+                Map permisosRol = oVistaPermisos.getMapPermisos();
+                boolean guardar = RolesCAD.guardar(Rl,permisosRol);
 
                     if(!guardar){
                         limpiarCampos();
@@ -452,10 +454,10 @@ public class vRoles extends javax.swing.JInternalFrame {
             TxtNombre.requestFocus();
         }else{
             // Btn Eliminar
-            String Codigo = Lbl_Id.getText();
+            int IdRol = Integer.parseInt(Lbl_Id.getText());
             
             Roles Rl = new Roles();
-            Rl.setCodigo(Codigo);
+            Rl.setIdRol(IdRol);
 
             boolean Eliminar = RolesCAD.eliminar(Rl);
 
@@ -501,7 +503,7 @@ public class vRoles extends javax.swing.JInternalFrame {
         Map rsp = new HashMap();
         Roles Rl = new Roles();
         
-        Rl.setCodigo(Lbl_Id.getText());
+        Rl.setIdRol(Integer.parseInt(Lbl_Id.getText()));
         Rl.setNombre(TxtNombre.getText());
         Rl.setSiglas(TxtSiglas.getText());        
         

@@ -39,6 +39,16 @@ public class vConsultarUsuarios extends javax.swing.JInternalFrame {
      * Creates new form vConsultarUsuarios
      */
     PermisosCAD oPermisos = new PermisosCAD();
+
+    private static Map mapParameter = new HashMap();
+    public Map getMapParameter() {
+        return mapParameter;
+    }
+
+    public void setMapParameter(Map mapParameter) {
+        this.mapParameter = mapParameter;
+    }
+    
     public vConsultarUsuarios() {
         initComponents();
         cargarCombos();
@@ -188,6 +198,35 @@ public class vConsultarUsuarios extends javax.swing.JInternalFrame {
     }       
     //</editor-fold>
     
+    //<editor-fold desc="Llenar Usuario" defaultstate="collapsed">
+    void llenarUsuario(Usuarios U){        
+        U.setTipoDocumento(CbxTipoDoc.getSelectedIndex());
+        U.setDocumento(TxtDocumento.getText());
+        U.setNombres(TxtNombre.getText());
+        U.setApellidos(TxtApellido.getText());
+        U.setTelefono(TxtTelefono.getText());
+        String Fecha = ""; 
+        if (DCFechaNac.getDate() != null) {
+                    int Año = DCFechaNac.getCalendar().get(Calendar.YEAR);
+                    int Mes = DCFechaNac.getCalendar().get(Calendar.MONTH)+1;
+                    int Dia = DCFechaNac.getCalendar().get(Calendar.DAY_OF_MONTH);
+                    Fecha = Año+"-"+Mes+"-"+Dia;
+                    }else{
+                        JOptionPane.showMessageDialog(null," El campo de Fecha se encuentra Vacio");
+                        DCFechaNac.requestFocusInWindow();
+                        return;
+                    }
+        U.setFechaNacimiento(Fecha);
+        U.setDireccion(TxtDireccion.getText());
+        U.setEmail(TxtCorreo.getText());
+        U.setRoll(CbxRoles.getSelectedItem().toString());
+        U.setUsuario(TxtUsuario.getText());
+        U.setContrasena(TxtContrasena.getText());
+        U.setPregunta(CbxPregunta.getSelectedIndex());
+        U.setRespuesta(TxtRespuesta.getText());
+        
+    }       
+    //</editor-fold>
  
     /**
      * This method is called from within the constructor to initialize the form.
@@ -761,31 +800,7 @@ public class vConsultarUsuarios extends javax.swing.JInternalFrame {
         // Btn Modificar
         Map rsp = new HashMap();
         Usuarios U = new Usuarios();
-        String Fecha = ""; 
-        U.setTipoDocumento(CbxTipoDoc.getSelectedIndex());
-        U.setDocumento(TxtDocumento.getText());
-        U.setNombres(TxtNombre.getText());
-        U.setApellidos(TxtApellido.getText());
-        U.setTelefono(TxtTelefono.getText());
-        if (DCFechaNac.getDate() != null) {
-                    int Año = DCFechaNac.getCalendar().get(Calendar.YEAR);
-                    int Mes = DCFechaNac.getCalendar().get(Calendar.MONTH)+1;
-                    int Dia = DCFechaNac.getCalendar().get(Calendar.DAY_OF_MONTH);
-                    Fecha = Año+"-"+Mes+"-"+Dia;
-                    }else{
-                        JOptionPane.showMessageDialog(null," El campo de Fecha se encuentra Vacio");
-                        DCFechaNac.requestFocusInWindow();
-                        return;
-                    }
-        U.setFechaNacimiento(Fecha);
-        U.setDireccion(TxtDireccion.getText());
-        U.setEmail(TxtCorreo.getText());
-        U.setRoll(CbxRoles.getSelectedItem().toString());
-        U.setUsuario(TxtUsuario.getText());
-        U.setContrasena(TxtContrasena.getText());
-        U.setPregunta(CbxPregunta.getSelectedIndex());
-        U.setRespuesta(TxtRespuesta.getText());
-        
+        llenarUsuario(U);
         rsp.put("User",U);
         
         Validaciones AU = new Validaciones();
@@ -894,12 +909,17 @@ public class vConsultarUsuarios extends javax.swing.JInternalFrame {
     private void BtnPrivilegiosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnPrivilegiosActionPerformed
         vPrivilegios vP = new vPrivilegios();
         if (!vPrincipal.ventana.equalsIgnoreCase("Privilegios")) {
-            vPrincipal.ventana="Privilegios";
+            vPrincipal.ventana = "Privilegios";
 
             Escritorio.add(vP);
             Dimension desktopSize = Escritorio.getSize();
             Dimension FrameSize = vP.getSize();
             vP.setLocation((desktopSize.width - FrameSize.width)/2, (desktopSize.height- FrameSize.height)/2);
+           
+            Usuarios oUsuario = new Usuarios();
+            llenarUsuario(oUsuario);
+            mapParameter.put("oUsuario", oUsuario);
+            
             vP.show();
         }
         else
@@ -907,10 +927,7 @@ public class vConsultarUsuarios extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null,"LA VENTANA 'Privilegios' YA SE ENCUENTRA ABIERTA");
 
         }
-         vPrivilegios vp = new vPrivilegios();
-         vp.setVisible(true);
-
-         this.dispose();
+         vP.setVisible(true);
     }//GEN-LAST:event_BtnPrivilegiosActionPerformed
 
 

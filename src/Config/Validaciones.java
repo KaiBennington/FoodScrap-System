@@ -202,7 +202,7 @@ public class Validaciones {
         
         Roles Rl = (Roles)respuesta.get("Roles");
         
-        if (Rl.getCodigo().equals("")) {
+        if ((""+Rl.getIdRol()).equals("")) {
             respuesta.put("Mensaje","Error en el ID de la Categoria");
             return respuesta;
         } 

@@ -5,17 +5,41 @@
  */
 package view;
 
+import java.awt.Component;
+import java.awt.Dimension;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import javax.swing.JCheckBox;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import static view.vPrincipal.Escritorio;
+
 /**
  *
  * @author USUARIO
  */
 public class vPermisos extends javax.swing.JInternalFrame {
 
-    /**
-     * Creates new form vPermisos
-     */
+    private static Map mapComponentes = new HashMap();
+    private static Map mapPermisos = new HashMap();
+
+    public Map getMapPermisos() {
+        return mapPermisos;
+    }
+
+    public void setMapPermisos(Map mapPermisos) {
+        vPermisos.mapPermisos = mapPermisos;
+    }
+    
     public vPermisos() {
         initComponents();
+        for (int i = 0; i < TabPanes.getComponents().length; i++) {
+            mapComponentes.put(TabPanes.getComponent(i).getName(),TabPanes.getComponent(i));
+        }
+        TabPanes.removeAll();
     }
 
     /**
@@ -121,8 +145,12 @@ public class vPermisos extends javax.swing.JInternalFrame {
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         TabPanes.setBackground(new java.awt.Color(255, 255, 255));
+        TabPanes.setName("Archivo"); // NOI18N
 
         TabPane_Archivo.setBackground(new java.awt.Color(255, 255, 255));
+        TabPane_Archivo.setToolTipText("");
+        TabPane_Archivo.setEnabled(false);
+        TabPane_Archivo.setName("Archivo"); // NOI18N
 
         jLabel18.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         jLabel18.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -130,6 +158,7 @@ public class vPermisos extends javax.swing.JInternalFrame {
         jLabel18.setText("Mi Perfil :");
 
         Chk_MiPerfil.setText("Habilitar");
+        Chk_MiPerfil.setName("MiPerfil"); // NOI18N
 
         javax.swing.GroupLayout TabPane_ArchivoLayout = new javax.swing.GroupLayout(TabPane_Archivo);
         TabPane_Archivo.setLayout(TabPane_ArchivoLayout);
@@ -154,12 +183,13 @@ public class vPermisos extends javax.swing.JInternalFrame {
                     .addComponent(Chk_MiPerfil))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator18, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(227, Short.MAX_VALUE))
+                .addContainerGap(229, Short.MAX_VALUE))
         );
 
         TabPanes.addTab("Archivo", TabPane_Archivo);
 
         TabPane_Movimientos.setBackground(new java.awt.Color(255, 255, 255));
+        TabPane_Movimientos.setName("Movimientos"); // NOI18N
 
         jLabel2.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -167,6 +197,7 @@ public class vPermisos extends javax.swing.JInternalFrame {
         jLabel2.setText("Cierre de Sucursal :");
 
         Chk_CierreSucursal.setText("Habilitar");
+        Chk_CierreSucursal.setName("CierreSucursal"); // NOI18N
 
         javax.swing.GroupLayout TabPane_MovimientosLayout = new javax.swing.GroupLayout(TabPane_Movimientos);
         TabPane_Movimientos.setLayout(TabPane_MovimientosLayout);
@@ -191,12 +222,13 @@ public class vPermisos extends javax.swing.JInternalFrame {
                     .addComponent(Chk_CierreSucursal))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator12, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(228, Short.MAX_VALUE))
+                .addContainerGap(230, Short.MAX_VALUE))
         );
 
         TabPanes.addTab("Movimientos", TabPane_Movimientos);
 
         TabPane_Gestionar.setBackground(new java.awt.Color(255, 255, 255));
+        TabPane_Gestionar.setName("Gestionar"); // NOI18N
 
         jLabel3.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -204,8 +236,10 @@ public class vPermisos extends javax.swing.JInternalFrame {
         jLabel3.setText("Platos :");
 
         Chk_Platos.setText("Habilitar");
+        Chk_Platos.setName("Platos"); // NOI18N
 
         Chk_Productos.setText("Habilitar");
+        Chk_Productos.setName("Productos"); // NOI18N
 
         jLabel5.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -213,6 +247,7 @@ public class vPermisos extends javax.swing.JInternalFrame {
         jLabel5.setText("Productos :");
 
         Chk_Proveedores.setText("Habilitar");
+        Chk_Proveedores.setName("Proveedores"); // NOI18N
 
         jLabel6.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -220,6 +255,7 @@ public class vPermisos extends javax.swing.JInternalFrame {
         jLabel6.setText("Proveedores :");
 
         Chk_Sucursales.setText("Habilitar");
+        Chk_Sucursales.setName("Sucursales"); // NOI18N
 
         jLabel7.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -227,6 +263,7 @@ public class vPermisos extends javax.swing.JInternalFrame {
         jLabel7.setText("Sucursales :");
 
         Chk_Usuarios.setText("Habilitar");
+        Chk_Usuarios.setName("Usuarios"); // NOI18N
 
         jLabel8.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -313,6 +350,7 @@ public class vPermisos extends javax.swing.JInternalFrame {
         TabPanes.addTab("Gestionar", TabPane_Gestionar);
 
         TabPane_Consultar.setBackground(new java.awt.Color(255, 255, 255));
+        TabPane_Consultar.setName("Consultar"); // NOI18N
 
         jLabel9.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -335,12 +373,16 @@ public class vPermisos extends javax.swing.JInternalFrame {
         jLabel12.setText("Consultar Sucursales :");
 
         Chk_ConsultarSucursales.setText("Habilitar");
+        Chk_ConsultarSucursales.setName("ConsultarSucursales"); // NOI18N
 
         Chk_ConsultarProveedores.setText("Habilitar");
+        Chk_ConsultarProveedores.setName("ConsultarProveedores"); // NOI18N
 
         Chk_ConsultarProductos.setText("Habilitar");
+        Chk_ConsultarProductos.setName("ConsultarProductos"); // NOI18N
 
         Chk_ConsultarPlatos.setText("Habilitar");
+        Chk_ConsultarPlatos.setName("ConsultarPlatos"); // NOI18N
 
         jLabel13.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -348,6 +390,7 @@ public class vPermisos extends javax.swing.JInternalFrame {
         jLabel13.setText("Consultar Usuarios :");
 
         Chk_ConsultarUsuarios.setText("Habilitar");
+        Chk_ConsultarUsuarios.setName("ConsultarUsuarios"); // NOI18N
 
         jLabel20.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Informacion.png"))); // NOI18N
         jLabel20.setToolTipText("Modulo en el que puede Consultar, Modificar o Eliminar \nDatos del sistema\n");
@@ -396,7 +439,7 @@ public class vPermisos extends javax.swing.JInternalFrame {
         TabPane_ConsultarLayout.setVerticalGroup(
             TabPane_ConsultarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(TabPane_ConsultarLayout.createSequentialGroup()
-                .addGap(24, 24, 24)
+                .addGap(27, 27, 27)
                 .addGroup(TabPane_ConsultarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
                     .addComponent(Chk_ConsultarPlatos))
@@ -434,6 +477,7 @@ public class vPermisos extends javax.swing.JInternalFrame {
         TabPanes.addTab("Consular", TabPane_Consultar);
 
         TabPane_Configuracion.setBackground(new java.awt.Color(255, 255, 255));
+        TabPane_Configuracion.setName("Configuración"); // NOI18N
 
         jLabel14.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -456,12 +500,16 @@ public class vPermisos extends javax.swing.JInternalFrame {
         jLabel17.setText("Roles :");
 
         Chk_Roles.setText("Habilitar");
+        Chk_Roles.setName("Roles"); // NOI18N
 
         Chk_Categorias.setText("Habilitar");
+        Chk_Categorias.setName("Categorias"); // NOI18N
 
         Chk_UndMedidas.setText("Habilitar");
+        Chk_UndMedidas.setName("UnidadMedidas"); // NOI18N
 
         Chk_TipoDocumento.setText("Habilitar");
+        Chk_TipoDocumento.setName("TipoDocumento"); // NOI18N
 
         jLabel21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Informacion.png"))); // NOI18N
         jLabel21.setToolTipText("Modulo en el que puede Configurar Datos del sistema\n");
@@ -527,7 +575,7 @@ public class vPermisos extends javax.swing.JInternalFrame {
                 .addComponent(jSeparator16, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel21)
-                .addContainerGap(45, Short.MAX_VALUE))
+                .addContainerGap(47, Short.MAX_VALUE))
         );
 
         TabPanes.addTab("Configuración", TabPane_Configuracion);
@@ -537,7 +585,12 @@ public class vPermisos extends javax.swing.JInternalFrame {
 
         CbxMenus.setFont(new java.awt.Font("Agency FB", 0, 14)); // NOI18N
         CbxMenus.setForeground(new java.awt.Color(255, 0, 0));
-        CbxMenus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione..." }));
+        CbxMenus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione...", "Archivo", "Movimientos", "Gestionar", "Consultar", "Configuración" }));
+        CbxMenus.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                CbxMenusItemStateChanged(evt);
+            }
+        });
 
         BtnAceptar.setBackground(new java.awt.Color(255, 153, 0));
         BtnAceptar.setFont(new java.awt.Font("Agency FB", 1, 18)); // NOI18N
@@ -625,8 +678,30 @@ public class vPermisos extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_formInternalFrameClosing
 
     private void BtnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAceptarActionPerformed
-        
+         
+        mapPermisos.clear();
+        Iterator entries = mapComponentes.entrySet().iterator();
+        while (entries.hasNext()) {
+            Map.Entry entry = (Map.Entry) entries.next();
+            JPanel oPanel = (JPanel)entry.getValue();
+            for (int i = 0; i < oPanel.getComponents().length; i++) {
+                boolean isCheck = oPanel.getComponent(i).getClass() == JCheckBox.class;
+                if(isCheck){
+                    JCheckBox oCheck = (JCheckBox) oPanel.getComponent(i);
+                    if(!oCheck.isSelected()){
+                        continue;
+                    }
+                    mapPermisos.put(oCheck.getName(), "S");
+                }
+            }
+        }
+         this.dispose();
     }//GEN-LAST:event_BtnAceptarActionPerformed
+
+    private void CbxMenusItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_CbxMenusItemStateChanged
+        TabPanes.removeAll();
+        TabPanes.add((Component)mapComponentes.get(CbxMenus.getSelectedItem()));
+    }//GEN-LAST:event_CbxMenusItemStateChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
