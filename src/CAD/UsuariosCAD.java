@@ -34,7 +34,7 @@ public class UsuariosCAD extends ConexionDB{
             pst.setString(6, U.getDireccion());
             pst.setString(7, U.getFechaNacimiento());
             pst.setString(8, U.getEmail());
-            pst.setString(9, U.getRoll());
+            pst.setInt(9, U.getRoll());
             pst.setString(10, U.getUsuario());
             pst.setString(11, U.getContrasena());
             pst.setInt(12, U.getPregunta());
@@ -46,7 +46,7 @@ public class UsuariosCAD extends ConexionDB{
                 resul = rs.getString("Mensaje");         
             }
             
-            if("Usuario Registrado".equalsIgnoreCase(resul)){
+            if("Usuario ingresado correctamente".equalsIgnoreCase(resul)){
                Bandera.setRespuesta(resul);
                respuesta = true;
             }else{
@@ -78,7 +78,7 @@ public class UsuariosCAD extends ConexionDB{
             pst.setString(6, Um.getDireccion());
             pst.setString(7, Um.getFechaNacimiento());
             pst.setString(8, Um.getEmail());
-            pst.setString(9, Um.getRoll());
+            pst.setInt(9, Um.getRoll());
             pst.setString(10, Um.getUsuario());
             pst.setString(11, Um.getContrasena());
             pst.setInt(12, Um.getPregunta());

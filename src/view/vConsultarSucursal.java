@@ -94,7 +94,7 @@ public class vConsultarSucursal extends javax.swing.JInternalFrame {
     //<editor-fold desc="MOSTRAR DATOS" defaultstate="collapsed">
     void mostrarDatos(String Valor){        
         TablasCAD ModelTable = new TablasCAD();         
-        TblConsultarSucursal.setModel(ModelTable.getTablaUsuarios(Valor));      
+        TblConsultarSucursal.setModel(ModelTable.getTablaSucursales(Valor));      
         TableColumnModel columnModel = TblConsultarSucursal.getColumnModel();
         for (int i = 0; i < columnModel.getColumnCount(); i++) {
         columnModel.getColumn(i).setPreferredWidth(100);
@@ -127,6 +127,9 @@ public class vConsultarSucursal extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        PopM_Tabla = new javax.swing.JPopupMenu();
+        MnModificar = new javax.swing.JMenuItem();
+        MnEliminar = new javax.swing.JMenuItem();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
@@ -151,6 +154,22 @@ public class vConsultarSucursal extends javax.swing.JInternalFrame {
         TxtBuscar = new javax.swing.JTextField();
         LblBuscar = new javax.swing.JLabel();
         LblOk = new javax.swing.JLabel();
+
+        MnModificar.setText("Modificar");
+        MnModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MnModificarActionPerformed(evt);
+            }
+        });
+        PopM_Tabla.add(MnModificar);
+
+        MnEliminar.setText("Eliminar");
+        MnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MnEliminarActionPerformed(evt);
+            }
+        });
+        PopM_Tabla.add(MnEliminar);
 
         setClosable(true);
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
@@ -371,20 +390,19 @@ public class vConsultarSucursal extends javax.swing.JInternalFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 536, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 536, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 536, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 536, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(jScrollPane1))))
                 .addContainerGap())
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
@@ -465,6 +483,29 @@ public class vConsultarSucursal extends javax.swing.JInternalFrame {
         mostrarDatos(TxtBuscar.getText());
     }//GEN-LAST:event_TxtBuscarKeyReleased
 
+    private void MnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnModificarActionPerformed
+        //<editor-fold desc="MENU MODIFICAR" defaultstate="collapsed">
+        //Seleccion fila modificar
+//        Seleccion();
+//        PnDatos.setVisible(true);
+//        jScrollPane2.setVisible(false);
+//        TblConsultarUsuario.setVisible(false);
+//        habilitarCampos(false,true,false,true);
+//        BtnModificar.setVisible(oPermisos.validarPermiso("Guardar","Usuarios"));
+        //</editor-fold>
+    }//GEN-LAST:event_MnModificarActionPerformed
+
+    private void MnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnEliminarActionPerformed
+        //<editor-fold desc="MENU ELIMINAR" defaultstate="collapsed">
+        //Seleccion fila Eliminar
+//        Seleccion();
+//        PnDatos.setVisible(true);
+//        jScrollPane2.setVisible(false);
+//        TblConsultarUsuario.setVisible(false);
+//        habilitarCampos(false,false,true,false);
+        //</editor-fold>
+    }//GEN-LAST:event_MnEliminarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnCancelar;
@@ -474,6 +515,9 @@ public class vConsultarSucursal extends javax.swing.JInternalFrame {
     private javax.swing.JLabel LblBuscar;
     private javax.swing.JLabel LblOk;
     private javax.swing.JLabel Lbl_IdSucursal;
+    private javax.swing.JMenuItem MnEliminar;
+    private javax.swing.JMenuItem MnModificar;
+    private javax.swing.JPopupMenu PopM_Tabla;
     private javax.swing.JTable TblConsultarSucursal;
     private javax.swing.JTextField TxtBuscar;
     private javax.swing.JTextField TxtDireccion;

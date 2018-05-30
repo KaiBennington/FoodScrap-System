@@ -74,7 +74,7 @@ public class Validaciones {
             respuesta.put("campo","TxtRespuesta.requestFocusInWindow()");
             return respuesta;
         } 
-        if (U.getRoll().equals("")) {
+        if (U.getRoll()<= 0) {
             respuesta.put("Mensaje","Debe darle privilegios al usuario");
             respuesta.put("campo","BtnPrivilegios.requestFocusInWindow()");
             return respuesta;

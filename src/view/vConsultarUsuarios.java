@@ -219,7 +219,7 @@ public class vConsultarUsuarios extends javax.swing.JInternalFrame {
         U.setFechaNacimiento(Fecha);
         U.setDireccion(TxtDireccion.getText());
         U.setEmail(TxtCorreo.getText());
-        U.setRoll(CbxRoles.getSelectedItem().toString());
+        U.setRoll(CbxRoles.getSelectedIndex());
         U.setUsuario(TxtUsuario.getText());
         U.setContrasena(TxtContrasena.getText());
         U.setPregunta(CbxPregunta.getSelectedIndex());

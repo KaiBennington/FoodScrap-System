@@ -13,6 +13,7 @@ import Config.Bandera;
 import Config.JCTextField;
 import static Model.ConexionDB.getConexion;
 import Model.PreguntaSecreta;
+import Model.Roles;
 import Model.TipoDocumento;
 import Model.Usuarios;
 import java.awt.Color;
@@ -42,7 +43,7 @@ public class vUsuarios extends javax.swing.JInternalFrame {
     
     public vUsuarios() {
         initComponents();
-        botonesInicio();
+        botonesInicio(false,false,true,false,false);
         cargarCombos();
         /////        
     }
@@ -53,6 +54,7 @@ public class vUsuarios extends javax.swing.JInternalFrame {
         CargarCAD oCargarCAD = new CargarCAD() ;
         List ListaComboT =  oCargarCAD.CargarTipoDoc();
         List ListaComboP =  oCargarCAD.CargarPregunta();
+        List ListaComboR =  oCargarCAD.CargarRoles();
         
         CbxTipoDoc.removeAllItems();        
             for (int i = 0; i < ListaComboT.size(); i++) {
@@ -65,34 +67,39 @@ public class vUsuarios extends javax.swing.JInternalFrame {
                 PreguntaSecreta Ps = (PreguntaSecreta)ListaComboP.get(i);
                 CbxPregunta.addItem(Ps.getNombre());
             }          
+//        
+        CbxRoles    .removeAllItems();        
+            for (int i = 0; i < ListaComboR.size(); i++) {
+                Roles Rl = (Roles)ListaComboR.get(i);
+                CbxRoles.addItem(Rl.getNombre());
+            }          
     }
     //</editor-fold>
     
     //<editor-fold desc="BOTONES INICIO" defaultstate="collapsed">
-    void botonesInicio(){
+    void botonesInicio(boolean ok,boolean datos,boolean nuevo,boolean agregar,boolean cancelar){
         BtnNuevo.requestFocus();
-        LblOk.setVisible(false);
+        LblOk.setVisible(ok);
         /////
-        TxtDocumento.setEnabled(false);
-        TxtNombre.setEnabled(false);
-        TxtApellido.setEnabled(false);
-        CbxTipoDoc.setEnabled(false);
-        DCFechaNac.setEnabled(false);
-        TxtTelefono.setEnabled(false);
-        TxtDireccion.setEnabled(false);
-        TxtCorreo.setEnabled(false);
-        TxtUsuario.setEnabled(false);
-        TxtContrasena.setEnabled(false);
-        TxtConfirmar.setEnabled(false);
-        CbxPregunta.setEnabled(false);
-        TxtRespuesta.setEnabled(false);
-        BtnPrivilegios.setEnabled(false);
-        LblRollUsuario.setEnabled(false);
+        TxtDocumento.setEnabled(datos);
+        TxtNombre.setEnabled(datos);
+        TxtApellido.setEnabled(datos);
+        CbxTipoDoc.setEnabled(datos);
+        DCFechaNac.setEnabled(datos);
+        TxtTelefono.setEnabled(datos);
+        TxtDireccion.setEnabled(datos);
+        TxtCorreo.setEnabled(datos);
+        TxtUsuario.setEnabled(datos);
+        TxtContrasena.setEnabled(datos);
+        TxtConfirmar.setEnabled(datos);
+        CbxPregunta.setEnabled(datos);
+        TxtRespuesta.setEnabled(datos);
+        CbxRoles.setEnabled(datos);
         /////
-        BtnNuevo.setVisible(true);
+        BtnNuevo.setVisible(nuevo);
         /////
-        BtnAgregar.setVisible(false);
-        BtnCancelar.setVisible(false); 
+        BtnAgregar.setVisible(agregar);
+        BtnCancelar.setVisible(cancelar); 
     }
     //</editor-fold>
     
@@ -114,7 +121,7 @@ public class vUsuarios extends javax.swing.JInternalFrame {
         TxtUsuario.setText("");
         TxtContrasena.setText("");
         TxtConfirmar.setText("");
-        LblRollUsuario.setText("");        
+        CbxRoles.setSelectedIndex(0);        
     }
     //</editor-fold>
 
@@ -155,8 +162,6 @@ public class vUsuarios extends javax.swing.JInternalFrame {
         jLabel16 = new javax.swing.JLabel();
         CbxPregunta = new javax.swing.JComboBox<>();
         TxtRespuesta = new javax.swing.JTextField();
-        BtnPrivilegios = new javax.swing.JButton();
-        LblRollUsuario = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
         jPanel5 = new javax.swing.JPanel();
@@ -165,6 +170,7 @@ public class vUsuarios extends javax.swing.JInternalFrame {
         BtnNuevo = new javax.swing.JButton();
         LblOk = new javax.swing.JLabel();
         DCFechaNac = new com.toedter.calendar.JDateChooser();
+        CbxRoles = new javax.swing.JComboBox<>();
         jLabel10 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
 
@@ -265,8 +271,9 @@ public class vUsuarios extends javax.swing.JInternalFrame {
         jLabel1.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         jLabel1.setText("Tipo de Documento :");
 
-        CbxTipoDoc.setFont(new java.awt.Font("Agency FB", 0, 14)); // NOI18N
+        CbxTipoDoc.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         CbxTipoDoc.setForeground(new java.awt.Color(255, 0, 0));
+        CbxTipoDoc.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione..." }));
         CbxTipoDoc.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 CbxTipoDocActionPerformed(evt);
@@ -304,8 +311,9 @@ public class vUsuarios extends javax.swing.JInternalFrame {
         jLabel16.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         jLabel16.setText("* Respuesta Secreta:");
 
-        CbxPregunta.setFont(new java.awt.Font("Agency FB", 0, 14)); // NOI18N
+        CbxPregunta.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         CbxPregunta.setForeground(new java.awt.Color(255, 0, 0));
+        CbxPregunta.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione..." }));
 
         TxtRespuesta.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         TxtRespuesta.setForeground(new java.awt.Color(255, 0, 0));
@@ -358,21 +366,6 @@ public class vUsuarios extends javax.swing.JInternalFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        BtnPrivilegios.setBackground(new java.awt.Color(255, 153, 0));
-        BtnPrivilegios.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
-        BtnPrivilegios.setText("...");
-        BtnPrivilegios.setToolTipText("Asignar...");
-        BtnPrivilegios.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BtnPrivilegiosActionPerformed(evt);
-            }
-        });
-
-        LblRollUsuario.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
-        LblRollUsuario.setForeground(new java.awt.Color(255, 0, 0));
-        LblRollUsuario.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        LblRollUsuario.setText("Root");
-
         jLabel7.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         jLabel7.setText("Roll de Usuario:");
 
@@ -420,6 +413,10 @@ public class vUsuarios extends javax.swing.JInternalFrame {
         DCFechaNac.setBackground(new java.awt.Color(255, 255, 255));
         DCFechaNac.setFont(new java.awt.Font("Agency FB", 0, 14)); // NOI18N
 
+        CbxRoles.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
+        CbxRoles.setForeground(new java.awt.Color(255, 0, 0));
+        CbxRoles.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione..." }));
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -457,9 +454,8 @@ public class vUsuarios extends javax.swing.JInternalFrame {
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel7)
                                 .addGap(18, 18, 18)
-                                .addComponent(LblRollUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(BtnPrivilegios, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(CbxRoles, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(125, 125, 125))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel13)
                                 .addGap(18, 18, 18)
@@ -519,13 +515,11 @@ public class vUsuarios extends javax.swing.JInternalFrame {
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel13)
                                     .addComponent(TxtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(11, 11, 11)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(BtnPrivilegios, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(LblRollUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jLabel7))
-                                .addGap(0, 18, Short.MAX_VALUE))
+                                .addGap(13, 13, 13)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel7)
+                                    .addComponent(CbxRoles, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 15, Short.MAX_VALUE))
                             .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 287, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -590,29 +584,6 @@ public class vUsuarios extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_CbxTipoDocActionPerformed
 
-    private void BtnPrivilegiosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnPrivilegiosActionPerformed
-//         Item Privilegios;
-        vPrivilegios vP = new vPrivilegios();
-        if (!vPrincipal.ventana.equalsIgnoreCase("Privilegios")) {
-            vPrincipal.ventana="Privilegios";
-
-            Escritorio.add(vP);
-            Dimension desktopSize = Escritorio.getSize();
-            Dimension FrameSize = vP.getSize();
-            vP.setLocation((desktopSize.width - FrameSize.width)/2, (desktopSize.height- FrameSize.height)/2);
-            vP.show();
-        }
-        else
-        {
-            JOptionPane.showMessageDialog(null,"LA VENTANA 'Privilegios' YA SE ENCUENTRA ABIERTA");
-
-        }
-         vPrivilegios vp = new vPrivilegios();
-         vp.setVisible(true);
-
-         this.dispose();
-    }//GEN-LAST:event_BtnPrivilegiosActionPerformed
-
     private void BtnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAgregarActionPerformed
         //<editor-fold desc="GUARDAR" defaultstate="collapsed">
         // Btn Guardar
@@ -637,7 +608,7 @@ public class vUsuarios extends javax.swing.JInternalFrame {
         U.setFechaNacimiento(Fecha);
         U.setDireccion(TxtDireccion.getText());
         U.setEmail(TxtCorreo.getText());
-        U.setRoll(LblRollUsuario.getText());
+        U.setRoll(CbxRoles.getSelectedIndex());
         U.setUsuario(TxtUsuario.getText());
         U.setContrasena(TxtContrasena.getText());
         U.setPregunta(CbxPregunta.getSelectedIndex());
@@ -681,33 +652,13 @@ public class vUsuarios extends javax.swing.JInternalFrame {
     private void BtnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCancelarActionPerformed
         //<editor-fold desc="CANCELAR" defaultstate="collapsed">
         limpiarCampos();
-        botonesInicio();
+        botonesInicio(false,false,true,false,false);
         //</editor-fold>
     }//GEN-LAST:event_BtnCancelarActionPerformed
 
     private void BtnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnNuevoActionPerformed
         //<editor-fold desc="NUEVO" defaultstate="collapsed">
-        LblOk.setVisible(false);
-        /////
-        TxtDocumento.setEnabled(true);
-        TxtNombre.setEnabled(true);
-        TxtApellido.setEnabled(true);
-        CbxTipoDoc.setEnabled(true);
-        DCFechaNac.setEnabled(true);
-        TxtTelefono.setEnabled(true);
-        TxtDireccion.setEnabled(true);
-        TxtCorreo.setEnabled(true);
-        TxtUsuario.setEnabled(true);
-        TxtContrasena.setEnabled(true);
-        TxtConfirmar.setEnabled(true);
-        CbxPregunta.setEnabled(true);
-        TxtRespuesta.setEnabled(true);
-        LblRollUsuario.setEnabled(true);
-        BtnPrivilegios.setEnabled(true);
-        /////
-        BtnNuevo.setVisible(false);
-        BtnAgregar.setVisible(true);
-        BtnCancelar.setVisible(true);       
+        botonesInicio(false,true,false,true,true);               
         //</editor-fold>
     }//GEN-LAST:event_BtnNuevoActionPerformed
 
@@ -728,12 +679,11 @@ public class vUsuarios extends javax.swing.JInternalFrame {
     private javax.swing.JButton BtnAgregar;
     private javax.swing.JButton BtnCancelar;
     private javax.swing.JButton BtnNuevo;
-    private javax.swing.JButton BtnPrivilegios;
     private javax.swing.JComboBox<String> CbxPregunta;
+    private javax.swing.JComboBox<String> CbxRoles;
     private javax.swing.JComboBox<String> CbxTipoDoc;
     private com.toedter.calendar.JDateChooser DCFechaNac;
     private javax.swing.JLabel LblOk;
-    public static javax.swing.JLabel LblRollUsuario;
     private javax.swing.JTextField TxtApellido;
     private javax.swing.JPasswordField TxtConfirmar;
     private javax.swing.JPasswordField TxtContrasena;

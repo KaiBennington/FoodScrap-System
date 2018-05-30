@@ -20,7 +20,7 @@ public class Usuarios {
     private String Direccion;
     private String FechaNacimiento;    
     private String Email;
-    private String Roll;    
+    private int Roll;    
     private String Usuario;
     private String Contrasena;    
     private int Pregunta;    
@@ -95,11 +95,11 @@ public class Usuarios {
         this.Email = Email;
     }
 
-    public String getRoll() {
+    public int getRoll() {
         return Roll;
     }
 
-    public void setRoll(String Roll) {
+    public void setRoll(int Roll) {
         this.Roll = Roll;
     }
 
@@ -145,7 +145,7 @@ public class Usuarios {
     //</editor-fold> 
     
     //<editor-fold desc="CONTRUCTOR" defaultstate="collapsed">
-    public Usuarios(int TipoDocumento, String Documento, String Nombres, String Apellidos, String Telefono, String Direccion, String FechaNacimiento, String Email, String Roll, String Usuario, String Contrasena, int Pregunta, String Respuesta) {
+    public Usuarios(int TipoDocumento, String Documento, String Nombres, String Apellidos, String Telefono, String Direccion, String FechaNacimiento, String Email, int Roll, String Usuario, String Contrasena, int Pregunta, String Respuesta) {
         this.TipoDocumento = TipoDocumento;
         this.Documento = Documento;
         this.Nombres = Nombres;
