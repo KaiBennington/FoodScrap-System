@@ -67,7 +67,6 @@ public class vPrincipal extends javax.swing.JFrame {
         jMenuItem14 = new javax.swing.JMenuItem();
         jMenuItem11 = new javax.swing.JMenuItem();
         jMenuItem12 = new javax.swing.JMenuItem();
-        jMenuItem6 = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
         jMenuItem15 = new javax.swing.JMenuItem();
         jMenuItem16 = new javax.swing.JMenuItem();
@@ -212,6 +211,11 @@ public class vPrincipal extends javax.swing.JFrame {
 
         jMenuItem11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Proveedores.png"))); // NOI18N
         jMenuItem11.setText("Consultar Proveedores");
+        jMenuItem11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem11ActionPerformed(evt);
+            }
+        });
         jMenu4.add(jMenuItem11);
 
         jMenuItem12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Sucursales.png"))); // NOI18N
@@ -222,15 +226,6 @@ public class vPrincipal extends javax.swing.JFrame {
             }
         });
         jMenu4.add(jMenuItem12);
-
-        jMenuItem6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Usuarios.png"))); // NOI18N
-        jMenuItem6.setText("Consultar Usuarios");
-        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem6ActionPerformed(evt);
-            }
-        });
-        jMenu4.add(jMenuItem6);
 
         jMenuBar1.add(jMenu4);
 
@@ -386,17 +381,17 @@ public class vPrincipal extends javax.swing.JFrame {
         //</editor-fold>
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
-    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
-        //<editor-fold desc="CONSULTAR USUARIOS" defaultstate="collapsed">        
-         vConsultarUsuarios vCU = new vConsultarUsuarios();
-         if (!ventana.equalsIgnoreCase("Consulta Usuarios")) { // && !ventana.equalsIgnoreCase("Cambio Contra")
-            ventana="Consulta Usuarios";
+    private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
+        //<editor-fold desc="GESTION PROVEEDORES" defaultstate="collapsed">
+         vProveedores vP = new vProveedores();
+         if (!ventana.equalsIgnoreCase("Gestion Proveedores")) { // && !ventana.equalsIgnoreCase("Cambio Contra")
+            ventana="Gestion Proveedores";
             
-            Escritorio.add(vCU);
+            Escritorio.add(vP);
             Dimension desktopSize = Escritorio.getSize();
-            Dimension FrameSize = vCU.getSize();
-            vCU.setLocation((desktopSize.width - FrameSize.width)/2, (desktopSize.height- FrameSize.height)/2);
-            vCU.show();             
+            Dimension FrameSize = vP.getSize();
+            vP.setLocation((desktopSize.width - FrameSize.width)/2, (desktopSize.height- FrameSize.height)/2);
+            vP.show();             
         }
         else
         {
@@ -404,10 +399,6 @@ public class vPrincipal extends javax.swing.JFrame {
         
         }
         //</editor-fold>
-    }//GEN-LAST:event_jMenuItem6ActionPerformed
-
-    private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem10ActionPerformed
 
     private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
@@ -571,6 +562,26 @@ public class vPrincipal extends javax.swing.JFrame {
         //</editor-fold>
     }//GEN-LAST:event_jMenuItem18ActionPerformed
 
+    private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
+        //<editor-fold desc="CONSULTAR PROVEEDORES" defaultstate="collapsed">        
+         vConsultarProveedores vCP = new vConsultarProveedores();
+         if (!ventana.equalsIgnoreCase("Consulta Proveedores")) { // && !ventana.equalsIgnoreCase("Cambio Contra")
+            ventana="Consulta Proveedores";
+            
+            Escritorio.add(vCP);
+            Dimension desktopSize = Escritorio.getSize();
+            Dimension FrameSize = vCP.getSize();
+            vCP.setLocation((desktopSize.width - FrameSize.width)/2, (desktopSize.height- FrameSize.height)/2);
+            vCP.show();             
+        }
+        else
+        {
+        JOptionPane.showMessageDialog(null,"LA VENTANA YA SE ENCUENTRA ABIERTA");
+        
+        }
+        //</editor-fold>
+    }//GEN-LAST:event_jMenuItem11ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -630,7 +641,6 @@ public class vPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
-    private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JMenuItem jMenuItem9;
