@@ -279,7 +279,7 @@ public class vUsuarios extends javax.swing.JInternalFrame {
         LblOk = new javax.swing.JLabel();
 
         MnModificar.setText("Modificar");
-        MnModificar.setName("modificar"); // NOI18N
+        MnModificar.setName(""); // NOI18N
         MnModificar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 MnModificarActionPerformed(evt);
@@ -650,6 +650,7 @@ public class vUsuarios extends javax.swing.JInternalFrame {
 
         BtnEliminar.setBackground(new java.awt.Color(255, 153, 0));
         BtnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Eliminar.png"))); // NOI18N
+        BtnEliminar.setToolTipText("Eliminar");
         BtnEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BtnEliminarActionPerformed(evt);
@@ -658,6 +659,8 @@ public class vUsuarios extends javax.swing.JInternalFrame {
 
         BtnModificar.setBackground(new java.awt.Color(255, 153, 0));
         BtnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Modificar.png"))); // NOI18N
+        BtnModificar.setToolTipText("Modificar");
+        BtnModificar.setName(""); // NOI18N
         BtnModificar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BtnModificarActionPerformed(evt);
@@ -900,11 +903,11 @@ public class vUsuarios extends javax.swing.JInternalFrame {
                 mostrarDatos("");
                 //botonesInicio();
             } else {
-                limpiarCampos();
-                botonesInicio(true, false, true, false, false, false, false);
+                limpiarCampos();                
                 buscarSi();
                 LblOk.setText(Bandera.getRespuesta());
                 LblOk.setVisible(true);
+                botonesInicio(true, false, true, false, false, false, false);
             }
         }
         //</editor-fold>
