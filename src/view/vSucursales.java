@@ -29,7 +29,7 @@ public class vSucursales extends javax.swing.JInternalFrame {
      */
     public vSucursales() {
         initComponents();
-        botonesInicio(false, false, false, false, false, false, true, false, false);
+        botonesInicio(false, false, true, false, false, false, false);
         cargarCombos();
         mostrarDatos("");
         cargarId();
@@ -61,19 +61,21 @@ public class vSucursales extends javax.swing.JInternalFrame {
     //</editor-fold>
     
     //<editor-fold desc="BOTONES INICIO" defaultstate="collapsed">
-    void botonesInicio(boolean Ok,boolean sucursal,boolean nombre,boolean direccion,boolean zona,boolean telefono,boolean nuevo,boolean Agregar,boolean cancelar){
+    void botonesInicio(boolean Ok,boolean datos,boolean nuevo,boolean Agregar,boolean modificar,boolean eliminar,boolean cancelar){
         BtnNuevo.requestFocus();
         LblOk.setVisible(Ok);
         /////
-        Lbl_IdSucursal.setEnabled(sucursal);
-        TxtNombre.setEnabled(nombre);        
-        TxtDireccion.setEnabled(direccion);
-        CbxZona.setEnabled(zona);
-        TxtTelefono.setEnabled(telefono);
+        Lbl_IdSucursal.setEnabled(datos);
+        TxtNombre.setEnabled(datos);        
+        TxtDireccion.setEnabled(datos);
+        CbxZona.setEnabled(datos);
+        TxtTelefono.setEnabled(datos);
         /////
         BtnNuevo.setVisible(nuevo);
         /////
         BtnAgregar.setVisible(Agregar);
+        BtnModificar.setVisible(modificar);
+        BtnEliminar.setVisible(eliminar);       
         BtnCancelar.setVisible(cancelar); 
     }
     //</editor-fold>
@@ -87,32 +89,7 @@ public class vSucursales extends javax.swing.JInternalFrame {
         CbxZona.setSelectedIndex(0);
         TxtTelefono.setText("");
     }
-    //</editor-fold>
-    
-    //<editor-fold desc="CARGAR COMBOS" defaultstate="collapsed">    
-    void cargarCombos(){
-        //Combo Zonas
-        CargarCAD oCargarCAD = new CargarCAD() ;
-        List ListaComboZ =  oCargarCAD.CargarZona();
-                
-        CbxZona.removeAllItems();        
-            for (int i = 0; i < ListaComboZ.size(); i++) {
-                Zonas Zn = (Zonas)ListaComboZ.get(i);
-                if (CbxZona.getSelectedIndex() != 0) {
-                    CbxZona.addItem(Zn.getNombre());
-                }else{
-                    CbxZona.addItem("Comuna "+Zn.getComuna()+" ("+Zn.getNombre()+")");                    
-                }
-            }       
-    }
-    
-    void cargarId(){
-        //Cargar ID
-        CargarCAD oCargarCAD = new CargarCAD() ;
-//        String S = oCargarCAD.cargarId();        
-//        Lbl_IdSucursal.setText(S);
-    }
-    //</editor-fold>
+    //</editor-fold>       
     
     //<editor-fold desc="BUSCAR" defaultstate="collapsed">
     void buscarSi(){
@@ -138,18 +115,30 @@ public class vSucursales extends javax.swing.JInternalFrame {
     //</editor-fold>
     
     //<editor-fold desc="HABILITAR CAMPOS" defaultstate="collapsed">
-    void habilitarCampos(boolean Textos,boolean Eliminar,boolean Modificar){          
-        TxtNombre.setEnabled(Textos);
-        TxtTelefono.setEnabled(Textos);
-        TxtDireccion.setEnabled(Textos);
-        CbxZona.setEnabled(Textos);
-        ///        
-        BtnEliminar.setVisible(Eliminar);
-        BtnModificar.setVisible(Modificar);
-        BtnCancelar.setVisible(true);
+    void habilitarCampos(boolean datos,boolean nuevo,boolean guardar,boolean modificar,boolean eliminar,boolean cancelar){          
+        TxtNombre.setEnabled(datos);
+        TxtTelefono.setEnabled(datos);
+        TxtDireccion.setEnabled(datos);
+        CbxZona.setEnabled(datos);
+        /// 
+        BtnNuevo.setVisible(nuevo);
+        BtnAgregar.setVisible(guardar);
+        BtnModificar.setVisible(modificar);
+        BtnEliminar.setVisible(eliminar);
+        BtnCancelar.setVisible(cancelar);
         
         buscarNo();
     }       
+    //</editor-fold>
+    
+    //<editor-fold desc="LLENAR SUCURSAL" defaultstate="collapsed">
+    void llenarsSucursal(Sucursales S) {
+        S.setCodigo(Lbl_IdSucursal.getText());
+        S.setNombre(TxtNombre.getText());
+        S.setTelefono(TxtTelefono.getText());
+        S.setDireccion(TxtDireccion.getText());
+        S.setZona(CbxZona.getSelectedIndex());            
+    }
     //</editor-fold>
 
     /**
@@ -342,10 +331,12 @@ public class vSucursales extends javax.swing.JInternalFrame {
             }
         ));
         TblConsultarSucursal.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        TblConsultarSucursal.setComponentPopupMenu(PopM_Tabla);
+        TblConsultarSucursal.setSelectionBackground(new java.awt.Color(255, 0, 0));
         jScrollPane1.setViewportView(TblConsultarSucursal);
 
         TxtBuscar.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
-        TxtBuscar.setForeground(new java.awt.Color(0, 128, 255));
+        TxtBuscar.setForeground(new java.awt.Color(255, 0, 0));
         TxtBuscar.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         TxtBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -418,63 +409,60 @@ public class vSucursales extends javax.swing.JInternalFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
+                .addGap(10, 10, 10)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jSeparator1)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(LblBuscar)
                         .addGap(4, 4, 4)
                         .addComponent(TxtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(BtnNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(6, 6, 6)
                         .addComponent(BtnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(6, 6, 6)
                         .addComponent(BtnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(6, 6, 6)
                         .addComponent(BtnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(BtnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 536, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 536, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(LblOk))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addGap(6, 6, 6)
+                        .addComponent(BtnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(9, 9, 9))
+                    .addComponent(jScrollPane1)
+                    .addComponent(LblOk)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(15, 15, 15)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(6, 6, 6)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(6, 6, 6)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGap(6, 6, 6)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(LblBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(TxtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(BtnNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(BtnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(BtnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(BtnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(BtnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(TxtBuscar)
-                    .addComponent(LblBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(BtnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(6, 6, 6)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(LblOk, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(LblOk)
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -501,7 +489,8 @@ public class vSucursales extends javax.swing.JInternalFrame {
     private void BtnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnNuevoActionPerformed
         //<editor-fold desc="NUEVO" defaultstate="collapsed">
         cargarId();
-        botonesInicio(false, true, true, true, true, true, false, true, true);
+        botonesInicio(false, true, false, true, false, false, true);
+        buscarNo();
         //</editor-fold>
     }//GEN-LAST:event_BtnNuevoActionPerformed
 
@@ -538,52 +527,107 @@ public class vSucursales extends javax.swing.JInternalFrame {
             }else{
                 limpiarCampos();
                 cargarId();
+                mostrarDatos("");
+                botonesInicio(true, false, true, false, false, false, false);
                 LblOk.setText(Bandera.getRespuesta());
-                LblOk.setVisible(true);
+                LblOk.setVisible(true); 
+                buscarSi();
+                
             }
         }
         //</editor-fold>
     }//GEN-LAST:event_BtnAgregarActionPerformed
 
     private void BtnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnModificarActionPerformed
-        //<editor-fold desc="NUEVO" defaultstate="collapsed">
+        //<editor-fold desc="MODIFICAR" defaultstate="collapsed">
+        // Btn Modificar
+        Map rsp = new HashMap();
+        Sucursales S = new Sucursales();
+        llenarsSucursal(S);
+        rsp.put("Sucursal", S);
 
+        Validaciones AU = new Validaciones();
+        AU.validarCamposSucursales(rsp);
+
+        if (rsp.containsKey("Mensaje")) {
+            JOptionPane.showMessageDialog(null, rsp.get("Mensaje"));
+            //            rsp.get("campo");
+            //            String Focus = (String)rsp.get("campo");
+            //            System.out.println(""+Focus);
+        } else {
+                boolean Modificar = SucursalesCAD.modificar(S);
+
+                if (!Modificar) {
+                    JOptionPane.showMessageDialog(null, Bandera.getRespuesta());
+                    limpiarCampos();
+                    mostrarDatos("");
+                    // botonesInicio();
+                } else {
+                    limpiarCampos();
+                    botonesInicio(true, false, true, false, false, false, false);
+                    buscarSi();
+                    mostrarDatos(S.getNombre());
+                    LblOk.setText(Bandera.getRespuesta());
+                    LblOk.setVisible(true);
+                }
+        }
         //</editor-fold>
     }//GEN-LAST:event_BtnModificarActionPerformed
 
     private void BtnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnEliminarActionPerformed
-        //<editor-fold desc="GUARDAR" defaultstate="collapsed">
-        // Btn Guardar
+        //<editor-fold desc="ELIMINAR" defaultstate="collapsed">
+        if (Lbl_IdSucursal.getText().equalsIgnoreCase("")) {
+            JOptionPane.showMessageDialog(null, "No se puede Eliminar la Sucursal\nNo se encuentra el Codigo\nVerifique que tenga conexion con la BD");
+            } else {
+            // Btn Eliminar
+            String Codigo = Lbl_IdSucursal.getText();
 
+            Sucursales Su = new Sucursales();
+            Su.setCodigo(Codigo);
+
+            boolean Eliminar = SucursalesCAD.eliminar(Su);
+
+            if (!Eliminar) {
+                JOptionPane.showMessageDialog(null, Bandera.getRespuesta());
+                limpiarCampos();
+                mostrarDatos("");
+                //botonesInicio();
+            } else {
+                limpiarCampos();                
+                buscarSi();
+                LblOk.setText(Bandera.getRespuesta());
+                LblOk.setVisible(true);
+                botonesInicio(true, false, true, false, false, false, false);
+            }
+        }
         //</editor-fold>
     }//GEN-LAST:event_BtnEliminarActionPerformed
 
     private void BtnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCancelarActionPerformed
         //<editor-fold desc="CANCELAR" defaultstate="collapsed">
-
+        limpiarCampos();        
+        cargarId();
+        botonesInicio(false, false, true, false, false, false, false);
+        buscarSi();
+        TxtBuscar.requestFocus();
         //</editor-fold>
     }//GEN-LAST:event_BtnCancelarActionPerformed
 
     private void MnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnModificarActionPerformed
         //<editor-fold desc="MENU MODIFICAR" defaultstate="collapsed">
         //Seleccion fila modificar
-        //        Seleccion();
-        //        PnDatos.setVisible(true);
-        //        jScrollPane2.setVisible(false);
-        //        TblConsultarUsuario.setVisible(false);
-        //        habilitarCampos(false,true,false,true);
-        //        BtnModificar.setVisible(oPermisos.validarPermiso("Guardar","Usuarios"));
+        if(Seleccion()){
+            habilitarCampos(true, false, false,true, false, true);
+        }
         //</editor-fold>
     }//GEN-LAST:event_MnModificarActionPerformed
 
     private void MnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnEliminarActionPerformed
         //<editor-fold desc="MENU ELIMINAR" defaultstate="collapsed">
         //Seleccion fila Eliminar
-        //        Seleccion();
-        //        PnDatos.setVisible(true);
-        //        jScrollPane2.setVisible(false);
-        //        TblConsultarUsuario.setVisible(false);
-        //        habilitarCampos(false,false,true,false);
+        if(Seleccion()){
+            habilitarCampos(false, false, false,false, true, true);
+        }
         //</editor-fold>
     }//GEN-LAST:event_MnEliminarActionPerformed
 
@@ -618,4 +662,24 @@ public class vSucursales extends javax.swing.JInternalFrame {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     // End of variables declaration//GEN-END:variables
+
+    public boolean Seleccion() {
+
+        int fila = TblConsultarSucursal.getSelectedRow();
+        if (fila >= 0) {
+
+            Lbl_IdSucursal.setText(TblConsultarSucursal.getValueAt(fila,0).toString());            
+            TxtNombre.setText(TblConsultarSucursal.getValueAt(fila, 1).toString());
+            TxtDireccion.setText(TblConsultarSucursal.getValueAt(fila, 2).toString());
+            CbxZona.setSelectedIndex(Integer.parseInt(TblConsultarSucursal.getValueAt(fila, 3).toString()));
+            TxtTelefono.setText(TblConsultarSucursal.getValueAt(fila, 4).toString());            
+            
+            return true;
+        } else {
+            JOptionPane.showMessageDialog(null, "No se ha seleccionado ningunaa Sucursal de la tabla");            
+            buscarSi();
+            return false;
+            
+        }
+    }
 }

@@ -7,7 +7,7 @@ package CAD;
 
 import Config.Bandera;
 import Model.ConexionDB;
-import Model.Sucursales;
+import Model.Proveedores;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,21 +16,24 @@ import java.sql.SQLException;
  *
  * @author USUARIO
  */
-public class SucursalesCAD extends ConexionDB{
+public class ProveedoresCAD extends ConexionDB{
     
-    public static boolean guardar(Sucursales S){
+    public static boolean guardar(Proveedores P){
         PreparedStatement pst;
         ResultSet rs = null;
         boolean respuesta = false; 
         
         try {
-            String Sql = "CALL GuardarSucursal(?,?,?,?,?)";
+            String Sql = "CALL GuardarProveedor(?,?,?,?,?,?,?,?)";
             pst = getConexion().prepareStatement(Sql);
-            pst.setString(1, S.getCodigo());
-            pst.setString(2, S.getNombre());
-            pst.setString(3, S.getDireccion());
-            pst.setInt(4, S.getZona());
-            pst.setString(5, S.getTelefono());            
+            pst.setString(1, P.getCodigo());
+            pst.setString(2, P.getNit());
+            pst.setString(3, P.getRazonSocial());
+            pst.setString(4, P.getNombre());
+            pst.setString(5, P.getCorreo());
+            pst.setString(6, P.getDireccion());
+            pst.setString(7, P.getTelefono());
+            pst.setString(8, P.getFax());    
             rs = pst.executeQuery();
             
             String resul = "";
@@ -38,7 +41,7 @@ public class SucursalesCAD extends ConexionDB{
                 resul = rs.getString("Mensaje");         
             }
             
-            if("Sucursal Registrada".equalsIgnoreCase(resul)){
+            if("Proveedor Registrado".equalsIgnoreCase(resul)){
                Bandera.setRespuesta(resul);
                respuesta = true;
             }else{
@@ -54,19 +57,22 @@ public class SucursalesCAD extends ConexionDB{
         }              
     }//FIN Metodo Guardar
     
-    public static boolean modificar(Sucursales Sm){
+    public static boolean modificar(Proveedores Pm){
         PreparedStatement pst;
         ResultSet rs = null;
         boolean respuesta = false; 
         
         try {
-            String Sql = "CALL ModificarSucursales(?,?,?,?,?)";
+            String Sql = "CALL ModificarProveedor(?,?,?,?,?,?,?,?)";
             pst = getConexion().prepareStatement(Sql);           
-            pst.setString(1, Sm.getCodigo());
-            pst.setString(2, Sm.getNombre());
-            pst.setString(3, Sm.getTelefono());
-            pst.setString(4, Sm.getDireccion());
-            pst.setInt(5, Sm.getZona());
+            pst.setString(1, Pm.getCodigo());
+            pst.setString(2, Pm.getNit());
+            pst.setString(3, Pm.getRazonSocial());
+            pst.setString(4, Pm.getNombre());
+            pst.setString(5, Pm.getCorreo());
+            pst.setString(6, Pm.getDireccion());
+            pst.setString(7, Pm.getTelefono());
+            pst.setString(8, Pm.getFax());
             
             rs = pst.executeQuery();
             
@@ -75,7 +81,7 @@ public class SucursalesCAD extends ConexionDB{
                 resul = rs.getString("Mensaje");         
             }
             
-            if("Información de la Sucursal Actualizada".equalsIgnoreCase(resul)){
+            if("Información del Proveedor Actualizada".equalsIgnoreCase(resul)){
                Bandera.setRespuesta(resul);
                respuesta = true;
             }else{
@@ -91,15 +97,15 @@ public class SucursalesCAD extends ConexionDB{
         }      
     }//Fin Metodo Modificar
     
-    public static boolean eliminar(Sucursales Se){
+    public static boolean eliminar(Proveedores Pe){
         PreparedStatement pst;
         ResultSet rs = null;
         boolean respuesta = false; 
         
         try {
-            String Sql = "CALL EliminarSucursales(?)";
+            String Sql = "CALL EliminarProveedor(?)";
             pst = getConexion().prepareStatement(Sql);           
-            pst.setString(1, Se.getCodigo());          
+            pst.setString(1, Pe.getCodigo());          
             rs = pst.executeQuery();
             
             String resul = "";
@@ -107,7 +113,7 @@ public class SucursalesCAD extends ConexionDB{
                 resul = rs.getString("Mensaje");         
             }
             
-            if("Sucursal Eliminado".equalsIgnoreCase(resul)){
+            if("Proveedor Eliminado".equalsIgnoreCase(resul)){
                Bandera.setRespuesta(resul);
                respuesta = true;
             }else{

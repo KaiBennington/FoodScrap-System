@@ -193,6 +193,27 @@ public class CargarCAD extends ConexionDB {
     }
     //</editor-fold>
     
+    //<editor-fold desc="CARGAR ID SUCURSALES" defaultstate="collapsed">
+    public String cargarIdProveedor(){
+        PreparedStatement pst;
+        ResultSet rs = null;
+        String CI = "" ;        
+        try {
+            String Sql = "select COALESCE(MAX(IdProveedor), 0)+1 FROM Proveedores;";
+            pst = getConexion().prepareStatement(Sql);            
+            rs = pst.executeQuery();
+            
+            while (rs.next()) {                 
+                CI = rs.getString(1);
+            }
+            
+        } catch (SQLException ex) {            
+        }
+        desconectar();
+        return CI;
+    }
+    //</editor-fold>
+    
     //<editor-fold desc="CARGAR ID TIPO DOCUMENTO" defaultstate="collapsed">
     public String cargarIdTipoDocumento(){
         PreparedStatement pst;

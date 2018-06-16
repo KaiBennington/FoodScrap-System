@@ -6,6 +6,7 @@
 package Config;
 
 import Model.Categorias;
+import Model.Proveedores;
 import Model.Roles;
 import Model.Sucursales;
 import Model.TipoDocumento;
@@ -116,6 +117,58 @@ public class Validaciones {
             respuesta.put("campo","TxtTelefono.requestFocusInWindow()");
             return respuesta;
         }         
+        
+        respuesta.remove("Mensaje");
+//        boolean val = respuesta.isEmpty();
+//        System.out.println("valor vacio "+val);
+        return respuesta;
+    }
+    //</editor-fold>
+    
+    //<editor-fold desc="VALIDAR PROVEEDOR" defaultstate="collapsed">
+    public Map validarCamposProveedores(Map respuesta){
+        
+        Proveedores P = (Proveedores)respuesta.get("Proveedor");
+        
+        if (P.getCodigo().equals("")) {
+            respuesta.put("Mensaje","Error en el ID del Proveedor");
+            return respuesta;
+        } 
+        if (P.getNit().equals("")) {
+            respuesta.put("Mensaje","El campo Nit se encuentra Vacio");
+            respuesta.put("campo","TxtNit.requestFocusInWindow()");
+            return respuesta;
+        } 
+        if (P.getNombre().equals("")) {
+            respuesta.put("Mensaje","El campo Nombre se encuentra Vacio");
+            respuesta.put("campo","TxtNombre.requestFocusInWindow()");
+            return respuesta;
+        } 
+        if (P.getRazonSocial().equals("")) {
+            respuesta.put("Mensaje","El campo Razon Social se encuentra Vacio");
+            respuesta.put("campo","TxtRazonSocial.requestFocusInWindow()");
+            return respuesta;
+        } 
+        if (P.getCorreo().equals("")) {
+            respuesta.put("Mensaje","El campo Correo Electronico se encuentra Vacio");
+            respuesta.put("campo","TxtCorreo.requestFocusInWindow()");
+            return respuesta;
+        } 
+        if (P.getDireccion().equals("")) {
+            respuesta.put("Mensaje","El campo Dirección se encuentra Vacio");
+            respuesta.put("campo","TxtDireccion.requestFocusInWindow()");
+            return respuesta;
+        } 
+        if (P.getTelefono().equals("")) {
+            respuesta.put("Mensaje","El campo Telefono se encuentra Vacio");
+            respuesta.put("campo","TxtTelefono.requestFocusInWindow()");
+            return respuesta;
+        }         
+//        if (P.getFax().equals("")) {
+//            respuesta.put("Mensaje","El campo Fax se encuentra Vacio");
+//            respuesta.put("campo","TxtFax.requestFocusInWindow()");
+//            return respuesta;
+//        }         
         
         respuesta.remove("Mensaje");
 //        boolean val = respuesta.isEmpty();

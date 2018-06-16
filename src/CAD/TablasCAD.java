@@ -295,7 +295,7 @@ public class TablasCAD extends ConexionDB{
         
       DefaultTableModel modelo = new DefaultTableModel();          
       int registros = 0;
-      String[] NombreClmns = {"Id Sucursal","Nombre","Dirección","Zona", "Telefono"};
+      String[] NombreClmns = {"Codigo","Nombre","Dirección","Zona", "Telefono"};
       
       PreparedStatement pst;
       ResultSet rs = null;
@@ -340,5 +340,60 @@ public class TablasCAD extends ConexionDB{
         }
         return modelo;
     } //FIN Tabla Sucursales
+    //</editor-fold>  
+    
+    //<editor-fold desc="TABLA PROVEEDORES" defaultstate="collapsed">
+    public DefaultTableModel getTablaProveedores(String Valor){
+        
+      DefaultTableModel modelo = new DefaultTableModel();          
+      int registros = 0;
+      String[] NombreClmns = {"Codigo","Nit","Nombre","Razon Social","Direccion","Telefono","Correo","Fax"};
+      
+      PreparedStatement pst;
+      ResultSet rs = null;
+      try{
+         String Sql = "SELECT count(*) as total FROM Proveedores";
+         pst = getConexion().prepareStatement(Sql);
+         rs = pst.executeQuery();
+         
+         rs.next();
+         registros = rs.getInt("total");
+         rs.close();
+      }catch(SQLException e){
+         System.err.println( e.getMessage() );
+      }      
+    
+    Object[][] data = new String[registros][8];
+      try{
+         String Sql;
+         if(Valor.equals(""))
+    {
+        Sql=" SELECT * FROM Proveedores ";
+    }
+    else{
+        Sql=" SELECT * FROM Proveedores WHERE upper (Nombre) LIKE upper ('"+Valor+"%')";        
+    }
+         pst = getConexion().prepareStatement(Sql);
+         rs = pst.executeQuery();         
+         int i=0;
+         while(rs.next()){
+                data[i][0] = rs.getString( "IdProveedor" );
+                data[i][1] = rs.getString( "Nit" );
+                data[i][2] = rs.getString( "Nombre" );
+                data[i][3] = rs.getString( "RazonSocial" );
+                data[i][4] = rs.getString( "Direccion" );
+                data[i][5] = rs.getString( "Telefono" );
+                data[i][6] = rs.getString( "Correo" );
+                data[i][7] = rs.getString( "Fax" );
+            i++;
+         }
+         rs.close();         
+         modelo.setDataVector(data, NombreClmns );
+         
+         }catch(SQLException e){
+            System.err.println( e.getMessage() );
+        }
+        return modelo;
+    } //FIN Tabla Proveedores
     //</editor-fold>    
 }
