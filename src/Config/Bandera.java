@@ -24,6 +24,9 @@ public class Bandera {
 //    --------------------
     public static String Respuesta; 
     private String Codigo;
+//    --------------------
+    private String Tabla;
+    private String Campo;
     //</editor-fold> 
     
     //<editor-fold desc="PROPIEDADES" defaultstate="collapsed">
@@ -92,7 +95,32 @@ public class Bandera {
     public static void setSiglasRol(String SiglasRol) {
         Bandera.SiglasRol = SiglasRol;
     }
+    
+    public String getTabla() {
+        return Tabla;
+    }
+
+    public void setTabla(String Tabla) {
+        this.Tabla = Tabla;
+    }
+
+    public String getCampo() {
+        return Campo;
+    }
+
+    public void setCampo(String Campo) {
+        this.Campo = Campo;
+    }
     //</editor-fold> 
+
+    public Bandera(String Tabla, String Campo) {
+        this.Tabla = Tabla;
+        this.Campo = Campo;
+    }
+    
+    
+
+    
 
     
 

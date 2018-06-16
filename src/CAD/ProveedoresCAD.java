@@ -28,8 +28,8 @@ public class ProveedoresCAD extends ConexionDB{
             pst = getConexion().prepareStatement(Sql);
             pst.setString(1, P.getCodigo());
             pst.setString(2, P.getNit());
-            pst.setString(3, P.getRazonSocial());
-            pst.setString(4, P.getNombre());
+            pst.setString(3, P.getNombre());
+            pst.setString(4, P.getRazonSocial());
             pst.setString(5, P.getCorreo());
             pst.setString(6, P.getDireccion());
             pst.setString(7, P.getTelefono());

@@ -89,7 +89,8 @@ public class vTipoDocumento extends javax.swing.JInternalFrame {
     void cargarId(){
         //Cargar ID
         CargarCAD oCargarCAD = new CargarCAD() ;
-        String T = oCargarCAD.cargarIdTipoDocumento();        
+        Bandera B = new Bandera("TipoDocumento", "IdTipoDoc");
+        String T = oCargarCAD.cargarIds(B);        
         Lbl_Id.setText(T);
     }
     //</editor-fold>

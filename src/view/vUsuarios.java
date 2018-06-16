@@ -950,7 +950,7 @@ public class vUsuarios extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_BtnModificarActionPerformed
 
     private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
-
+        
     }//GEN-LAST:event_formMouseClicked
 
     private void LblBuscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LblBuscarMouseClicked

@@ -34,39 +34,40 @@ public class vSucursales extends javax.swing.JInternalFrame {
         mostrarDatos("");
         cargarId();
     }
-    
+
     //<editor-fold desc="CARGAR COMBOS" defaultstate="collapsed">    
-    void cargarCombos(){
+    void cargarCombos() {
         //Combo Zonas
-        CargarCAD oCargarCAD = new CargarCAD() ;
-        List ListaComboZ =  oCargarCAD.CargarZona();
-                
-        CbxZona.removeAllItems();        
-            for (int i = 0; i < ListaComboZ.size(); i++) {
-                Zonas Zn = (Zonas)ListaComboZ.get(i);
-                if (CbxZona.getSelectedIndex() != 0) {
-                    CbxZona.addItem(Zn.getNombre());
-                }else{
-                    CbxZona.addItem("Comuna "+Zn.getComuna()+" ("+Zn.getNombre()+")");                    
-                }
-            }       
+        CargarCAD oCargarCAD = new CargarCAD();
+        List ListaComboZ = oCargarCAD.CargarZona();
+
+        CbxZona.removeAllItems();
+        for (int i = 0; i < ListaComboZ.size(); i++) {
+            Zonas Zn = (Zonas) ListaComboZ.get(i);
+            if (CbxZona.getSelectedIndex() != 0) {
+                CbxZona.addItem(Zn.getNombre());
+            } else {
+                CbxZona.addItem("Comuna " + Zn.getComuna() + " (" + Zn.getNombre() + ")");
+            }
+        }
     }
-    
-    void cargarId(){
+
+    void cargarId() {
         //Cargar ID
-        CargarCAD oCargarCAD = new CargarCAD() ;
-        String S = oCargarCAD.cargarIdSucursal();        
-        Lbl_IdSucursal.setText(S);
+        CargarCAD oCargarCAD = new CargarCAD();
+        Bandera B = new Bandera("Sucursales", "Id_Sucursal");
+        String P = oCargarCAD.cargarIds(B);
+        Lbl_IdSucursal.setText(P);
     }
     //</editor-fold>
-    
+
     //<editor-fold desc="BOTONES INICIO" defaultstate="collapsed">
-    void botonesInicio(boolean Ok,boolean datos,boolean nuevo,boolean Agregar,boolean modificar,boolean eliminar,boolean cancelar){
+    void botonesInicio(boolean Ok, boolean datos, boolean nuevo, boolean Agregar, boolean modificar, boolean eliminar, boolean cancelar) {
         BtnNuevo.requestFocus();
         LblOk.setVisible(Ok);
         /////
         Lbl_IdSucursal.setEnabled(datos);
-        TxtNombre.setEnabled(datos);        
+        TxtNombre.setEnabled(datos);
         TxtDireccion.setEnabled(datos);
         CbxZona.setEnabled(datos);
         TxtTelefono.setEnabled(datos);
@@ -75,47 +76,48 @@ public class vSucursales extends javax.swing.JInternalFrame {
         /////
         BtnAgregar.setVisible(Agregar);
         BtnModificar.setVisible(modificar);
-        BtnEliminar.setVisible(eliminar);       
-        BtnCancelar.setVisible(cancelar); 
+        BtnEliminar.setVisible(eliminar);
+        BtnCancelar.setVisible(cancelar);
     }
     //</editor-fold>
-    
+
     //<editor-fold desc="lIMPIAR CAMPOS" defaultstate="collapsed">
-    public void limpiarCampos(){
+    public void limpiarCampos() {
         LblOk.setVisible(false);
         ////
-        TxtNombre.setText("");        
+        TxtNombre.setText("");
         TxtDireccion.setText("");
         CbxZona.setSelectedIndex(0);
         TxtTelefono.setText("");
     }
     //</editor-fold>       
-    
+
     //<editor-fold desc="BUSCAR" defaultstate="collapsed">
-    void buscarSi(){
+    void buscarSi() {
         TxtBuscar.setVisible(true);
         LblBuscar.setVisible(true);
     }
-    void buscarNo(){
+
+    void buscarNo() {
         TxtBuscar.setVisible(false);
         LblBuscar.setVisible(false);
     }
     //</editor-fold>   
-    
+
     //<editor-fold desc="MOSTRAR DATOS" defaultstate="collapsed">
-    void mostrarDatos(String Valor){        
-        TablasCAD ModelTable = new TablasCAD();         
-        TblConsultarSucursal.setModel(ModelTable.getTablaSucursales(Valor));      
+    void mostrarDatos(String Valor) {
+        TablasCAD ModelTable = new TablasCAD();
+        TblConsultarSucursal.setModel(ModelTable.getTablaSucursales(Valor));
         TableColumnModel columnModel = TblConsultarSucursal.getColumnModel();
         for (int i = 0; i < columnModel.getColumnCount(); i++) {
-        columnModel.getColumn(i).setPreferredWidth(100);
+            columnModel.getColumn(i).setPreferredWidth(100);
         }
-        
-    }       
+
+    }
     //</editor-fold>
-    
+
     //<editor-fold desc="HABILITAR CAMPOS" defaultstate="collapsed">
-    void habilitarCampos(boolean datos,boolean nuevo,boolean guardar,boolean modificar,boolean eliminar,boolean cancelar){          
+    void habilitarCampos(boolean datos, boolean nuevo, boolean guardar, boolean modificar, boolean eliminar, boolean cancelar) {
         TxtNombre.setEnabled(datos);
         TxtTelefono.setEnabled(datos);
         TxtDireccion.setEnabled(datos);
@@ -126,18 +128,18 @@ public class vSucursales extends javax.swing.JInternalFrame {
         BtnModificar.setVisible(modificar);
         BtnEliminar.setVisible(eliminar);
         BtnCancelar.setVisible(cancelar);
-        
+
         buscarNo();
-    }       
+    }
     //</editor-fold>
-    
+
     //<editor-fold desc="LLENAR SUCURSAL" defaultstate="collapsed">
     void llenarsSucursal(Sucursales S) {
         S.setCodigo(Lbl_IdSucursal.getText());
         S.setNombre(TxtNombre.getText());
         S.setTelefono(TxtTelefono.getText());
         S.setDireccion(TxtDireccion.getText());
-        S.setZona(CbxZona.getSelectedIndex());            
+        S.setZona(CbxZona.getSelectedIndex());
     }
     //</editor-fold>
 
@@ -477,7 +479,7 @@ public class vSucursales extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_formInternalFrameClosing
 
     private void TxtBuscarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TxtBuscarKeyPressed
-        if(evt.getKeyCode()==10){
+        if (evt.getKeyCode() == 10) {
             mostrarDatos(TxtBuscar.getText());
         }
     }//GEN-LAST:event_TxtBuscarKeyPressed
@@ -506,33 +508,34 @@ public class vSucursales extends javax.swing.JInternalFrame {
         S.setZona(CbxZona.getSelectedIndex());
         S.setTelefono(TxtTelefono.getText());
 
-        rsp.put("Sucursal",S);
+        rsp.put("Sucursal", S);
 
         Validaciones V = new Validaciones();
         V.validarCamposSucursales(rsp);
 
         if (rsp.containsKey("Mensaje")) {
-            JOptionPane.showMessageDialog(null,rsp.get("Mensaje"));
+            JOptionPane.showMessageDialog(null, rsp.get("Mensaje"));
             //            rsp.get("campo");
             //            String Focus = (String)rsp.get("campo");
             //            System.out.println(""+Focus);
-        }else{
+        } else {
 
             boolean guardar = SucursalesCAD.guardar(S);
 
-            if(!guardar){
+            if (!guardar) {
                 limpiarCampos();
-                JOptionPane.showMessageDialog(null,Bandera.getRespuesta());
+                JOptionPane.showMessageDialog(null, Bandera.getRespuesta());
                 TxtNombre.requestFocus();
-            }else{
+            } else {
                 limpiarCampos();
                 cargarId();
                 mostrarDatos("");
                 botonesInicio(true, false, true, false, false, false, false);
                 LblOk.setText(Bandera.getRespuesta());
-                LblOk.setVisible(true); 
+                LblOk.setVisible(true);
                 buscarSi();
-                
+                Bandera.setRespuesta("");
+
             }
         }
         //</editor-fold>
@@ -555,21 +558,21 @@ public class vSucursales extends javax.swing.JInternalFrame {
             //            String Focus = (String)rsp.get("campo");
             //            System.out.println(""+Focus);
         } else {
-                boolean Modificar = SucursalesCAD.modificar(S);
+            boolean Modificar = SucursalesCAD.modificar(S);
 
-                if (!Modificar) {
-                    JOptionPane.showMessageDialog(null, Bandera.getRespuesta());
-                    limpiarCampos();
-                    mostrarDatos("");
-                    // botonesInicio();
-                } else {
-                    limpiarCampos();
-                    botonesInicio(true, false, true, false, false, false, false);
-                    buscarSi();
-                    mostrarDatos(S.getNombre());
-                    LblOk.setText(Bandera.getRespuesta());
-                    LblOk.setVisible(true);
-                }
+            if (!Modificar) {
+                JOptionPane.showMessageDialog(null, Bandera.getRespuesta());
+                limpiarCampos();
+                mostrarDatos("");
+                // botonesInicio();
+            } else {
+                limpiarCampos();
+                botonesInicio(true, false, true, false, false, false, false);
+                buscarSi();
+                mostrarDatos(S.getNombre());
+                LblOk.setText(Bandera.getRespuesta());
+                LblOk.setVisible(true);
+            }
         }
         //</editor-fold>
     }//GEN-LAST:event_BtnModificarActionPerformed
@@ -578,7 +581,7 @@ public class vSucursales extends javax.swing.JInternalFrame {
         //<editor-fold desc="ELIMINAR" defaultstate="collapsed">
         if (Lbl_IdSucursal.getText().equalsIgnoreCase("")) {
             JOptionPane.showMessageDialog(null, "No se puede Eliminar la Sucursal\nNo se encuentra el Codigo\nVerifique que tenga conexion con la BD");
-            } else {
+        } else {
             // Btn Eliminar
             String Codigo = Lbl_IdSucursal.getText();
 
@@ -593,7 +596,7 @@ public class vSucursales extends javax.swing.JInternalFrame {
                 mostrarDatos("");
                 //botonesInicio();
             } else {
-                limpiarCampos();                
+                limpiarCampos();
                 buscarSi();
                 LblOk.setText(Bandera.getRespuesta());
                 LblOk.setVisible(true);
@@ -605,7 +608,7 @@ public class vSucursales extends javax.swing.JInternalFrame {
 
     private void BtnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCancelarActionPerformed
         //<editor-fold desc="CANCELAR" defaultstate="collapsed">
-        limpiarCampos();        
+        limpiarCampos();
         cargarId();
         botonesInicio(false, false, true, false, false, false, false);
         buscarSi();
@@ -616,8 +619,8 @@ public class vSucursales extends javax.swing.JInternalFrame {
     private void MnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnModificarActionPerformed
         //<editor-fold desc="MENU MODIFICAR" defaultstate="collapsed">
         //Seleccion fila modificar
-        if(Seleccion()){
-            habilitarCampos(true, false, false,true, false, true);
+        if (Seleccion()) {
+            habilitarCampos(true, false, false, true, false, true);
         }
         //</editor-fold>
     }//GEN-LAST:event_MnModificarActionPerformed
@@ -625,8 +628,8 @@ public class vSucursales extends javax.swing.JInternalFrame {
     private void MnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnEliminarActionPerformed
         //<editor-fold desc="MENU ELIMINAR" defaultstate="collapsed">
         //Seleccion fila Eliminar
-        if(Seleccion()){
-            habilitarCampos(false, false, false,false, true, true);
+        if (Seleccion()) {
+            habilitarCampos(false, false, false, false, true, true);
         }
         //</editor-fold>
     }//GEN-LAST:event_MnEliminarActionPerformed
@@ -668,18 +671,18 @@ public class vSucursales extends javax.swing.JInternalFrame {
         int fila = TblConsultarSucursal.getSelectedRow();
         if (fila >= 0) {
 
-            Lbl_IdSucursal.setText(TblConsultarSucursal.getValueAt(fila,0).toString());            
+            Lbl_IdSucursal.setText(TblConsultarSucursal.getValueAt(fila, 0).toString());
             TxtNombre.setText(TblConsultarSucursal.getValueAt(fila, 1).toString());
             TxtDireccion.setText(TblConsultarSucursal.getValueAt(fila, 2).toString());
             CbxZona.setSelectedIndex(Integer.parseInt(TblConsultarSucursal.getValueAt(fila, 3).toString()));
-            TxtTelefono.setText(TblConsultarSucursal.getValueAt(fila, 4).toString());            
-            
+            TxtTelefono.setText(TblConsultarSucursal.getValueAt(fila, 4).toString());
+
             return true;
         } else {
-            JOptionPane.showMessageDialog(null, "No se ha seleccionado ningunaa Sucursal de la tabla");            
+            JOptionPane.showMessageDialog(null, "No se ha seleccionado ningunaa Sucursal de la tabla");
             buscarSi();
             return false;
-            
+
         }
     }
 }
