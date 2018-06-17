@@ -6,6 +6,7 @@
 package Config;
 
 import Model.Categorias;
+import Model.Productos;
 import Model.Proveedores;
 import Model.Roles;
 import Model.Sucursales;
@@ -169,6 +170,58 @@ public class Validaciones {
 //            respuesta.put("campo","TxtFax.requestFocusInWindow()");
 //            return respuesta;
 //        }         
+        
+        respuesta.remove("Mensaje");
+//        boolean val = respuesta.isEmpty();
+//        System.out.println("valor vacio "+val);
+        return respuesta;
+    }
+    //</editor-fold>
+    
+    //<editor-fold desc="VALIDAR PROVEEDOR" defaultstate="collapsed">
+    public Map validarCamposProductos(Map respuesta){
+        
+        Productos P = (Productos)respuesta.get("Producto");
+        
+        if (P.getCodigo().equals("")) {
+            respuesta.put("Mensaje","Error en el ID del Proveedor");
+            return respuesta;
+        } 
+        if (P.getIdProveedor().equals("")) {
+            respuesta.put("Mensaje","Debe seleccionar un Proveedor");
+            respuesta.put("campo","CbxProveedor.requestFocusInWindow()");
+            return respuesta;
+        } 
+        if (P.getIdCategoria().equals("")) {
+            respuesta.put("Mensaje","Debe seleccionar una Categoria");
+            respuesta.put("campo","CbxCategoria.requestFocusInWindow()");
+            return respuesta;
+        } 
+        if (P.getNombre().equals("")) {
+            respuesta.put("Mensaje","El campo Nombre se encuentra Vacio");
+            respuesta.put("campo","TxtNombre.requestFocusInWindow()");
+            return respuesta;
+        } 
+        if (P.getPrecioCosto()< 0) {
+            respuesta.put("Mensaje","El campo Precio Costo debe contener un valor valido");
+            respuesta.put("campo","TxtPrecioCosto.requestFocusInWindow()");
+            return respuesta;
+        } 
+        if (P.getCantidad()<= 0) {
+            respuesta.put("Mensaje","El campo Cantidad debe contener como minimo 1");
+            respuesta.put("campo","TxtCantidad.requestFocusInWindow()");
+            return respuesta;
+        } 
+        if (P.getIdUMedida().equals("")) {
+            respuesta.put("Mensaje","Debe seleccionar una Unidad de Medida");
+            respuesta.put("campo","CbxUndMedida.requestFocusInWindow()");
+            return respuesta;
+        }         
+        if (P.getStock()<0) {
+            respuesta.put("Mensaje","El campo Stock Contiene un valor no valido");
+            respuesta.put("campo","TxtStock.requestFocusInWindow()");
+            return respuesta;
+        }         
         
         respuesta.remove("Mensaje");
 //        boolean val = respuesta.isEmpty();

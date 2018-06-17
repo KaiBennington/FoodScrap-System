@@ -36,7 +36,8 @@ public class vCategorias extends javax.swing.JInternalFrame {
     void cargarId(){
         //Cargar ID
         CargarCAD oCargarCAD = new CargarCAD() ;
-        String Ct = oCargarCAD.cargarIdCategorias();        
+        Bandera B = new Bandera("Categorias", "IdCategoria");
+        String Ct = oCargarCAD.cargarIds(B);          
         Lbl_Id.setText(Ct);
     }
     //</editor-fold>

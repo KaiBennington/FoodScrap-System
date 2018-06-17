@@ -36,7 +36,8 @@ public class vUnidadMedidas extends javax.swing.JInternalFrame {
     void cargarId(){
         //Cargar ID
         CargarCAD oCargarCAD = new CargarCAD() ;
-        String Um = oCargarCAD.cargarIdUnidadMedidas();        
+        Bandera B = new Bandera("UnidadMedidas", "IdUndMedida");
+        String Um = oCargarCAD.cargarIds(B);          
         Lbl_Id.setText(Um);
     }
     //</editor-fold>

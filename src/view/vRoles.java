@@ -93,7 +93,8 @@ public class vRoles extends javax.swing.JInternalFrame {
     void cargarId(){
         //Cargar ID
         CargarCAD oCargarCAD = new CargarCAD() ;
-        String R = oCargarCAD.cargarIdRoles();        
+        Bandera B = new Bandera("Roles", "Id_Roll");
+        String R = oCargarCAD.cargarIds(B);           
         Lbl_Id.setText(R);
     }
     //</editor-fold>

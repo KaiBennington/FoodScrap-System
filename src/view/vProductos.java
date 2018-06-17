@@ -5,6 +5,16 @@
  */
 package view;
 
+import CAD.CargarCAD;
+import CAD.TablasCAD;
+import Config.Bandera;
+import Config.Validaciones;
+import Model.Productos;
+import java.util.HashMap;
+import java.util.Map;
+import javax.swing.JOptionPane;
+import javax.swing.table.TableColumnModel;
+
 /**
  *
  * @author USUARIO
@@ -16,7 +26,119 @@ public class vProductos extends javax.swing.JInternalFrame {
      */
     public vProductos() {
         initComponents();
+        botonesInicio(false, false, true, false, false, false, false);
+        cargarId();
+        mostrarDatos("");
     }
+    
+    //<editor-fold desc="CARGAR COMBOS" defaultstate="collapsed">       
+    void cargarId() {
+        //Cargar ID
+        CargarCAD oCargarCAD = new CargarCAD();
+        Bandera B = new Bandera("Productos", "IdProducto");
+        String P = oCargarCAD.cargarIds(B);
+        LblIdProducto.setText(P);
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="BOTONES INICIO" defaultstate="collapsed">
+    void botonesInicio(boolean Ok, boolean datos, boolean nuevo, boolean Agregar, boolean modificar, boolean eliminar, boolean cancelar) {
+        BtnNuevo.requestFocus();
+        LblOk.setVisible(Ok);
+        /////
+        LblIdProducto.setEnabled(datos);
+        CbxProveedor.setEnabled(datos);
+        CbxCategoria.setEnabled(datos);
+        TxtNombre.setEnabled(datos);
+        TxtPrecioCosto.setEnabled(datos);
+        TxtCantidad.setEnabled(datos);
+        CbxUndMedida.setEnabled(datos);
+        TxtStock.setEnabled(datos);
+        /////
+        BtnNuevo.setVisible(nuevo);
+        /////
+        BtnAgregar.setVisible(Agregar);
+        BtnModificar.setVisible(modificar);
+        BtnEliminar.setVisible(eliminar);
+        BtnCancelar.setVisible(cancelar);
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="BUSCAR" defaultstate="collapsed">
+    void buscarSi() {
+        TxtBuscar.setVisible(true);
+        LblBuscar.setVisible(true);
+    }
+
+    void buscarNo() {
+        TxtBuscar.setVisible(false);
+        LblBuscar.setVisible(false);
+    }
+    //</editor-fold>   
+
+    //<editor-fold desc="lIMPIAR CAMPOS" defaultstate="collapsed">
+    public void limpiarCampos() {
+        LblOk.setVisible(false);
+        ////
+        LblIdProducto.setText("");
+        CbxProveedor.setSelectedIndex(0);
+        CbxCategoria.setSelectedIndex(0);
+        TxtNombre.setText("");
+        TxtPrecioCosto.setText("");
+        TxtCantidad.setText("");
+        CbxUndMedida.setSelectedIndex(0);
+        TxtStock.setText("");        
+        
+        cargarId();
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="MOSTRAR DATOS" defaultstate="collapsed">
+    void mostrarDatos(String Valor) {
+        TablasCAD ModelTable = new TablasCAD();
+        TblConsultarProductos.setModel(ModelTable.getTablaProductos(Valor));
+        TableColumnModel columnModel = TblConsultarProductos.getColumnModel();
+        for (int i = 0; i < columnModel.getColumnCount(); i++) {
+            columnModel.getColumn(i).setPreferredWidth(100);
+        }
+
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="LLENAR PROVEEDOR" defaultstate="collapsed">
+    void llenarProducto(Productos P) {
+        P.setCodigo(LblIdProducto.getText());
+        P.setIdProveedor(Integer.toString(CbxProveedor.getSelectedIndex()));
+        P.setIdCategoria(Integer.toString(CbxCategoria.getSelectedIndex()));
+        P.setNombre(TxtNombre.getText());
+        P.setPrecioCosto(Integer.parseInt(TxtPrecioCosto.getText()));
+        P.setCantidad(Integer.parseInt(TxtCantidad.getText()));
+        P.setIdUMedida(Integer.toString(CbxUndMedida.getSelectedIndex()));
+        P.setStock(Integer.parseInt(TxtStock.getText()));
+    }
+    //</editor-fold>
+    
+    //<editor-fold desc="HABILITAR CAMPOS" defaultstate="collapsed">
+    void habilitarCampos(boolean id, boolean datos, boolean nuevo, boolean guardar, boolean modificar, boolean eliminar, boolean cancelar) {
+        LblIdProducto.setEnabled(id);
+        //
+        CbxProveedor.setEnabled(datos);
+        CbxCategoria.setEnabled(datos); 
+        TxtNombre.setEnabled(datos);
+        TxtPrecioCosto.setEnabled(datos);
+        TxtCantidad.setEnabled(datos);
+        CbxUndMedida.setEnabled(datos);        
+        TxtStock.setEnabled(datos);        
+        ///   
+        BtnNuevo.setVisible(nuevo);
+        BtnAgregar.setVisible(guardar);
+        BtnModificar.setVisible(modificar);
+        BtnEliminar.setVisible(eliminar);
+        BtnCancelar.setVisible(cancelar);
+
+        buscarNo();
+    }
+    //</editor-fold>
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -92,7 +214,7 @@ public class vProductos extends javax.swing.JInternalFrame {
         LblIdProducto.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         LblIdProducto.setForeground(new java.awt.Color(255, 0, 0));
         LblIdProducto.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        LblIdProducto.setText("0001");
+        LblIdProducto.setText("...");
 
         jLabel4.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -277,6 +399,7 @@ public class vProductos extends javax.swing.JInternalFrame {
 
         BtnEliminar.setBackground(new java.awt.Color(255, 153, 0));
         BtnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Eliminar.png"))); // NOI18N
+        BtnEliminar.setToolTipText("Eliminar");
         BtnEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BtnEliminarActionPerformed(evt);
@@ -285,6 +408,7 @@ public class vProductos extends javax.swing.JInternalFrame {
 
         BtnModificar.setBackground(new java.awt.Color(255, 153, 0));
         BtnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Modificar.png"))); // NOI18N
+        BtnModificar.setToolTipText("Modificar");
         BtnModificar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BtnModificarActionPerformed(evt);
@@ -390,7 +514,36 @@ public class vProductos extends javax.swing.JInternalFrame {
     private void BtnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAgregarActionPerformed
         //<editor-fold desc="GUARDAR" defaultstate="collapsed">
         // Btn Guardar
-        
+        Map rsp = new HashMap();
+        Productos P = new Productos();
+        llenarProducto(P);
+
+        rsp.put("Producto", P);
+
+        Validaciones V = new Validaciones();
+        V.validarCamposProductos(rsp);
+
+        if (rsp.containsKey("Mensaje")) {
+            JOptionPane.showMessageDialog(null, rsp.get("Mensaje"));
+            //            rsp.get("campo");
+            //            String Focus = (String)rsp.get("campo");
+            //            System.out.println(""+Focus);
+        } else {
+
+            boolean guardar = ProductosCAD.guardar(P);
+
+            if (!guardar) {
+                limpiarCampos();
+                JOptionPane.showMessageDialog(null, Bandera.getRespuesta());
+                TxtNombre.requestFocus();
+            } else {
+                limpiarCampos();
+                LblOk.setText(Bandera.getRespuesta());
+                mostrarDatos("");
+                botonesInicio(true, false, true, false, false, false, false);
+                buscarSi();
+            }
+        }
         //</editor-fold>
     }//GEN-LAST:event_BtnAgregarActionPerformed
 
@@ -402,7 +555,10 @@ public class vProductos extends javax.swing.JInternalFrame {
 
     private void BtnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnNuevoActionPerformed
         //<editor-fold desc="NUEVO" defaultstate="collapsed">
-        
+        limpiarCampos();
+        mostrarDatos("");
+        botonesInicio(false, true, false, true, false, false, true);
+        buscarNo();
         //</editor-fold>
     }//GEN-LAST:event_BtnNuevoActionPerformed
 

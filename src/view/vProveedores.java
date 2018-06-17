@@ -47,7 +47,7 @@ public class vProveedores extends javax.swing.JInternalFrame {
         BtnNuevo.requestFocus();
         LblOk.setVisible(Ok);
         /////
-//        Lbl_IdProveedor.setEnabled(datos);
+        Lbl_IdProveedor.setEnabled(datos);
         TxtNit.setEnabled(datos);
         TxtRazonSocial.setEnabled(datos);
         TxtNombre.setEnabled(datos);

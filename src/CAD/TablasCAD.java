@@ -396,4 +396,59 @@ public class TablasCAD extends ConexionDB{
         return modelo;
     } //FIN Tabla Proveedores
     //</editor-fold>    
+    
+    //<editor-fold desc="TABLA PROVEEDORES" defaultstate="collapsed">
+    public DefaultTableModel getTablaProductos(String Valor){
+        
+      DefaultTableModel modelo = new DefaultTableModel();          
+      int registros = 0;
+      String[] NombreClmns = {"Codigo","Cantidad","Und Medida","Nombre","Precio Costo","Categoria","Proveedor","Stock"};
+      
+      PreparedStatement pst;
+      ResultSet rs = null;
+      try{
+         String Sql = "SELECT count(*) as total FROM Productos";
+         pst = getConexion().prepareStatement(Sql);
+         rs = pst.executeQuery();
+         
+         rs.next();
+         registros = rs.getInt("total");
+         rs.close();
+      }catch(SQLException e){
+         System.err.println( e.getMessage() );
+      }      
+    
+    Object[][] data = new String[registros][8];
+      try{
+         String Sql;
+         if(Valor.equals(""))
+    {
+        Sql=" SELECT * FROM Productos ";
+    }
+    else{
+        Sql=" SELECT * FROM Productos WHERE upper (Nombre) LIKE upper ('"+Valor+"%')";        
+    }
+         pst = getConexion().prepareStatement(Sql);
+         rs = pst.executeQuery();         
+         int i=0;
+         while(rs.next()){
+                data[i][0] = rs.getString( "IdProducto" );
+                data[i][1] = rs.getString( "Cantidad" );
+                data[i][2] = rs.getString( "IdUndMedida" );
+                data[i][3] = rs.getString( "Nombre" );
+                data[i][4] = rs.getString( "PrecioC" );
+                data[i][5] = rs.getString( "IdCategoria" );
+                data[i][6] = rs.getString( "IdProveedor" );
+                data[i][7] = rs.getString( "Stock" );
+            i++;
+         }
+         rs.close();         
+         modelo.setDataVector(data, NombreClmns );
+         
+         }catch(SQLException e){
+            System.err.println( e.getMessage() );
+        }
+        return modelo;
+    } //FIN Tabla Productos
+    //</editor-fold>    
 }
