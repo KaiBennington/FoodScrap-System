@@ -11,10 +11,13 @@ package Model;
  */
 public class UnidadMedidas {
     
+    //<editor-fold desc="ATRIBUTOS" defaultstate="collapsed">
     private String Codigo;
     private String Nombre;
     private String Siglas;
+    //</editor-fold>
 
+    //<editor-fold desc="CONSTRUCTOR" defaultstate="collapsed">
     public UnidadMedidas() {
     }
 
@@ -23,7 +26,9 @@ public class UnidadMedidas {
         this.Nombre = Nombre;
         this.Siglas = Siglas;
     }    
+    //</editor-fold>
 
+    //<editor-fold desc="PROPIEDADES" defaultstate="collapsed">
     public String getCodigo() {
         return Codigo;
     }
@@ -47,6 +52,6 @@ public class UnidadMedidas {
     public void setSiglas(String Siglas) {
         this.Siglas = Siglas;
     }
-    
+    //</editor-fold>    
     
 }

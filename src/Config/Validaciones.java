@@ -178,7 +178,7 @@ public class Validaciones {
     }
     //</editor-fold>
     
-    //<editor-fold desc="VALIDAR PROVEEDOR" defaultstate="collapsed">
+    //<editor-fold desc="VALIDAR PRODUCTO" defaultstate="collapsed">
     public Map validarCamposProductos(Map respuesta){
         
         Productos P = (Productos)respuesta.get("Producto");

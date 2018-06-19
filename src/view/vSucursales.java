@@ -250,7 +250,7 @@ public class vSucursales extends javax.swing.JInternalFrame {
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel6.setText("Zona");
 
-        CbxZona.setFont(new java.awt.Font("Agency FB", 0, 14)); // NOI18N
+        CbxZona.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         CbxZona.setForeground(new java.awt.Color(255, 0, 0));
         CbxZona.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione..." }));
 

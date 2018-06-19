@@ -11,10 +11,13 @@ package Model;
  */
 public class TipoDocumento {
     
+    //<editor-fold desc="ATRIBUTOS" defaultstate="collapsed">
     private String Codigo;
     private String Nombre;
     private String Siglas;
+    //</editor-fold>
 
+    //<editor-fold desc="CONSTRUCTOR" defaultstate="collapsed">
     public TipoDocumento(String Codigo, String Nombre, String Siglas) {
         this.Codigo = Codigo;
         this.Nombre = Nombre;
@@ -23,7 +26,9 @@ public class TipoDocumento {
 
     public TipoDocumento() {
     }
+    //</editor-fold>
 
+    //<editor-fold desc="PROPIEDADES" defaultstate="collapsed">
     public String getCodigo() {
         return Codigo;
     }
@@ -47,5 +52,6 @@ public class TipoDocumento {
     public void setSiglas(String Siglas) {
         this.Siglas = Siglas;
     }
+    //</editor-fold>
     
 }

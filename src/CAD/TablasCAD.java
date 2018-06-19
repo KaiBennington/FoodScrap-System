@@ -397,7 +397,7 @@ public class TablasCAD extends ConexionDB{
     } //FIN Tabla Proveedores
     //</editor-fold>    
     
-    //<editor-fold desc="TABLA PROVEEDORES" defaultstate="collapsed">
+    //<editor-fold desc="TABLA PRODUCTOS" defaultstate="collapsed">
     public DefaultTableModel getTablaProductos(String Valor){
         
       DefaultTableModel modelo = new DefaultTableModel();          

@@ -6,12 +6,15 @@
 package CAD;
 
 import Config.Bandera;
+import Model.Categorias;
 import Model.ConexionDB;
 import static Model.ConexionDB.getConexion;
 import Model.PreguntaSecreta;
+import Model.Proveedores;
 import Model.Roles;
 import Model.Sucursales;
 import Model.TipoDocumento;
+import Model.UnidadMedidas;
 import Model.Zonas;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -52,6 +55,95 @@ public class CargarCAD extends ConexionDB {
         }
         return Lista;
     }// FIN Metodo Cargar Tipo documento
+    //</editor-fold>
+    
+    //<editor-fold desc="CARGAR UNIDAD DE MEDIDA" defaultstate="collapsed">
+    public ArrayList CargarUndMedida() {
+        //Combo Unidad de Medida
+        PreparedStatement pst;
+        ResultSet rs = null;
+        ArrayList Lista = new ArrayList();
+        try {
+
+            String Sql = "CALL CargarUndMedida();";
+            pst = getConexion().prepareStatement(Sql);
+            rs = pst.executeQuery();
+
+            while (rs.next()) {
+                String Nombre, Siglas;
+                int Codigo;
+                Codigo = (rs.getInt(1));
+                Nombre = (rs.getString(2));
+                Siglas = (rs.getString(3));
+
+                UnidadMedidas Um = new UnidadMedidas("" + Codigo, Nombre, Siglas);
+                Lista.add(Um);
+                // System.out.println(""+Lista);
+            }
+            return Lista;
+        } catch (SQLException ex) {
+        }
+        return Lista;
+    }// FIN Metodo Cargar Unidad de Medida
+    //</editor-fold>
+    
+    //<editor-fold desc="CARGAR CATEGORIAS" defaultstate="collapsed">
+    public ArrayList CargarCategoria() {
+        //Combo Categorias
+        PreparedStatement pst;
+        ResultSet rs = null;
+        ArrayList Lista = new ArrayList();
+        try {
+
+            String Sql = "CALL CargarCategoria();";
+            pst = getConexion().prepareStatement(Sql);
+            rs = pst.executeQuery();
+
+            while (rs.next()) {
+                String Nombre;
+                int Codigo;
+                Codigo = (rs.getInt(1));
+                Nombre = (rs.getString(2));                
+
+                Categorias Ct = new Categorias("" + Codigo, Nombre);
+                Lista.add(Ct);
+                // System.out.println(""+Lista);
+            }
+            return Lista;
+        } catch (SQLException ex) {
+        }
+        return Lista;
+    }// FIN Metodo Cargar Categorias
+    //</editor-fold>
+    
+    //<editor-fold desc="CARGAR PROVEEDORES" defaultstate="collapsed">
+    public ArrayList CargarProveedor() {
+        //Combo Proveedores
+        PreparedStatement pst;
+        ResultSet rs = null;
+        ArrayList Lista = new ArrayList();
+        try {
+
+            String Sql = "CALL CargarProveedor();";
+            pst = getConexion().prepareStatement(Sql);
+            rs = pst.executeQuery();
+
+            while (rs.next()) {
+                String Nombre, RazonSocial;
+                int Codigo;
+                Codigo = (rs.getInt(1));
+                Nombre = (rs.getString(2));                
+                RazonSocial = (rs.getString(3));                
+
+                Proveedores Pr = new Proveedores("" + Codigo, Nombre, RazonSocial);
+                Lista.add(Pr);
+                // System.out.println(""+Lista);
+            }
+            return Lista;
+        } catch (SQLException ex) {
+        }
+        return Lista;
+    }// FIN Metodo Cargar Proveedores
     //</editor-fold>
 
     //<editor-fold desc="CARGAR SUCURSALES" defaultstate="collapsed">

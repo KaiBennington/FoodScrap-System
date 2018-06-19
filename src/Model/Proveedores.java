@@ -35,7 +35,13 @@ public class Proveedores {
         this.Direccion = Direccion;
         this.Telefono = Telefono;
         this.Fax = Fax;
-    }    
+    }
+
+    public Proveedores(String Codigo, String Nombre, String RazonSocial) {
+        this.Codigo = Codigo;
+        this.Nombre = Nombre;
+        this.RazonSocial = RazonSocial;
+    }
     //</editor-fold>
     
     //<editor-fold desc="PROPIEDADES" defaultstate="collapsed">    
