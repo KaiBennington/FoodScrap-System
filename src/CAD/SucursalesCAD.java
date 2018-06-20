@@ -107,7 +107,7 @@ public class SucursalesCAD extends ConexionDB{
                 resul = rs.getString("Mensaje");         
             }
             
-            if("Sucursal Eliminado".equalsIgnoreCase(resul)){
+            if("Sucursal Eliminada".equalsIgnoreCase(resul)){
                Bandera.setRespuesta(resul);
                respuesta = true;
             }else{

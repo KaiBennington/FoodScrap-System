@@ -673,8 +673,10 @@ public class vProductos extends javax.swing.JInternalFrame {
             } else {
                 limpiarCampos();
                 botonesInicio(false, false, true, false, false, false, false);
+                buscarSi();
                 LblOk.setText(Bandera.getRespuesta());
                 LblOk.setVisible(true);
+                Bandera.setRespuesta("");
             }
         }
         //</editor-fold>
@@ -710,16 +712,17 @@ public class vProductos extends javax.swing.JInternalFrame {
                 limpiarCampos();
                 botonesInicio(false, false, true, false, false, false, false);
                 mostrarDatos(P.getNombre());
+                buscarSi();
                 LblOk.setText(Bandera.getRespuesta());
                 LblOk.setVisible(true);
+                Bandera.setRespuesta("");
             }
         }
         //</editor-fold>
     }//GEN-LAST:event_BtnModificarActionPerformed
 
     private void MnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnModificarActionPerformed
-        //<editor-fold desc="MENU MODIFICAR" defaultstate="collapsed">
-        //habilitarCampos(false, true, false, true, false, true);
+        //<editor-fold desc="MENU MODIFICAR" defaultstate="collapsed">        
         //Seleccion fila modificar
         if (Seleccion()) {
             habilitarCampos(false, true, false, false, true, false, true);
@@ -730,7 +733,6 @@ public class vProductos extends javax.swing.JInternalFrame {
 
     private void MnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnEliminarActionPerformed
         //<editor-fold desc="MENU ELIMINAR" defaultstate="collapsed">
-        //habilitarCampos(false, false, false, false, true, true);
         //Seleccion fila Eliminar
         if (Seleccion()) {
             habilitarCampos(false, false, false, false, false, true, true);
@@ -787,7 +789,9 @@ public class vProductos extends javax.swing.JInternalFrame {
             TxtCantidad.setText(TblConsultarProductos.getValueAt(fila, 1).toString());
             CbxUndMedida.setSelectedIndex(Integer.parseInt(TblConsultarProductos.getValueAt(fila, 2).toString()));
             TxtNombre.setText(TblConsultarProductos.getValueAt(fila, 3).toString());
-            TxtPrecioCosto.setText(TblConsultarProductos.getValueAt(fila, 4).toString());
+            
+            Double precio = Double.parseDouble(TblConsultarProductos.getValueAt(fila, 4).toString());
+            TxtPrecioCosto.setText(""+precio.intValue());
             CbxCategoria.setSelectedIndex(Integer.parseInt(TblConsultarProductos.getValueAt(fila, 5).toString()));
             CbxProveedor.setSelectedIndex(Integer.parseInt(TblConsultarProductos.getValueAt(fila, 6).toString()));
             TxtStock.setText(TblConsultarProductos.getValueAt(fila, 7).toString());

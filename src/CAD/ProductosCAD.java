@@ -9,7 +9,6 @@ import Config.Bandera;
 import static Model.ConexionDB.desconectar;
 import static Model.ConexionDB.getConexion;
 import Model.Productos;
-import Model.Proveedores;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;

@@ -584,6 +584,8 @@ public class vProveedores extends javax.swing.JInternalFrame {
                 mostrarDatos(P.getNombre());
                 LblOk.setText(Bandera.getRespuesta());
                 LblOk.setVisible(true);
+                buscarSi();
+                Bandera.setRespuesta("");
             }
         }
         //</editor-fold>
@@ -610,8 +612,11 @@ public class vProveedores extends javax.swing.JInternalFrame {
             } else {
                 limpiarCampos();
                 botonesInicio(false, false, true, false, false, false, false);
+                mostrarDatos("");
                 LblOk.setText(Bandera.getRespuesta());
                 LblOk.setVisible(true);
+                buscarSi();
+                Bandera.setRespuesta("");
             }
         }
         //</editor-fold>

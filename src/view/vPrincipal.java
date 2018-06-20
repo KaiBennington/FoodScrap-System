@@ -7,12 +7,19 @@ package view;
 
 import Config.Bandera;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Insets;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
-import javax.swing.MenuElement;
+import javax.swing.border.Border;
 
 /**
  *
@@ -26,6 +33,7 @@ public class vPrincipal extends javax.swing.JFrame {
     static String ventana="";
     public vPrincipal() {
         initComponents();
+        Escritorio.setBorder(new ImagenFondo());
         setIconImage(new ImageIcon(getClass().getResource("/img/Titles/IconoLogo.png")).getImage());
         setExtendedState(MAXIMIZED_BOTH);
         LblNombre.setText("Usuario Actual : "+ Bandera.getNombre() + " " + Bandera.getApellido());
@@ -34,6 +42,32 @@ public class vPrincipal extends javax.swing.JFrame {
 //        recorrerMenu(jMenuBar1.getSubElements());
                 
     }
+    
+    public class ImagenFondo implements Border {    
+    BufferedImage fondo;
+    public ImagenFondo(){    
+        try {       
+            //se obtiene la imagen            
+            URL url = new URL(getClass().getResource("/img/Titles/LogoFood.png").toString());
+            fondo = ImageIO.read(url);    
+            
+        } catch (IOException ex) {
+            Logger.getLogger(ImagenFondo.class.getName()).log(Level.SEVERE, null, ex);
+        }      
+    }
+    // se sobreescriben metodos propios de Border
+    public void paintBorder(Component c, Graphics g, int x, int y, int width, int height){     
+        //se dibuja la imagen de fondo en el centro del contenedor
+        //cada que se redimensione el contenedor, la imagen automaticamente se posiciona en el centro
+        g.drawImage(fondo, (x + (width - fondo.getWidth())/2),(y + (height - fondo.getHeight())/2), null);
+    }
+    public Insets getBorderInsets(Component c){
+    return new Insets(0,0,0,0);
+    }
+    public boolean isBorderOpaque(){
+    return true;
+    }
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -64,9 +98,6 @@ public class vPrincipal extends javax.swing.JFrame {
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         jMenuItem13 = new javax.swing.JMenuItem();
-        jMenuItem14 = new javax.swing.JMenuItem();
-        jMenuItem11 = new javax.swing.JMenuItem();
-        jMenuItem12 = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
         jMenuItem15 = new javax.swing.JMenuItem();
         jMenuItem16 = new javax.swing.JMenuItem();
@@ -150,7 +181,7 @@ public class vPrincipal extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu2);
 
-        jMenu3.setText("Gestionar");
+        jMenu3.setText("Gestiones");
 
         jMenuItem7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Platos.png"))); // NOI18N
         jMenuItem7.setText("Platos");
@@ -199,33 +230,11 @@ public class vPrincipal extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu3);
 
-        jMenu4.setText("Consultar");
+        jMenu4.setText("Consultas");
 
         jMenuItem13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Platos.png"))); // NOI18N
         jMenuItem13.setText("Consultar Platos");
         jMenu4.add(jMenuItem13);
-
-        jMenuItem14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Productos.png"))); // NOI18N
-        jMenuItem14.setText("Consultar Productos");
-        jMenu4.add(jMenuItem14);
-
-        jMenuItem11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Proveedores.png"))); // NOI18N
-        jMenuItem11.setText("Consultar Proveedores");
-        jMenuItem11.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem11ActionPerformed(evt);
-            }
-        });
-        jMenu4.add(jMenuItem11);
-
-        jMenuItem12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Sucursales.png"))); // NOI18N
-        jMenuItem12.setText("Consultar Sucursales");
-        jMenuItem12.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem12ActionPerformed(evt);
-            }
-        });
-        jMenu4.add(jMenuItem12);
 
         jMenuBar1.add(jMenu4);
 
@@ -442,26 +451,6 @@ public class vPrincipal extends javax.swing.JFrame {
         //</editor-fold>
     }//GEN-LAST:event_jMenuItem9ActionPerformed
 
-    private void jMenuItem12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem12ActionPerformed
-        //<editor-fold desc="CONSULTAR SUCURSALES" defaultstate="collapsed">
-         vConsultarSucursal vCS = new vConsultarSucursal();
-         if (!ventana.equalsIgnoreCase("Consultar Sucursal")) {
-            ventana="Consultar Sucursal";
-            
-            Escritorio.add(vCS);
-            Dimension desktopSize = Escritorio.getSize();
-            Dimension FrameSize = vCS.getSize();
-            vCS.setLocation((desktopSize.width - FrameSize.width)/2, (desktopSize.height- FrameSize.height)/2);
-            vCS.show();             
-        }
-        else
-        {
-        JOptionPane.showMessageDialog(null,"LA VENTANA YA SE ENCUENTRA ABIERTA");
-        
-        }
-        //</editor-fold>
-    }//GEN-LAST:event_jMenuItem12ActionPerformed
-
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
         //<editor-fold desc="GESTION PLATOS" defaultstate="collapsed">
          vPlatos vPl = new vPlatos();
@@ -562,26 +551,6 @@ public class vPrincipal extends javax.swing.JFrame {
         //</editor-fold>
     }//GEN-LAST:event_jMenuItem18ActionPerformed
 
-    private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
-        //<editor-fold desc="CONSULTAR PROVEEDORES" defaultstate="collapsed">        
-         vConsultarProveedores vCP = new vConsultarProveedores();
-         if (!ventana.equalsIgnoreCase("Consulta Proveedores")) { // && !ventana.equalsIgnoreCase("Cambio Contra")
-            ventana="Consulta Proveedores";
-            
-            Escritorio.add(vCP);
-            Dimension desktopSize = Escritorio.getSize();
-            Dimension FrameSize = vCP.getSize();
-            vCP.setLocation((desktopSize.width - FrameSize.width)/2, (desktopSize.height- FrameSize.height)/2);
-            vCP.show();             
-        }
-        else
-        {
-        JOptionPane.showMessageDialog(null,"LA VENTANA YA SE ENCUENTRA ABIERTA");
-        
-        }
-        //</editor-fold>
-    }//GEN-LAST:event_jMenuItem11ActionPerformed
-
     /**
      * @param args the command line arguments
      */
@@ -629,10 +598,7 @@ public class vPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem10;
-    private javax.swing.JMenuItem jMenuItem11;
-    private javax.swing.JMenuItem jMenuItem12;
     private javax.swing.JMenuItem jMenuItem13;
-    private javax.swing.JMenuItem jMenuItem14;
     private javax.swing.JMenuItem jMenuItem15;
     private javax.swing.JMenuItem jMenuItem16;
     private javax.swing.JMenuItem jMenuItem17;

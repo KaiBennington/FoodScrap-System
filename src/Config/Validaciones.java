@@ -187,12 +187,12 @@ public class Validaciones {
             respuesta.put("Mensaje","Error en el ID del Proveedor");
             return respuesta;
         } 
-        if (P.getIdProveedor().equals("")) {
+        if (P.getIdProveedor().equals(Integer.toString(0))) {
             respuesta.put("Mensaje","Debe seleccionar un Proveedor");
             respuesta.put("campo","CbxProveedor.requestFocusInWindow()");
             return respuesta;
         } 
-        if (P.getIdCategoria().equals("")) {
+        if (P.getIdCategoria().equals(Integer.toString(0))) {
             respuesta.put("Mensaje","Debe seleccionar una Categoria");
             respuesta.put("campo","CbxCategoria.requestFocusInWindow()");
             return respuesta;
@@ -202,7 +202,7 @@ public class Validaciones {
             respuesta.put("campo","TxtNombre.requestFocusInWindow()");
             return respuesta;
         } 
-        if (P.getPrecioCosto()< 0) {
+        if (P.getPrecioCosto()< 0 || "".equals(P.getPrecioCosto())) {
             respuesta.put("Mensaje","El campo Precio Costo debe contener un valor valido");
             respuesta.put("campo","TxtPrecioCosto.requestFocusInWindow()");
             return respuesta;
@@ -212,7 +212,7 @@ public class Validaciones {
             respuesta.put("campo","TxtCantidad.requestFocusInWindow()");
             return respuesta;
         } 
-        if (P.getIdUMedida().equals("")) {
+        if (P.getIdUMedida().equals(Integer.toString(0))) {
             respuesta.put("Mensaje","Debe seleccionar una Unidad de Medida");
             respuesta.put("campo","CbxUndMedida.requestFocusInWindow()");
             return respuesta;
