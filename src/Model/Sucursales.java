@@ -17,7 +17,7 @@ public class Sucursales {
     private String Direccion;
     private int Zona;
     private String Telefono; 
-    //</editor-fold>   
+    //</editor-fold> 
     
     //<editor-fold desc="CONTRUCTOR" defaultstate="collapsed">
     public Sucursales() {    
