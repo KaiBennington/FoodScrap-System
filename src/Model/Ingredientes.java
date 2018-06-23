@@ -9,13 +9,12 @@ package Model;
  *
  * @author USUARIO
  */
-public class Platos {
+public class Ingredientes {
     
     //<editor-fold desc="ATRIBUTOS" defaultstate="collapsed"> 
     private String idPlato;
-    private String CodigoPlato;
-    private String Nombre;
-    private double Valor; 
+    private String Ingrediente;
+    private String Cantidad;
     //</editor-fold>
     
     //<editor-fold desc="PROPIEDADES" defaultstate="collapsed">
@@ -27,42 +26,32 @@ public class Platos {
         this.idPlato = idPlato;
     }
 
-    public String getCodigoPlato() {
-        return CodigoPlato;
+    public String getIngrediente() {
+        return Ingrediente;
     }
 
-    public void setCodigoPlato(String CodigoPlato) {
-        this.CodigoPlato = CodigoPlato;
+    public void setIngrediente(String Ingrediente) {
+        this.Ingrediente = Ingrediente;
     }
 
-    public String getNombre() {
-        return Nombre;
+    public String getCantidad() {
+        return Cantidad;
     }
 
-    public void setNombre(String Nombre) {
-        this.Nombre = Nombre;
-    }
-
-    public double getValor() {
-        return Valor;
-    }
-    
-    public void setValor(double Valor) {
-        this.Valor = Valor;
-    }
+    public void setCantidad(String Cantidad) {
+        this.Cantidad = Cantidad;
+    }    
     //</editor-fold> 
     
     //<editor-fold desc="CONSTRUCTOR" defaultstate="collapsed">
 
-    public Platos(String idPlato, String CodigoPlato, String Nombre, int Valor) {
+    public Ingredientes(String idPlato, String Ingrediente, String Cantidad) {
         this.idPlato = idPlato;
-        this.CodigoPlato = CodigoPlato;
-        this.Nombre = Nombre;
-        this.Valor = Valor;
-    }
+        this.Ingrediente = Ingrediente;
+        this.Cantidad = Cantidad;
+    }    
     
-    public Platos() {
+    public Ingredientes() {
     }
     //</editor-fold>
-
 }

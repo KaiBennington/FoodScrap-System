@@ -5,6 +5,25 @@
  */
 package view;
 
+import CAD.CargarCAD;
+import CAD.IngredientesCAD;
+import CAD.PlatosCAD;
+import CAD.TablasCAD;
+import Config.Bandera;
+import Config.Validaciones;
+import Model.Ingredientes;
+import Model.Lista;
+import Model.Platos;
+import Model.Productos;
+import java.awt.Color;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
+
 /**
  *
  * @author USUARIO
@@ -16,8 +35,166 @@ public class vPlatos extends javax.swing.JInternalFrame {
      */
     public vPlatos() {
         initComponents();
+        botonesInicio(false, false, false, true, false, false, false, false);
+        cargarId();
+        mostrarDatos("");
     }
 
+    //<editor-fold desc="CARGAR COMBOS" defaultstate="collapsed">       
+    void cargarId() {
+        //Cargar ID
+        CargarCAD oCargarCAD = new CargarCAD();
+        Bandera B = new Bandera("Platos", "IdPlato");
+        String P = oCargarCAD.cargarIds(B);
+        LblIdPlato.setText(P);
+
+        List ListaComboI = oCargarCAD.CargarIngrediente();
+
+        //Cargar Ingredientes
+        CbxIngrediente.removeAllItems();
+        for (int i = 0; i < ListaComboI.size(); i++) {
+            Productos Pr = (Productos) ListaComboI.get(i);
+            CbxIngrediente.addItem(Pr.getNombre());
+        }
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="BOTONES INICIO" defaultstate="collapsed">
+    void botonesInicio(boolean Ok, boolean datos, boolean agregar, boolean nuevo, boolean guardar, boolean modificar, boolean eliminar, boolean cancelar) {
+        BtnNuevo.requestFocus();
+        LblOk.setVisible(Ok);
+        /////
+        LblIdPlato.setEnabled(datos);
+        TxtCodigo.setEnabled(datos);
+        TxtNombre.setEnabled(datos);
+        TxtValor.setEnabled(datos);
+        /////
+        TxtCantidad.setEnabled(datos);
+        BtnAgregar.setEnabled(agregar);
+        /////
+        BtnNuevo.setVisible(nuevo);
+        /////
+        BtnGuardar.setVisible(guardar);
+        BtnModificar.setVisible(modificar);
+        BtnEliminar.setVisible(eliminar);
+        BtnCancelar.setVisible(cancelar);
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="BUSCAR" defaultstate="collapsed">
+    void buscarSi() {
+        TxtBuscar.setVisible(true);
+        LblBuscar.setVisible(true);
+    }
+
+    void buscarNo() {
+        TxtBuscar.setVisible(false);
+        LblBuscar.setVisible(false);
+    }
+    //</editor-fold>   
+
+    //<editor-fold desc="lIMPIAR CAMPOS" defaultstate="collapsed">
+    public void limpiarCampos() {
+        LblOk.setVisible(false);
+        ////
+        LblIdPlato.setText("");
+        TxtCodigo.setText("");
+        TxtNombre.setText("");
+        TxtValor.setText("");
+        ////
+        TxtCantidad.setText("");
+        ////
+        limpiarTablaIngredientes();
+        cargarId();
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="LIMPIAR TABLA INGREDIENTES" defaultstate="collapsed">
+    public void limpiarTablaIngredientes() {
+        DefaultTableModel tb = (DefaultTableModel) TblIngredientes.getModel();
+        int a = TblIngredientes.getRowCount() - 1;
+        for (int i = a; i >= 0; i--) {
+            tb.removeRow(tb.getRowCount() - 1);
+        }
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="MOSTRAR DATOS" defaultstate="collapsed">
+    void mostrarDatos(String Valor) {
+        TablasCAD ModelTable = new TablasCAD();
+        TblConsultarPlatos.setModel(ModelTable.getTablaPlatos(Valor));
+        TableColumnModel columnModel = TblConsultarPlatos.getColumnModel();
+        for (int i = 0; i < columnModel.getColumnCount(); i++) {
+            columnModel.getColumn(i).setPreferredWidth(100);
+            ocultarFilas(0);
+
+        }
+
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="LLENAR PLATO E INGREDIENTE" defaultstate="collapsed">
+    void llenarPlato(Platos P) {
+        P.setIdPlato(LblIdPlato.getText());
+        P.setCodigoPlato(TxtCodigo.getText());
+        P.setNombre(TxtNombre.getText());
+        if (TxtValor.getText() == null || TxtValor.getText().equalsIgnoreCase("")) {
+            double c = 0;
+            P.setValor(c);
+        } else {
+            P.setValor(Double.parseDouble(TxtValor.getText()));
+        }
+    }
+
+    void llenarIngrediente(Ingredientes I) {
+        I.setIdPlato(LblIdPlato.getText());
+        I.setIngrediente(CbxIngrediente.getSelectedItem().toString());
+        I.setCantidad(TxtCantidad.getText());
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="HABILITAR CAMPOS" defaultstate="collapsed">
+    void habilitarCampos(boolean id, boolean datos, boolean agregar, boolean nuevo, boolean guardar, boolean modificar, boolean eliminar, boolean cancelar) {
+        LblIdPlato.setEnabled(id);
+        //
+        TxtCodigo.setEnabled(datos);
+        TxtNombre.setEnabled(datos);
+        TxtValor.setEnabled(datos);
+        ////
+        TxtCantidad.setEnabled(datos);
+        CbxIngrediente.setEnabled(datos);
+        ////
+        BtnAgregar.setVisible(agregar);
+        ///   
+        BtnNuevo.setVisible(nuevo);
+        BtnGuardar.setVisible(guardar);
+        BtnModificar.setVisible(modificar);
+        BtnEliminar.setVisible(eliminar);
+        BtnCancelar.setVisible(cancelar);
+
+        buscarNo();
+    }
+
+    //</editor-fold>
+    //<editor-fold desc="Ocultar Filas" defaultstate="collapsed">
+    void ocultarFilas(int index) {
+        TblConsultarPlatos.getColumnModel().getColumn(index).setMaxWidth(0);
+        TblConsultarPlatos.getColumnModel().getColumn(index).setMinWidth(0);
+        TblConsultarPlatos.getColumnModel().getColumn(index).setPreferredWidth(0);
+
+    }
+
+    //</editor-fold>
+    //<editor-fold desc="VALIDAR TABLA INGREDIENTES" defaultstate="collapsed">
+    public boolean validarTablaIngredientes(DefaultTableModel Ingredientes) {
+        if (Ingredientes.getRowCount() != 0) {
+            return true;
+        }
+        return false;
+
+    }
+
+    //</editor-fold>
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -27,9 +204,9 @@ public class vPlatos extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jSeparator1 = new javax.swing.JSeparator();
+        PopM_Tabla = new javax.swing.JPopupMenu();
+        MnModificar = new javax.swing.JMenuItem();
+        MnEliminar = new javax.swing.JMenuItem();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         LblIdPlato = new javax.swing.JLabel();
@@ -40,8 +217,6 @@ public class vPlatos extends javax.swing.JInternalFrame {
         TxtNombre = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         TxtValor = new javax.swing.JTextField();
-        jLabel7 = new javax.swing.JLabel();
-        CbxCategoria = new javax.swing.JComboBox<>();
         jPanel3 = new javax.swing.JPanel();
         CbxIngrediente = new javax.swing.JComboBox<>();
         jLabel8 = new javax.swing.JLabel();
@@ -51,15 +226,34 @@ public class vPlatos extends javax.swing.JInternalFrame {
         jLabel9 = new javax.swing.JLabel();
         BtnAgregar = new javax.swing.JButton();
         LblOk = new javax.swing.JLabel();
-        LblBuscar = new javax.swing.JLabel();
-        TxtBuscar = new javax.swing.JTextField();
-        BtnNuevo = new javax.swing.JButton();
-        BtnGuardar = new javax.swing.JButton();
-        BtnCancelar = new javax.swing.JButton();
-        BtnModificar = new javax.swing.JButton();
-        BtnEliminar = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         TblConsultarPlatos = new javax.swing.JTable();
+        jSeparator3 = new javax.swing.JSeparator();
+        jLabel3 = new javax.swing.JLabel();
+        LblBuscar = new javax.swing.JLabel();
+        TxtBuscar = new javax.swing.JTextField();
+        BtnCancelar = new javax.swing.JButton();
+        BtnEliminar = new javax.swing.JButton();
+        BtnModificar = new javax.swing.JButton();
+        BtnGuardar = new javax.swing.JButton();
+        BtnNuevo = new javax.swing.JButton();
+
+        MnModificar.setText("Modificar");
+        MnModificar.setName(""); // NOI18N
+        MnModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MnModificarActionPerformed(evt);
+            }
+        });
+        PopM_Tabla.add(MnModificar);
+
+        MnEliminar.setText("Eliminar");
+        MnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MnEliminarActionPerformed(evt);
+            }
+        });
+        PopM_Tabla.add(MnEliminar);
 
         setClosable(true);
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
@@ -79,10 +273,6 @@ public class vPlatos extends javax.swing.JInternalFrame {
             public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
             }
         });
-
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Titles/GestionPlatos.png"))); // NOI18N
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -116,13 +306,6 @@ public class vPlatos extends javax.swing.JInternalFrame {
         TxtValor.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         TxtValor.setForeground(new java.awt.Color(255, 0, 0));
 
-        jLabel7.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
-        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel7.setText("Categoria :");
-
-        CbxCategoria.setFont(new java.awt.Font("Agency FB", 0, 14)); // NOI18N
-        CbxCategoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione..." }));
-
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Ingredientes", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.BELOW_TOP, new java.awt.Font("Agency FB", 1, 14))); // NOI18N
 
@@ -138,13 +321,10 @@ public class vPlatos extends javax.swing.JInternalFrame {
 
         TblIngredientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {},
-                {},
-                {},
-                {}
+
             },
             new String [] {
-
+                "Ingrediente", "Cantidad"
             }
         ));
         jScrollPane2.setViewportView(TblIngredientes);
@@ -170,19 +350,17 @@ public class vPlatos extends javax.swing.JInternalFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel9)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(CbxIngrediente, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(CbxIngrediente, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(TxtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(BtnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(BtnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -197,74 +375,13 @@ public class vPlatos extends javax.swing.JInternalFrame {
                         .addComponent(TxtCantidad))
                     .addComponent(BtnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         LblOk.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         LblOk.setForeground(new java.awt.Color(0, 153, 51));
         LblOk.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Titles/Ok.png"))); // NOI18N
         LblOk.setToolTipText("Operación Exitosa");
-
-        LblBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Buscar.png"))); // NOI18N
-
-        TxtBuscar.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
-        TxtBuscar.setForeground(new java.awt.Color(255, 0, 0));
-        TxtBuscar.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        TxtBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                TxtBuscarKeyPressed(evt);
-            }
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                TxtBuscarKeyReleased(evt);
-            }
-        });
-
-        BtnNuevo.setBackground(new java.awt.Color(255, 153, 0));
-        BtnNuevo.setFont(new java.awt.Font("Agency FB", 1, 18)); // NOI18N
-        BtnNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Nuevo.png"))); // NOI18N
-        BtnNuevo.setToolTipText("Nuevo");
-        BtnNuevo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BtnNuevoActionPerformed(evt);
-            }
-        });
-
-        BtnGuardar.setBackground(new java.awt.Color(255, 153, 0));
-        BtnGuardar.setFont(new java.awt.Font("Agency FB", 1, 18)); // NOI18N
-        BtnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Guardar.png"))); // NOI18N
-        BtnGuardar.setToolTipText("Guardar");
-        BtnGuardar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BtnGuardarActionPerformed(evt);
-            }
-        });
-
-        BtnCancelar.setBackground(new java.awt.Color(255, 153, 0));
-        BtnCancelar.setFont(new java.awt.Font("Agency FB", 1, 18)); // NOI18N
-        BtnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Cancelar.png"))); // NOI18N
-        BtnCancelar.setToolTipText("Cancelar");
-        BtnCancelar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BtnCancelarActionPerformed(evt);
-            }
-        });
-
-        BtnModificar.setBackground(new java.awt.Color(255, 153, 0));
-        BtnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Modificar.png"))); // NOI18N
-        BtnModificar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BtnModificarActionPerformed(evt);
-            }
-        });
-
-        BtnEliminar.setBackground(new java.awt.Color(255, 153, 0));
-        BtnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Eliminar.png"))); // NOI18N
-        BtnEliminar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BtnEliminarActionPerformed(evt);
-            }
-        });
 
         TblConsultarPlatos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -281,147 +398,180 @@ public class vPlatos extends javax.swing.JInternalFrame {
         TblConsultarPlatos.setSelectionBackground(new java.awt.Color(255, 0, 0));
         jScrollPane3.setViewportView(TblConsultarPlatos);
 
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Titles/GestionPlatos.png"))); // NOI18N
+
+        LblBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Buscar.png"))); // NOI18N
+
+        TxtBuscar.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
+        TxtBuscar.setForeground(new java.awt.Color(255, 0, 0));
+        TxtBuscar.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        TxtBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                TxtBuscarKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                TxtBuscarKeyReleased(evt);
+            }
+        });
+
+        BtnCancelar.setBackground(new java.awt.Color(255, 153, 0));
+        BtnCancelar.setFont(new java.awt.Font("Agency FB", 1, 18)); // NOI18N
+        BtnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Cancelar.png"))); // NOI18N
+        BtnCancelar.setToolTipText("Cancelar");
+        BtnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnCancelarActionPerformed(evt);
+            }
+        });
+
+        BtnEliminar.setBackground(new java.awt.Color(255, 153, 0));
+        BtnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Eliminar.png"))); // NOI18N
+        BtnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnEliminarActionPerformed(evt);
+            }
+        });
+
+        BtnModificar.setBackground(new java.awt.Color(255, 153, 0));
+        BtnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Modificar.png"))); // NOI18N
+        BtnModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnModificarActionPerformed(evt);
+            }
+        });
+
+        BtnGuardar.setBackground(new java.awt.Color(255, 153, 0));
+        BtnGuardar.setFont(new java.awt.Font("Agency FB", 1, 18)); // NOI18N
+        BtnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Guardar.png"))); // NOI18N
+        BtnGuardar.setToolTipText("Guardar");
+        BtnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnGuardarActionPerformed(evt);
+            }
+        });
+
+        BtnNuevo.setBackground(new java.awt.Color(255, 153, 0));
+        BtnNuevo.setFont(new java.awt.Font("Agency FB", 1, 18)); // NOI18N
+        BtnNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Nuevo.png"))); // NOI18N
+        BtnNuevo.setToolTipText("Nuevo");
+        BtnNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnNuevoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jSeparator2, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(LblIdPlato, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
-                                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(TxtNombre))
-                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
-                                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(TxtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(CbxCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(TxtValor, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(LblOk))))
-                        .addGap(0, 0, Short.MAX_VALUE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addContainerGap()
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(LblBuscar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(TxtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(BtnNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(BtnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(BtnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(BtnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(BtnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(LblBuscar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(TxtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(BtnNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(BtnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(BtnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(BtnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(BtnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))))
-                .addContainerGap())
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(6, 6, 6)
+                                .addComponent(LblIdPlato, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(10, 10, 10)
+                                .addComponent(TxtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(10, 10, 10)
+                                .addComponent(TxtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(10, 10, 10)
+                                .addComponent(TxtValor, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(LblOk)
+                            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(6, 6, 6)
+                .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(6, 6, 6)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
                     .addComponent(LblIdPlato))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(6, 6, 6)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 3, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(TxtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7)
-                    .addComponent(CbxCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(TxtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(TxtValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(6, 6, 6)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(TxtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(LblBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(BtnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(BtnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(BtnNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(BtnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(LblOk)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addGap(3, 3, 3)
+                        .addComponent(jLabel4))
+                    .addComponent(TxtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(11, 11, 11)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(BtnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-        );
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 494, Short.MAX_VALUE)
-                            .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.LEADING))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(3, 3, 3)
+                        .addComponent(jLabel5))
+                    .addComponent(TxtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(11, 11, 11)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addComponent(jLabel6))
+                    .addComponent(TxtValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 5, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(LblBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(TxtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(BtnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(BtnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(BtnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(BtnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(BtnNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(LblOk, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -431,114 +581,223 @@ public class vPlatos extends javax.swing.JInternalFrame {
         vPrincipal.ventana = "";
     }//GEN-LAST:event_formInternalFrameClosing
 
-    private void BtnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAgregarActionPerformed
-        //<editor-fold desc="NUEVO" defaultstate="collapsed">
-
-        //</editor-fold>
-    }//GEN-LAST:event_BtnAgregarActionPerformed
-
-    private void BtnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnGuardarActionPerformed
-        //<editor-fold desc="GUARDAR" defaultstate="collapsed">
-        // Btn Guardar
-
-        //</editor-fold>
-    }//GEN-LAST:event_BtnGuardarActionPerformed
-
-    private void BtnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCancelarActionPerformed
-        //<editor-fold desc="CANCELAR" defaultstate="collapsed">
-
-        //</editor-fold>
-    }//GEN-LAST:event_BtnCancelarActionPerformed
-
-    private void BtnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnNuevoActionPerformed
-        //<editor-fold desc="NUEVO" defaultstate="collapsed">
-
-        //</editor-fold>
-    }//GEN-LAST:event_BtnNuevoActionPerformed
-
-    private void TxtBuscarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TxtBuscarKeyPressed
-        if(evt.getKeyCode()==10){
-            mostrarDatos(TxtBuscar.getText());
+    private void MnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnModificarActionPerformed
+        //<editor-fold desc="MENU MODIFICAR" defaultstate="collapsed">
+        //Seleccion fila modificar
+        if (Seleccion()) {
+            habilitarCampos(false, true, true, false, false, true, false, true);
         }
-    }//GEN-LAST:event_TxtBuscarKeyPressed
+        // BtnModificar.setVisible(oPermisos.validarPermiso("Guardar","Usuarios"));
+        //</editor-fold>
+    }//GEN-LAST:event_MnModificarActionPerformed
 
-    private void TxtBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TxtBuscarKeyReleased
-        mostrarDatos(TxtBuscar.getText());
-    }//GEN-LAST:event_TxtBuscarKeyReleased
+    private void MnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnEliminarActionPerformed
+        //<editor-fold desc="MENU ELIMINAR" defaultstate="collapsed">
+        //Seleccion fila Eliminar
+        if (Seleccion()) {
+            habilitarCampos(false, false, false, false, false, false, true, true);
+        }
+        //</editor-fold>
+    }//GEN-LAST:event_MnEliminarActionPerformed
+
+    private void BtnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnEliminarActionPerformed
+        //<editor-fold desc="ELIMINAR" defaultstate="collapsed">
+        if (LblIdPlato.getText().equalsIgnoreCase("") || TxtCodigo.getText().equalsIgnoreCase("")) {
+            JOptionPane.showMessageDialog(null, "No se puede Eliminar el Plato\nNo se encuentra el Codigo\nVerifique que tenga conexion con la BD");
+        } else {
+            // Btn Eliminar
+            String id = LblIdPlato.getText();
+
+            Platos Pl = new Platos();
+            Pl.setIdPlato(id);
+
+            boolean Eliminar = PlatosCAD.eliminar(Pl);
+
+            if (!Eliminar) {
+                JOptionPane.showMessageDialog(null, Bandera.getRespuesta());
+                limpiarCampos();
+                mostrarDatos("");
+                botonesInicio(false, false, false, true, false, false, false, false);
+            } else {
+                limpiarCampos();
+                botonesInicio(false, false, false, true, false, false, false, false);
+                buscarSi();
+                LblOk.setText(Bandera.getRespuesta());
+                LblOk.setVisible(true);
+                Bandera.setRespuesta("");
+            }
+        }
+        //</editor-fold>
+    }//GEN-LAST:event_BtnEliminarActionPerformed
 
     private void BtnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnModificarActionPerformed
         //<editor-fold desc="MODIFICAR" defaultstate="collapsed">
         // Btn Modificar
         Map rsp = new HashMap();
-        Usuarios U = new Usuarios();
-        llenarUsuario(U);
-        rsp.put("User",U);
+        Platos P = new Platos();
+        llenarPlato(P);
 
-        Validaciones AU = new Validaciones();
-        AU.validarCampos(rsp);
+        rsp.put("Plato", P);
+
+        Validaciones V = new Validaciones();
+        V.validarCamposPlatos(rsp);
 
         if (rsp.containsKey("Mensaje")) {
-            JOptionPane.showMessageDialog(null,rsp.get("Mensaje"));
+            JOptionPane.showMessageDialog(null, rsp.get("Mensaje"));
             //            rsp.get("campo");
             //            String Focus = (String)rsp.get("campo");
             //            System.out.println(""+Focus);
-        }else{
+        } else {
 
-            if (!TxtConfirmar.getText().equals(TxtContrasena.getText())) {
-                JOptionPane.showMessageDialog(null,"Las Contraseñas no Coinciden\nVerificar por favor...");
-                TxtContrasena.setText("");
-                TxtConfirmar.setText("");
-                TxtContrasena.requestFocus();
+            boolean Modificar = PlatosCAD.modificar(P);
+
+            if (!Modificar) {
+                JOptionPane.showMessageDialog(null, Bandera.getRespuesta());
+                limpiarCampos();
+                mostrarDatos("");
+                botonesInicio(false, false, false, true, false, false, false, false);
             } else {
-                boolean Modificar = UsuariosCAD.modificar(U);
-
-                if(!Modificar){
-                    JOptionPane.showMessageDialog(null,Bandera.getRespuesta());
-                    limpiarCampos();
-                    mostrarDatos("");
-                    botonesInicio();
-                }else{
-                    limpiarCampos();
-                    botonesInicio();
-                    mostrarDatos(U.getNombres());
-                    LblOk.setText(Bandera.getRespuesta());
-                    LblOk.setVisible(true);
-                }
+                limpiarCampos();
+                botonesInicio(false, false, false, true, false, false, false, false);
+                mostrarDatos(P.getNombre());
+                buscarSi();
+                LblOk.setText(Bandera.getRespuesta());
+                LblOk.setVisible(true);
+                Bandera.setRespuesta("");
             }
         }
         //</editor-fold>
     }//GEN-LAST:event_BtnModificarActionPerformed
 
-    private void BtnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnEliminarActionPerformed
-        //<editor-fold desc="ELIMINAR" defaultstate="collapsed">
-        if (TxtDocumento.getText().equalsIgnoreCase("") || CbxTipoDoc.getSelectedIndex() < 0) {
-            JOptionPane.showMessageDialog(null, "No se puede Eliminar el Usuario\nEl Campo 'Documento' se encuentra vacio\nVerifique que tenga conexion con la BD");
-            TxtDocumento.requestFocus();
-        }else{
-            // Btn Eliminar
-            int TipoD = CbxTipoDoc.getSelectedIndex();
-            String Documento = TxtDocumento.getText();
+    private void BtnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCancelarActionPerformed
+        //<editor-fold desc="CANCELAR" defaultstate="collapsed">
+        mostrarDatos("");
+        limpiarCampos();
+        buscarSi();
+        botonesInicio(false, false, false, true, false, false, false, false);
+        //</editor-fold>
+    }//GEN-LAST:event_BtnCancelarActionPerformed
 
-            Usuarios Us = new Usuarios();
-            Us.setTipoDocumento(TipoD);
-            Us.setDocumento(Documento);
+    private void BtnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnGuardarActionPerformed
+        //<editor-fold desc="GUARDAR" defaultstate="collapsed">
+        // Btn Guardar
+        Map rsp = new HashMap();
+        Platos P = new Platos();
 
-            boolean Eliminar = UsuariosCAD.eliminar(Us);
+        llenarPlato(P);
 
-            if(!Eliminar){
-                JOptionPane.showMessageDialog(null,Bandera.getRespuesta());
+        rsp.put("Plato", P);
+
+        Validaciones V = new Validaciones();
+        V.validarCamposPlatos(rsp);
+
+        if (rsp.containsKey("Mensaje")) {
+            JOptionPane.showMessageDialog(null, rsp.get("Mensaje"));
+            //            rsp.get("campo");
+            //            String Focus = (String)rsp.get("campo");
+            //            System.out.println(""+Focus);
+        } else {
+
+            boolean tab = validarTablaIngredientes((DefaultTableModel) TblIngredientes.getModel());
+
+            if (!tab) {
+                JOptionPane.showMessageDialog(null, "El Plato debe contener como minimo un Ingrediente");
+                CbxIngrediente.requestFocus();
+                return;
+            }
+
+            List ListaIngredientes = new ArrayList();
+            int filas = TblIngredientes.getRowCount();
+            for (int i = 0; i < filas; i++) {
+                String Codigo, Ingrediente, Cantidad;
+
+                Codigo = LblIdPlato.getText();
+                Ingrediente = TblIngredientes.getValueAt(i, 0).toString();
+                Cantidad = TblIngredientes.getValueAt(i, 1).toString();
+
+                Ingredientes In = new Ingredientes(Codigo, Ingrediente, Cantidad);
+                ListaIngredientes.add(In);
+            }
+            Lista Li = new Lista();
+            Li.setListaIngredientes((ArrayList<Ingredientes>) ListaIngredientes);
+        
+            boolean guardar = PlatosCAD.guardar(P,Li);
+
+            if (!guardar) {
+//                limpiarCampos();
+                JOptionPane.showMessageDialog(null, Bandera.getRespuesta());
+                TxtNombre.requestFocus();
+            } else {
                 limpiarCampos();
-                mostrarDatos("");
-                botonesInicio();
-            }else{
-                limpiarCampos();
-                botonesInicio();
                 LblOk.setText(Bandera.getRespuesta());
-                LblOk.setVisible(true);
+                mostrarDatos("");
+                botonesInicio(true, false, false, true, false, false, false, false);
+                buscarSi();
             }
         }
         //</editor-fold>
-    }//GEN-LAST:event_BtnEliminarActionPerformed
+    }//GEN-LAST:event_BtnGuardarActionPerformed
+
+    private void BtnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnNuevoActionPerformed
+        //<editor-fold desc="NUEVO" defaultstate="collapsed">
+        limpiarCampos();
+        mostrarDatos("");
+        botonesInicio(false, true, true, false, true, false, false, true);
+        buscarNo();
+        //</editor-fold>
+    }//GEN-LAST:event_BtnNuevoActionPerformed
+
+    private void TxtBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TxtBuscarKeyReleased
+        mostrarDatos(TxtBuscar.getText());
+    }//GEN-LAST:event_TxtBuscarKeyReleased
+
+    private void TxtBuscarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TxtBuscarKeyPressed
+        if (evt.getKeyCode() == 10) {
+            mostrarDatos(TxtBuscar.getText());
+        }
+    }//GEN-LAST:event_TxtBuscarKeyPressed
+
+    private void BtnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAgregarActionPerformed
+        //<editor-fold desc="AGREGAR" defaultstate="collapsed">
+        int g = 0;
+        Map rsp = new HashMap();
+        Ingredientes I = new Ingredientes();
+        llenarIngrediente(I);
+
+        rsp.put("Ingrediente", I);
+
+        Validaciones V = new Validaciones();
+        V.validarCamposIngredientes(rsp);
+
+        if (rsp.containsKey("Mensaje")) {
+            JOptionPane.showMessageDialog(null, rsp.get("Mensaje"));
+            //            rsp.get("campo");
+            //            String Focus = (String)rsp.get("campo");
+            //            System.out.println(""+Focus);
+        } else {
+
+            DefaultTableModel modelo = (DefaultTableModel) TblIngredientes.getModel();
+
+            Object[] fila = new Object[2];
+            fila[0] = CbxIngrediente.getSelectedItem();
+            fila[1] = TxtCantidad.getText();
+
+            modelo.addRow(fila);
+            TblIngredientes.setModel(modelo);
+            g = 1;
+
+        }
+        if (g == 1) {
+            LblOk.setText("Se agrego el ingrediente");
+//            LblOk.setForeground(Color.BLUE);
+            LblOk.setVisible(true);
+            g = 0;
+        } else {
+            JOptionPane.showMessageDialog(null, "El ingrediente no se puedo agregar");
+        }
+
+        //</editor-fold>
+    }//GEN-LAST:event_BtnAgregarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -548,32 +807,56 @@ public class vPlatos extends javax.swing.JInternalFrame {
     private javax.swing.JButton BtnGuardar;
     private javax.swing.JButton BtnModificar;
     private javax.swing.JButton BtnNuevo;
-    private javax.swing.JComboBox<String> CbxCategoria;
     private javax.swing.JComboBox<String> CbxIngrediente;
     private javax.swing.JLabel LblBuscar;
     private javax.swing.JLabel LblIdPlato;
     private javax.swing.JLabel LblOk;
-    public javax.swing.JTable TblConsultarPlatos;
+    private javax.swing.JMenuItem MnEliminar;
+    private javax.swing.JMenuItem MnModificar;
+    private javax.swing.JPopupMenu PopM_Tabla;
+    private javax.swing.JTable TblConsultarPlatos;
     private javax.swing.JTable TblIngredientes;
     private javax.swing.JTextField TxtBuscar;
     private javax.swing.JTextField TxtCantidad;
     private javax.swing.JTextField TxtCodigo;
     private javax.swing.JTextField TxtNombre;
     private javax.swing.JTextField TxtValor;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JSeparator jSeparator3;
     // End of variables declaration//GEN-END:variables
+
+    public boolean Seleccion() {
+
+        int fila = TblConsultarPlatos.getSelectedRow();
+        if (fila >= 0) {
+
+            LblIdPlato.setText(TblConsultarPlatos.getValueAt(fila, 0).toString());
+            TxtCodigo.setText(TblConsultarPlatos.getValueAt(fila, 1).toString());
+            TxtNombre.setText(TblConsultarPlatos.getValueAt(fila, 2).toString());
+            TxtValor.setText(TblConsultarPlatos.getValueAt(fila, 3).toString());
+
+//            Double precio = Double.parseDouble(TblConsultarProductos.getValueAt(fila, 4).toString());
+//            TxtPrecioCosto.setText("" + precio.intValue());
+//            CbxCategoria.setSelectedIndex(Integer.parseInt(TblConsultarProductos.getValueAt(fila, 5).toString()));
+//            CbxProveedor.setSelectedIndex(Integer.parseInt(TblConsultarProductos.getValueAt(fila, 6).toString()));
+//            TxtStock.setText(TblConsultarProductos.getValueAt(fila, 7).toString());
+            return true;
+        } else {
+            JOptionPane.showMessageDialog(null, "No se ha seleccionado ningun Plato de la tabla");
+            buscarSi();
+            return false;
+
+        }
+    }
 }

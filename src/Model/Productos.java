@@ -26,6 +26,11 @@ public class Productos {
     public Productos() {       
     }
 
+    public Productos(String Codigo, String Nombre) {
+        this.Codigo = Codigo;
+        this.Nombre = Nombre;
+    }
+
     public Productos(String Codigo, String IdProveedor, String IdCategoria, String Nombre, int PrecioCosto, int Cantidad, String IdUMedida, int Stock) {
         this.Codigo = Codigo;
         this.IdProveedor = IdProveedor;

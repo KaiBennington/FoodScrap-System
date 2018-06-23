@@ -55,7 +55,7 @@ public class vProductos extends javax.swing.JInternalFrame {
             CbxUndMedida.addItem(Um.getNombre());
         }
 
-        //Cargar Unidad de Medidas
+        //Cargar Categorias
         CbxCategoria.removeAllItems();
         for (int i = 0; i < ListaComboC.size(); i++) {
             Categorias Ct = (Categorias) ListaComboC.get(i);

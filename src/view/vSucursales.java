@@ -33,7 +33,6 @@ public class vSucursales extends javax.swing.JInternalFrame {
         cargarCombos();
         mostrarDatos("");
         cargarId();
-        JOptionPane.showMessageDialog(null, "Hello World");
     }
 
     //<editor-fold desc="CARGAR COMBOS" defaultstate="collapsed">    

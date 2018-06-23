@@ -6,8 +6,7 @@
 package CAD;
 
 import Config.Bandera;
-import static Model.ConexionDB.desconectar;
-import static Model.ConexionDB.getConexion;
+import Model.ConexionDB;
 import Model.Productos;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,7 +16,7 @@ import java.sql.SQLException;
  *
  * @author USUARIO
  */
-public class ProductosCAD {
+public class ProductosCAD extends ConexionDB{
     
     public static boolean guardar(Productos P){
         PreparedStatement pst;

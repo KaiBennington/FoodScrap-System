@@ -6,6 +6,8 @@
 package Config;
 
 import Model.Categorias;
+import Model.Ingredientes;
+import Model.Platos;
 import Model.Productos;
 import Model.Proveedores;
 import Model.Roles;
@@ -230,6 +232,48 @@ public class Validaciones {
     }
     //</editor-fold>
     
+    //<editor-fold desc="VALIDAR PLATOS" defaultstate="collapsed">
+    public Map validarCamposPlatos(Map respuesta){
+        
+        Platos P = (Platos)respuesta.get("Plato");
+        
+        if (P.getIdPlato().equals("") || P.getIdPlato() == null) {
+            respuesta.put("Mensaje","Error en el ID del Plato");
+            return respuesta;
+        } 
+        if (P.getCodigoPlato().equals("")) {
+            respuesta.put("Mensaje","El campo Codigo se encuentra Vacio");
+            respuesta.put("campo","TxtCodigo.requestFocusInWindow()");
+            return respuesta;
+        } 
+        if (P.getNombre().equals("")) {
+            respuesta.put("Mensaje","El campo Nombre se encuentra Vacio");
+            respuesta.put("campo","TxtNombre.requestFocusInWindow()");
+            return respuesta;
+        } 
+        if (P.getValor() < 1 || "".equals(P.getValor())) {
+            respuesta.put("Mensaje","El campo Valor se encuentra Vacio o contiene un valor no valido");
+            respuesta.put("campo","TxtValor.requestFocusInWindow()");
+            return respuesta;
+        } 
+//        if (P.getPrecioCosto()< 0 || "".equals(P.getPrecioCosto())) {
+//            respuesta.put("Mensaje","El campo Precio Costo debe contener un valor valido");
+//            respuesta.put("campo","TxtPrecioCosto.requestFocusInWindow()");
+//            return respuesta;
+//        } 
+//        if (P.getCantidad()<= 0) {
+//            respuesta.put("Mensaje","El campo Cantidad debe contener como minimo 1");
+//            respuesta.put("campo","TxtCantidad.requestFocusInWindow()");
+//            return respuesta;
+//        }           
+        
+        respuesta.remove("Mensaje");
+//        boolean val = respuesta.isEmpty();
+//        System.out.println("valor vacio "+val);
+        return respuesta;
+    }
+    //</editor-fold>
+    
     //<editor-fold desc="VALIDAR TIPO DOCUMENTO" defaultstate="collapsed">
     public Map validarCamposTDocumento(Map respuesta){
         
@@ -320,6 +364,32 @@ public class Validaciones {
         if (Rl.getSiglas().equals("")) {
             respuesta.put("Mensaje","El campo Siglas se encuentra Vacio");
             respuesta.put("campo","TxtSiglas.requestFocusInWindow()");
+            return respuesta;
+        }
+        respuesta.remove("Mensaje");
+//        boolean val = respuesta.isEmpty();
+//        System.out.println("valor vacio "+val);
+        return respuesta;
+    }
+    //</editor-fold>
+    
+    //<editor-fold desc="VALIDAR INGREDIENTES" defaultstate="collapsed">
+    public Map validarCamposIngredientes(Map respuesta){
+        
+        Ingredientes In = (Ingredientes)respuesta.get("Ingrediente");
+        
+        if (In.getIdPlato().equalsIgnoreCase("")) {
+            respuesta.put("Mensaje","Error en el ID del Ingrediente");
+            return respuesta;
+        } 
+        if (In.getIngrediente().equalsIgnoreCase("")) {
+            respuesta.put("Mensaje","Debe seleccionar un Ingrediente valido");
+            respuesta.put("campo","CbxIngrediente.requestFocusInWindow()");
+            return respuesta;
+        }
+        if (In.getCantidad().equalsIgnoreCase("") || In.getCantidad() == null) {
+            respuesta.put("Mensaje","Verifique que haya digitado una cantidad valida");
+            respuesta.put("campo","TxtCantidad.requestFocusInWindow()");
             return respuesta;
         }
         respuesta.remove("Mensaje");

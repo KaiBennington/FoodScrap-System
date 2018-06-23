@@ -9,7 +9,9 @@ import Config.Bandera;
 import Model.Categorias;
 import Model.ConexionDB;
 import static Model.ConexionDB.getConexion;
+import Model.Ingredientes;
 import Model.PreguntaSecreta;
+import Model.Productos;
 import Model.Proveedores;
 import Model.Roles;
 import Model.Sucursales;
@@ -136,6 +138,35 @@ public class CargarCAD extends ConexionDB {
                 RazonSocial = (rs.getString(3));                
 
                 Proveedores Pr = new Proveedores("" + Codigo, Nombre, RazonSocial);
+                Lista.add(Pr);
+                // System.out.println(""+Lista);
+            }
+            return Lista;
+        } catch (SQLException ex) {
+        }
+        return Lista;
+    }// FIN Metodo Cargar Proveedores
+    //</editor-fold>
+    
+    //<editor-fold desc="CARGAR INGREDIENTES" defaultstate="collapsed">
+    public ArrayList CargarIngrediente() {
+        //Combo Ingredientes
+        PreparedStatement pst;
+        ResultSet rs = null;
+        ArrayList Lista = new ArrayList();
+        try {
+
+            String Sql = "CALL CargarIngrediente();";
+            pst = getConexion().prepareStatement(Sql);
+            rs = pst.executeQuery();
+
+            while (rs.next()) {
+                String Nombre;
+                int Codigo;
+                Codigo = (rs.getInt(1));
+                Nombre = (rs.getString(2));              
+
+                Productos Pr = new Productos("" + Codigo, Nombre);
                 Lista.add(Pr);
                 // System.out.println(""+Lista);
             }

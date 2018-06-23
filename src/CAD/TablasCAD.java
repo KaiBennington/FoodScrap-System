@@ -451,4 +451,55 @@ public class TablasCAD extends ConexionDB{
         return modelo;
     } //FIN Tabla Productos
     //</editor-fold>    
+    
+    //<editor-fold desc="TABLA PLATOS" defaultstate="collapsed">
+    public DefaultTableModel getTablaPlatos(String Valor){
+        
+      DefaultTableModel modelo = new DefaultTableModel();          
+      int registros = 0;
+      String[] NombreClmns = {"Id","Codigo","Nombre","Valor"};
+      
+      PreparedStatement pst;
+      ResultSet rs = null;
+      try{
+         String Sql = "SELECT count(*) as total FROM Platos";
+         pst = getConexion().prepareStatement(Sql);
+         rs = pst.executeQuery();
+         
+         rs.next();
+         registros = rs.getInt("total");
+         rs.close();
+      }catch(SQLException e){
+         System.err.println( e.getMessage() );
+      }      
+    
+    Object[][] data = new String[registros][4];
+      try{
+         String Sql;
+         if(Valor.equals(""))
+    {
+        Sql=" SELECT * FROM Platos ";
+    }
+    else{
+        Sql=" SELECT * FROM Platos WHERE upper (Nombre) LIKE upper ('"+Valor+"%')";        
+    }
+         pst = getConexion().prepareStatement(Sql);
+         rs = pst.executeQuery();         
+         int i=0;
+         while(rs.next()){
+                data[i][0] = rs.getString( "IdPlato" );
+                data[i][1] = rs.getString( "Codigo" );
+                data[i][2] = rs.getString( "Nombre" );
+                data[i][3] = rs.getString( "Valor" );                
+            i++;
+         }
+         rs.close();         
+         modelo.setDataVector(data, NombreClmns );
+         
+         }catch(SQLException e){
+            System.err.println( e.getMessage() );
+        }
+        return modelo;
+    } //FIN Tabla Productos
+    //</editor-fold>    
 }
