@@ -12,10 +12,9 @@ import CAD.TablasCAD;
 import Config.Bandera;
 import Config.Validaciones;
 import Model.Ingredientes;
-import Model.Lista;
 import Model.Platos;
 import Model.Productos;
-import java.awt.Color;
+import Model.Secciones;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,6 +22,7 @@ import java.util.Map;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
+import javax.swing.text.TableView;
 
 /**
  *
@@ -33,6 +33,9 @@ public class vPlatos extends javax.swing.JInternalFrame {
     /**
      * Creates new form vPlatos
      */
+    Map mapIngredientes = new HashMap();
+    List QuitarIngredientes = new ArrayList();
+
     public vPlatos() {
         initComponents();
         botonesInicio(false, false, false, true, false, false, false, false);
@@ -48,13 +51,20 @@ public class vPlatos extends javax.swing.JInternalFrame {
         String P = oCargarCAD.cargarIds(B);
         LblIdPlato.setText(P);
 
-        List ListaComboI = oCargarCAD.CargarIngrediente();
-
         //Cargar Ingredientes
+        List ListaComboI = oCargarCAD.CargarIngrediente();
         CbxIngrediente.removeAllItems();
         for (int i = 0; i < ListaComboI.size(); i++) {
             Productos Pr = (Productos) ListaComboI.get(i);
             CbxIngrediente.addItem(Pr.getNombre());
+        }
+
+        //Cargar Secciones
+        List ListaComboS = oCargarCAD.CargarSeccion();
+        CbxSeccion.removeAllItems();
+        for (int i = 0; i < ListaComboS.size(); i++) {
+            Secciones Sc = (Secciones) ListaComboS.get(i);
+            CbxSeccion.addItem(Sc.getNombre());
         }
     }
     //</editor-fold>
@@ -66,9 +76,11 @@ public class vPlatos extends javax.swing.JInternalFrame {
         /////
         LblIdPlato.setEnabled(datos);
         TxtCodigo.setEnabled(datos);
+        CbxSeccion.setEnabled(datos);
         TxtNombre.setEnabled(datos);
         TxtValor.setEnabled(datos);
         /////
+        CbxIngrediente.setEnabled(datos);
         TxtCantidad.setEnabled(datos);
         BtnAgregar.setEnabled(agregar);
         /////
@@ -78,6 +90,11 @@ public class vPlatos extends javax.swing.JInternalFrame {
         BtnModificar.setVisible(modificar);
         BtnEliminar.setVisible(eliminar);
         BtnCancelar.setVisible(cancelar);
+    }
+
+    void IngredientesInicio() {
+        CbxIngrediente.setSelectedIndex(0);
+        TxtCantidad.setText("");
     }
     //</editor-fold>
 
@@ -91,7 +108,7 @@ public class vPlatos extends javax.swing.JInternalFrame {
         TxtBuscar.setVisible(false);
         LblBuscar.setVisible(false);
     }
-    //</editor-fold>   
+    //</editor-fold>  
 
     //<editor-fold desc="lIMPIAR CAMPOS" defaultstate="collapsed">
     public void limpiarCampos() {
@@ -127,16 +144,42 @@ public class vPlatos extends javax.swing.JInternalFrame {
         for (int i = 0; i < columnModel.getColumnCount(); i++) {
             columnModel.getColumn(i).setPreferredWidth(100);
             ocultarFilas(0);
+            ocultarFilas(4);
+        }
+    }
 
+    void mostrarIngredientes(String Valor) {
+        TablasCAD ModelTable = new TablasCAD();
+        TblIngredientes.setModel(ModelTable.getTablaIngredientes(Valor));
+        TableColumnModel columnModel = TblIngredientes.getColumnModel();
+        int j = TblIngredientes.getRowCount();
+        for (int i = 0; i < columnModel.getColumnCount(); i++) {
+            columnModel.getColumn(i).setPreferredWidth(100);
+//            ocultarFilas(0);
+//            ocultarFilas(4);    
+            verificarMapIngredientes();
         }
 
     }
     //</editor-fold>
 
+    //<editor-fold desc="VALIDAR MAP INGREDIENTES" defaultstate="collapsed">
+    void verificarMapIngredientes() {
+        mapIngredientes.clear();
+        int j = TblIngredientes.getRowCount();
+
+        for (int k = 0; k < j; k++) {
+            mapIngredientes.put(TblIngredientes.getValueAt(k, 0).toString(),
+                    TblIngredientes.getValueAt(k, 0).toString());
+        }
+    }
+    //</editor-fold>  
+
     //<editor-fold desc="LLENAR PLATO E INGREDIENTE" defaultstate="collapsed">
     void llenarPlato(Platos P) {
         P.setIdPlato(LblIdPlato.getText());
         P.setCodigoPlato(TxtCodigo.getText());
+        P.setSeccion(CbxSeccion.getSelectedItem().toString());
         P.setNombre(TxtNombre.getText());
         if (TxtValor.getText() == null || TxtValor.getText().equalsIgnoreCase("")) {
             double c = 0;
@@ -158,13 +201,14 @@ public class vPlatos extends javax.swing.JInternalFrame {
         LblIdPlato.setEnabled(id);
         //
         TxtCodigo.setEnabled(datos);
+        CbxSeccion.setEnabled(datos);
         TxtNombre.setEnabled(datos);
         TxtValor.setEnabled(datos);
         ////
         TxtCantidad.setEnabled(datos);
         CbxIngrediente.setEnabled(datos);
         ////
-        BtnAgregar.setVisible(agregar);
+        BtnAgregar.setEnabled(agregar);
         ///   
         BtnNuevo.setVisible(nuevo);
         BtnGuardar.setVisible(guardar);
@@ -176,6 +220,7 @@ public class vPlatos extends javax.swing.JInternalFrame {
     }
 
     //</editor-fold>
+    
     //<editor-fold desc="Ocultar Filas" defaultstate="collapsed">
     void ocultarFilas(int index) {
         TblConsultarPlatos.getColumnModel().getColumn(index).setMaxWidth(0);
@@ -185,13 +230,10 @@ public class vPlatos extends javax.swing.JInternalFrame {
     }
 
     //</editor-fold>
+    
     //<editor-fold desc="VALIDAR TABLA INGREDIENTES" defaultstate="collapsed">
     public boolean validarTablaIngredientes(DefaultTableModel Ingredientes) {
-        if (Ingredientes.getRowCount() != 0) {
-            return true;
-        }
-        return false;
-
+        return Ingredientes.getRowCount() != 0;
     }
 
     //</editor-fold>
@@ -207,6 +249,9 @@ public class vPlatos extends javax.swing.JInternalFrame {
         PopM_Tabla = new javax.swing.JPopupMenu();
         MnModificar = new javax.swing.JMenuItem();
         MnEliminar = new javax.swing.JMenuItem();
+        PopM_Ingredientes = new javax.swing.JPopupMenu();
+        MnModificar_Ingre = new javax.swing.JMenuItem();
+        MnEliminar_Ingre = new javax.swing.JMenuItem();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         LblIdPlato = new javax.swing.JLabel();
@@ -237,6 +282,8 @@ public class vPlatos extends javax.swing.JInternalFrame {
         BtnModificar = new javax.swing.JButton();
         BtnGuardar = new javax.swing.JButton();
         BtnNuevo = new javax.swing.JButton();
+        jLabel7 = new javax.swing.JLabel();
+        CbxSeccion = new javax.swing.JComboBox<>();
 
         MnModificar.setText("Modificar");
         MnModificar.setName(""); // NOI18N
@@ -254,6 +301,22 @@ public class vPlatos extends javax.swing.JInternalFrame {
             }
         });
         PopM_Tabla.add(MnEliminar);
+
+        MnModificar_Ingre.setText("Modificar Ingrediente");
+        MnModificar_Ingre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MnModificar_IngreActionPerformed(evt);
+            }
+        });
+        PopM_Ingredientes.add(MnModificar_Ingre);
+
+        MnEliminar_Ingre.setText("Quitar Ingrediente");
+        MnEliminar_Ingre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MnEliminar_IngreActionPerformed(evt);
+            }
+        });
+        PopM_Ingredientes.add(MnEliminar_Ingre);
 
         setClosable(true);
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
@@ -327,6 +390,8 @@ public class vPlatos extends javax.swing.JInternalFrame {
                 "Ingrediente", "Cantidad"
             }
         ));
+        TblIngredientes.setComponentPopupMenu(PopM_Ingredientes);
+        TblIngredientes.setSelectionBackground(new java.awt.Color(255, 0, 0));
         jScrollPane2.setViewportView(TblIngredientes);
 
         jLabel9.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
@@ -395,6 +460,7 @@ public class vPlatos extends javax.swing.JInternalFrame {
             }
         ));
         TblConsultarPlatos.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        TblConsultarPlatos.setComponentPopupMenu(PopM_Tabla);
         TblConsultarPlatos.setSelectionBackground(new java.awt.Color(255, 0, 0));
         jScrollPane3.setViewportView(TblConsultarPlatos);
 
@@ -460,6 +526,14 @@ public class vPlatos extends javax.swing.JInternalFrame {
             }
         });
 
+        jLabel7.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
+        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel7.setText("Seccion :");
+        jLabel7.setToolTipText("Seccion de Preparación");
+
+        CbxSeccion.setFont(new java.awt.Font("Agency FB", 0, 14)); // NOI18N
+        CbxSeccion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione...", " " }));
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -487,27 +561,34 @@ public class vPlatos extends javax.swing.JInternalFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(6, 6, 6)
-                                .addComponent(LblIdPlato, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(10, 10, 10)
-                                .addComponent(TxtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(10, 10, 10)
-                                .addComponent(TxtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(10, 10, 10)
-                                .addComponent(TxtValor, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(LblOk)
-                            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(6, 6, 6)
+                                        .addComponent(LblIdPlato, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(10, 10, 10)
+                                        .addComponent(TxtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(CbxSeccion, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(10, 10, 10)
+                                        .addComponent(TxtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(10, 10, 10)
+                                        .addComponent(TxtValor, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(LblOk))
+                                .addGap(0, 0, Short.MAX_VALUE)))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -528,7 +609,10 @@ public class vPlatos extends javax.swing.JInternalFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(3, 3, 3)
                         .addComponent(jLabel4))
-                    .addComponent(TxtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(TxtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel7)
+                        .addComponent(CbxSeccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(11, 11, 11)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
@@ -585,6 +669,7 @@ public class vPlatos extends javax.swing.JInternalFrame {
         //<editor-fold desc="MENU MODIFICAR" defaultstate="collapsed">
         //Seleccion fila modificar
         if (Seleccion()) {
+            TblIngredientes.setEnabled(true);
             habilitarCampos(false, true, true, false, false, true, false, true);
         }
         // BtnModificar.setVisible(oPermisos.validarPermiso("Guardar","Usuarios"));
@@ -595,6 +680,7 @@ public class vPlatos extends javax.swing.JInternalFrame {
         //<editor-fold desc="MENU ELIMINAR" defaultstate="collapsed">
         //Seleccion fila Eliminar
         if (Seleccion()) {
+            TblIngredientes.setEnabled(false);
             habilitarCampos(false, false, false, false, false, false, true, true);
         }
         //</editor-fold>
@@ -603,13 +689,13 @@ public class vPlatos extends javax.swing.JInternalFrame {
     private void BtnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnEliminarActionPerformed
         //<editor-fold desc="ELIMINAR" defaultstate="collapsed">
         if (LblIdPlato.getText().equalsIgnoreCase("") || TxtCodigo.getText().equalsIgnoreCase("")) {
-            JOptionPane.showMessageDialog(null, "No se puede Eliminar el Plato\nNo se encuentra el Codigo\nVerifique que tenga conexion con la BD");
+            JOptionPane.showMessageDialog(null, "No se puede Eliminar el Plato\nVerifique que tenga conexion con la BD");
         } else {
             // Btn Eliminar
             String id = LblIdPlato.getText();
+            String Codigo = TxtCodigo.getText();
 
-            Platos Pl = new Platos();
-            Pl.setIdPlato(id);
+            Platos Pl = new Platos(id, Codigo);
 
             boolean Eliminar = PlatosCAD.eliminar(Pl);
 
@@ -625,6 +711,7 @@ public class vPlatos extends javax.swing.JInternalFrame {
                 LblOk.setText(Bandera.getRespuesta());
                 LblOk.setVisible(true);
                 Bandera.setRespuesta("");
+                mapIngredientes.clear();
             }
         }
         //</editor-fold>
@@ -632,7 +719,7 @@ public class vPlatos extends javax.swing.JInternalFrame {
 
     private void BtnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnModificarActionPerformed
         //<editor-fold desc="MODIFICAR" defaultstate="collapsed">
-        // Btn Modificar
+        // Btn Modificar       
         Map rsp = new HashMap();
         Platos P = new Platos();
         llenarPlato(P);
@@ -649,22 +736,54 @@ public class vPlatos extends javax.swing.JInternalFrame {
             //            System.out.println(""+Focus);
         } else {
 
-            boolean Modificar = PlatosCAD.modificar(P);
+            boolean tab = validarTablaIngredientes((DefaultTableModel) TblIngredientes.getModel());
 
-            if (!Modificar) {
-                JOptionPane.showMessageDialog(null, Bandera.getRespuesta());
-                limpiarCampos();
-                mostrarDatos("");
-                botonesInicio(false, false, false, true, false, false, false, false);
-            } else {
-                limpiarCampos();
-                botonesInicio(false, false, false, true, false, false, false, false);
-                mostrarDatos(P.getNombre());
-                buscarSi();
-                LblOk.setText(Bandera.getRespuesta());
-                LblOk.setVisible(true);
-                Bandera.setRespuesta("");
+            if (!tab) {
+                JOptionPane.showMessageDialog(null, "El Plato debe contener como minimo un Ingrediente");
+                CbxIngrediente.requestFocus();
+                return;
             }
+
+            List ListaIngredientes = new ArrayList();
+            int filas = TblIngredientes.getRowCount();
+            for (int i = 0; i < filas; i++) {
+                String Codigo, Ingrediente, Cantidad;
+
+                Codigo = LblIdPlato.getText();
+                Ingrediente = TblIngredientes.getValueAt(i, 0).toString();
+                Cantidad = TblIngredientes.getValueAt(i, 1).toString();
+
+                Ingredientes In = new Ingredientes(Codigo, Ingrediente, Cantidad);
+                ListaIngredientes.add(In);
+            }
+            verificarMapIngredientes();
+            
+            boolean Eliminar = false;
+            if (!QuitarIngredientes.isEmpty())Eliminar = IngredientesCAD.eliminar(QuitarIngredientes);
+            
+            
+                boolean Modificar = PlatosCAD.modificar(P, ListaIngredientes);
+
+                if (!Modificar) {
+                    JOptionPane.showMessageDialog(null, Bandera.getRespuesta());
+                    limpiarCampos();
+                    mostrarDatos("");
+                    botonesInicio(false, false, false, true, false, false, false, false);
+                    mapIngredientes.clear();
+                } else {
+                    limpiarCampos();
+                    botonesInicio(false, false, false, true, false, false, false, false);
+                    mostrarDatos("");
+                    buscarSi();
+                    LblOk.setText(Bandera.getRespuesta());
+                    LblOk.setVisible(true);
+                    Bandera.setRespuesta("");
+                    mapIngredientes.clear();
+                }/// Fin if Modificar
+                
+                QuitarIngredientes.clear();
+            
+
         }
         //</editor-fold>
     }//GEN-LAST:event_BtnModificarActionPerformed
@@ -675,6 +794,7 @@ public class vPlatos extends javax.swing.JInternalFrame {
         limpiarCampos();
         buscarSi();
         botonesInicio(false, false, false, true, false, false, false, false);
+        mapIngredientes.clear();
         //</editor-fold>
     }//GEN-LAST:event_BtnCancelarActionPerformed
 
@@ -718,10 +838,8 @@ public class vPlatos extends javax.swing.JInternalFrame {
                 Ingredientes In = new Ingredientes(Codigo, Ingrediente, Cantidad);
                 ListaIngredientes.add(In);
             }
-            Lista Li = new Lista();
-            Li.setListaIngredientes((ArrayList<Ingredientes>) ListaIngredientes);
-        
-            boolean guardar = PlatosCAD.guardar(P,Li);
+
+            boolean guardar = PlatosCAD.guardar(P, ListaIngredientes);
 
             if (!guardar) {
 //                limpiarCampos();
@@ -733,6 +851,9 @@ public class vPlatos extends javax.swing.JInternalFrame {
                 mostrarDatos("");
                 botonesInicio(true, false, false, true, false, false, false, false);
                 buscarSi();
+                LblOk.setVisible(true);
+                Bandera.setRespuesta("");
+                mapIngredientes.clear();
             }
         }
         //</editor-fold>
@@ -744,6 +865,7 @@ public class vPlatos extends javax.swing.JInternalFrame {
         mostrarDatos("");
         botonesInicio(false, true, true, false, true, false, false, true);
         buscarNo();
+        mapIngredientes.clear();
         //</editor-fold>
     }//GEN-LAST:event_BtnNuevoActionPerformed
 
@@ -782,6 +904,33 @@ public class vPlatos extends javax.swing.JInternalFrame {
             fila[0] = CbxIngrediente.getSelectedItem();
             fila[1] = TxtCantidad.getText();
 
+            int Seleccion = TblIngredientes.getSelectedRow();
+
+            if (mapIngredientes.containsKey(fila[0]) && Seleccion < 0) {
+                JOptionPane.showMessageDialog(null, "El ingrediente: " + fila[0] + " ya existe en la tabla.");
+                IngredientesInicio();
+                return;
+            } else if ("Seleccione...".equals(fila[0])) {
+                JOptionPane.showMessageDialog(null, "Debe seleccionar un ingrediente.");
+                IngredientesInicio();
+                return;
+            } else if (mapIngredientes.containsKey(fila[0]) && Seleccion >= 0) {
+                String W = TblIngredientes.getValueAt(Seleccion, 0).toString();
+                if (W.equals(fila[0])) {
+                    modelo.removeRow(Seleccion);
+                    JOptionPane.showMessageDialog(null, "Se ha modificado el Ingrediente");
+                    mapIngredientes.put(fila[0], fila[0]);
+                    IngredientesInicio();
+                } else {
+                    JOptionPane.showMessageDialog(null, "El ingrediente: " + fila[0] + " ya existe en la tabla.");
+                    IngredientesInicio();
+                    return;
+                }
+            } ////
+            else {
+                mapIngredientes.put(fila[0], fila[0]);
+            }
+
             modelo.addRow(fila);
             TblIngredientes.setModel(modelo);
             g = 1;
@@ -789,8 +938,8 @@ public class vPlatos extends javax.swing.JInternalFrame {
         }
         if (g == 1) {
             LblOk.setText("Se agrego el ingrediente");
-//            LblOk.setForeground(Color.BLUE);
             LblOk.setVisible(true);
+            IngredientesInicio();
             g = 0;
         } else {
             JOptionPane.showMessageDialog(null, "El ingrediente no se puedo agregar");
@@ -798,6 +947,52 @@ public class vPlatos extends javax.swing.JInternalFrame {
 
         //</editor-fold>
     }//GEN-LAST:event_BtnAgregarActionPerformed
+
+    private void MnModificar_IngreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnModificar_IngreActionPerformed
+        //<editor-fold desc="MENU MODIFICAR INGREDIENTE" defaultstate="collapsed">
+        //Seleccion fila modificar
+        DefaultTableModel tb = (DefaultTableModel) TblIngredientes.getModel();
+        int fila = TblIngredientes.getSelectedRow();
+        if (fila >= 0) {
+            CbxIngrediente.setSelectedItem(TblIngredientes.getValueAt(fila, 0).toString());
+            TxtCantidad.setText(TblIngredientes.getValueAt(fila, 1).toString());
+
+            BtnAgregar.setEnabled(true);
+        } else {
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un ingrediente.");
+        }
+        //</editor-fold>
+    }//GEN-LAST:event_MnModificar_IngreActionPerformed
+
+    private void MnEliminar_IngreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnEliminar_IngreActionPerformed
+        //<editor-fold desc="MENU ELIMINAR INGREDIENTE" defaultstate="collapsed">
+        //Seleccion fila Eliminar                    
+        String Codigo, Ingrediente, Cantidad;
+
+        DefaultTableModel tb = (DefaultTableModel) TblIngredientes.getModel();
+        int fila = TblIngredientes.getSelectedRow();
+        if (fila >= 0) {
+            int dialogButton = JOptionPane.YES_NO_OPTION;
+            int opc = JOptionPane.showConfirmDialog(null, "Desea quitar el Ingrediente del plato?", "Advertencia", dialogButton, JOptionPane.WARNING_MESSAGE);
+            if (opc == 0) {
+                Codigo = LblIdPlato.getText();
+                Ingrediente = TblIngredientes.getValueAt(fila, 0).toString();
+                Cantidad = TblIngredientes.getValueAt(fila, 1).toString();
+
+                Ingredientes Ing = new Ingredientes(Codigo, Ingrediente, Cantidad);
+                QuitarIngredientes.add(Ing);
+
+                mapIngredientes.remove(TblIngredientes.getValueAt(fila, 0).toString());
+                tb.removeRow(TblIngredientes.getSelectedRow());
+
+            } else {
+                return;
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un ingrediente.");
+        }
+        //</editor-fold>
+    }//GEN-LAST:event_MnEliminar_IngreActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -808,13 +1003,17 @@ public class vPlatos extends javax.swing.JInternalFrame {
     private javax.swing.JButton BtnModificar;
     private javax.swing.JButton BtnNuevo;
     private javax.swing.JComboBox<String> CbxIngrediente;
+    private javax.swing.JComboBox<String> CbxSeccion;
     private javax.swing.JLabel LblBuscar;
     private javax.swing.JLabel LblIdPlato;
     private javax.swing.JLabel LblOk;
     private javax.swing.JMenuItem MnEliminar;
+    private javax.swing.JMenuItem MnEliminar_Ingre;
     private javax.swing.JMenuItem MnModificar;
+    private javax.swing.JMenuItem MnModificar_Ingre;
+    private javax.swing.JPopupMenu PopM_Ingredientes;
     private javax.swing.JPopupMenu PopM_Tabla;
-    private javax.swing.JTable TblConsultarPlatos;
+    public javax.swing.JTable TblConsultarPlatos;
     private javax.swing.JTable TblIngredientes;
     private javax.swing.JTextField TxtBuscar;
     private javax.swing.JTextField TxtCantidad;
@@ -826,6 +1025,7 @@ public class vPlatos extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel2;
@@ -845,12 +1045,10 @@ public class vPlatos extends javax.swing.JInternalFrame {
             TxtCodigo.setText(TblConsultarPlatos.getValueAt(fila, 1).toString());
             TxtNombre.setText(TblConsultarPlatos.getValueAt(fila, 2).toString());
             TxtValor.setText(TblConsultarPlatos.getValueAt(fila, 3).toString());
+            CbxSeccion.setSelectedIndex(Integer.parseInt(TblConsultarPlatos.getValueAt(fila, 4).toString()));
 
-//            Double precio = Double.parseDouble(TblConsultarProductos.getValueAt(fila, 4).toString());
-//            TxtPrecioCosto.setText("" + precio.intValue());
-//            CbxCategoria.setSelectedIndex(Integer.parseInt(TblConsultarProductos.getValueAt(fila, 5).toString()));
-//            CbxProveedor.setSelectedIndex(Integer.parseInt(TblConsultarProductos.getValueAt(fila, 6).toString()));
-//            TxtStock.setText(TblConsultarProductos.getValueAt(fila, 7).toString());
+            mostrarIngredientes(TblConsultarPlatos.getValueAt(fila, 0).toString());
+
             return true;
         } else {
             JOptionPane.showMessageDialog(null, "No se ha seleccionado ningun Plato de la tabla");

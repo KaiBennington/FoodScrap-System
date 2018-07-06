@@ -6,7 +6,6 @@
 package view;
 
 import CAD.UsuariosCAD;
-import Config.Bandera;
 import Model.Usuarios;
 import javax.swing.*;
 import javax.swing.JOptionPane;

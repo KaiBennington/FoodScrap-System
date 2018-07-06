@@ -37,7 +37,7 @@ public class vPrincipal extends javax.swing.JFrame {
         setIconImage(new ImageIcon(getClass().getResource("/img/Titles/IconoLogo.png")).getImage());
         setExtendedState(MAXIMIZED_BOTH);
         LblNombre.setText("Usuario Actual : "+ Bandera.getNombre() + " " + Bandera.getApellido());
-        LblNombre.setForeground(Color.red);
+        LblNombre.setForeground(Color.BLACK);
         LblRoll.setText(Bandera.getNombreRol() + " ( " + Bandera.getSiglasRol()+" )");
 //        recorrerMenu(jMenuBar1.getSubElements());
                 
@@ -48,7 +48,7 @@ public class vPrincipal extends javax.swing.JFrame {
     public ImagenFondo(){    
         try {       
             //se obtiene la imagen            
-            URL url = new URL(getClass().getResource("/img/Titles/LogoFood.png").toString());
+            URL url = new URL(getClass().getResource("/img/Titles/Fondo_LogoFood2.png").toString());
             fondo = ImageIO.read(url);    
             
         } catch (IOException ex) {
@@ -105,12 +105,17 @@ public class vPrincipal extends javax.swing.JFrame {
         jMenuItem18 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("FoodScrap System V1.0 (easy order)");
 
+        LblNombre.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         LblNombre.setText("Nombre");
 
+        LblRoll.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         LblRoll.setText("Roll");
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+
+        Escritorio.setBackground(new java.awt.Color(204, 204, 204));
 
         javax.swing.GroupLayout EscritorioLayout = new javax.swing.GroupLayout(Escritorio);
         Escritorio.setLayout(EscritorioLayout);
@@ -120,7 +125,7 @@ public class vPrincipal extends javax.swing.JFrame {
         );
         EscritorioLayout.setVerticalGroup(
             EscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 331, Short.MAX_VALUE)
+            .addGap(0, 327, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -137,6 +142,7 @@ public class vPrincipal extends javax.swing.JFrame {
         jMenuBar1.setBackground(new java.awt.Color(255, 255, 255));
 
         jMenu1.setText("Archivo");
+        jMenu1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
 
         jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Perfil.png"))); // NOI18N
         jMenuItem1.setText("Mi Perfil");
@@ -169,6 +175,7 @@ public class vPrincipal extends javax.swing.JFrame {
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Movimientos");
+        jMenu2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
 
         jMenuItem4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Cierre.png"))); // NOI18N
         jMenuItem4.setText("Cierre Sucursales");
@@ -182,6 +189,7 @@ public class vPrincipal extends javax.swing.JFrame {
         jMenuBar1.add(jMenu2);
 
         jMenu3.setText("Gestiones");
+        jMenu3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
 
         jMenuItem7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Platos.png"))); // NOI18N
         jMenuItem7.setText("Platos");
@@ -231,6 +239,7 @@ public class vPrincipal extends javax.swing.JFrame {
         jMenuBar1.add(jMenu3);
 
         jMenu4.setText("Consultas");
+        jMenu4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
 
         jMenuItem13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Platos.png"))); // NOI18N
         jMenuItem13.setText("Consultar Platos");
@@ -239,6 +248,7 @@ public class vPrincipal extends javax.swing.JFrame {
         jMenuBar1.add(jMenu4);
 
         jMenu5.setText("Configuración");
+        jMenu5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
 
         jMenuItem15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/TipoDocumento.png"))); // NOI18N
         jMenuItem15.setText("Tipo Documentos");

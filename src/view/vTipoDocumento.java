@@ -503,7 +503,7 @@ public class vTipoDocumento extends javax.swing.JInternalFrame {
                     }else{ 
                         limpiarCampos();
                         botonesInicio(true, false, false, false, true, false, false, false, false);
-                        mostrarDatos(Td.getNombre());
+                        mostrarDatos("");
                         cargarId();
                         LblOk.setText(Bandera.getRespuesta());
                         LblOk.setVisible(true);

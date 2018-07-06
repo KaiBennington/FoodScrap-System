@@ -220,6 +220,14 @@ public class vSucursales extends javax.swing.JInternalFrame {
         });
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel1MouseClicked(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jPanel1MousePressed(evt);
+            }
+        });
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Titles/GSucursales.png"))); // NOI18N
 
@@ -516,6 +524,7 @@ public class vSucursales extends javax.swing.JInternalFrame {
         cargarId();
         botonesInicio(false, true, false, true, false, false, true);
         buscarNo();
+        mostrarDatos("");
         //</editor-fold>
     }//GEN-LAST:event_BtnNuevoActionPerformed
 
@@ -662,6 +671,15 @@ public class vSucursales extends javax.swing.JInternalFrame {
         }
         //</editor-fold>
     }//GEN-LAST:event_MnEliminarActionPerformed
+
+    private void jPanel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jPanel1MouseClicked
+
+    private void jPanel1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MousePressed
+        LblOk.setVisible(false);
+        mostrarDatos("");
+    }//GEN-LAST:event_jPanel1MousePressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

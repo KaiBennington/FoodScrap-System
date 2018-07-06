@@ -479,7 +479,7 @@ public class vCategorias extends javax.swing.JInternalFrame {
                     }else{ 
                         limpiarCampos();
                         botonesInicio(true, false, false, true, false, false, false, false);
-                        mostrarDatos(Ct.getNombre());
+                        mostrarDatos("");
                         cargarId();
                         LblOk.setText(Bandera.getRespuesta());
                         LblOk.setVisible(true);

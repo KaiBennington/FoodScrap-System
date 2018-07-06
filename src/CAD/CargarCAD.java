@@ -14,6 +14,7 @@ import Model.PreguntaSecreta;
 import Model.Productos;
 import Model.Proveedores;
 import Model.Roles;
+import Model.Secciones;
 import Model.Sucursales;
 import Model.TipoDocumento;
 import Model.UnidadMedidas;
@@ -174,7 +175,36 @@ public class CargarCAD extends ConexionDB {
         } catch (SQLException ex) {
         }
         return Lista;
-    }// FIN Metodo Cargar Proveedores
+    }// FIN Metodo Cargar Ingredientes
+    //</editor-fold>
+    
+    //<editor-fold desc="CARGAR SECCIONES" defaultstate="collapsed">
+        public ArrayList CargarSeccion() {
+        //Combo Secciones
+        PreparedStatement pst;
+        ResultSet rs = null;
+        ArrayList Lista = new ArrayList();
+        try {
+
+            String Sql = "CALL CargarSeccion();";
+            pst = getConexion().prepareStatement(Sql);
+            rs = pst.executeQuery();
+
+            while (rs.next()) {
+                String Nombre;
+                int Codigo;
+                Codigo = (rs.getInt(1));
+                Nombre = (rs.getString(2));              
+
+                Secciones Sc = new Secciones("" + Codigo, Nombre);
+                Lista.add(Sc);
+                // System.out.println(""+Lista);
+            }
+            return Lista;
+        } catch (SQLException ex) {
+        }
+        return Lista;
+    }// FIN Metodo Cargar Secciones
     //</editor-fold>
 
     //<editor-fold desc="CARGAR SUCURSALES" defaultstate="collapsed">

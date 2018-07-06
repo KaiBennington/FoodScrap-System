@@ -130,6 +130,7 @@ public class vProductos extends javax.swing.JInternalFrame {
         TableColumnModel columnModel = TblConsultarProductos.getColumnModel();
         for (int i = 0; i < columnModel.getColumnCount(); i++) {
             columnModel.getColumn(i).setPreferredWidth(100);
+            ocultarFilas(0);
         }
 
     }
@@ -145,6 +146,15 @@ public class vProductos extends javax.swing.JInternalFrame {
         P.setCantidad(Integer.parseInt(TxtCantidad.getText()));
         P.setIdUMedida(Integer.toString(CbxUndMedida.getSelectedIndex()));
         P.setStock(Integer.parseInt(TxtStock.getText()));
+    }
+    //</editor-fold>
+    
+    //<editor-fold desc="Ocultar Filas" defaultstate="collapsed">
+    void ocultarFilas(int index) {
+        TblConsultarProductos.getColumnModel().getColumn(index).setMaxWidth(0);
+        TblConsultarProductos.getColumnModel().getColumn(index).setMinWidth(0);
+        TblConsultarProductos.getColumnModel().getColumn(index).setPreferredWidth(0);
+
     }
     //</editor-fold>
 
@@ -253,6 +263,11 @@ public class vProductos extends javax.swing.JInternalFrame {
         });
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jPanel1MousePressed(evt);
+            }
+        });
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Titles/GProductos.png"))); // NOI18N
 
@@ -739,6 +754,11 @@ public class vProductos extends javax.swing.JInternalFrame {
         }
         //</editor-fold>
     }//GEN-LAST:event_MnEliminarActionPerformed
+
+    private void jPanel1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MousePressed
+        LblOk.setVisible(false);
+        mostrarDatos("");
+    }//GEN-LAST:event_jPanel1MousePressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

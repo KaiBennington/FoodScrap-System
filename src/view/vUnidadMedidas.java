@@ -503,7 +503,7 @@ public class vUnidadMedidas extends javax.swing.JInternalFrame {
                     }else{ 
                         limpiarCampos();
                         botonesInicio(true, false, false, false, true, false, false, false, false);
-                        mostrarDatos(Um.getNombre());
+                        mostrarDatos("");
                         cargarId();
                         LblOk.setText(Bandera.getRespuesta());
                         LblOk.setVisible(true);

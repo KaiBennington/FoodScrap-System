@@ -8,13 +8,10 @@ package CAD;
 import Config.Bandera;
 import Model.ConexionDB;
 import Model.Ingredientes;
-import Model.Lista;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import javax.swing.JOptionPane;
-import view.vPlatos;
+import java.util.List;
 
 /**
  *
@@ -22,7 +19,7 @@ import view.vPlatos;
  */
 public class IngredientesCAD extends ConexionDB {
 
-    public static boolean guardar(Lista L) {
+    public static boolean guardar(List L) {
         PreparedStatement pst;
         ResultSet rs = null;
         boolean respuesta = false;
@@ -31,10 +28,11 @@ public class IngredientesCAD extends ConexionDB {
             String Sql = "CALL GuardarIngredientes(?,?,?)";
             pst = getConexion().prepareStatement(Sql);
 
-            for (int i = 0; i < L.getListaIngredientes().size(); i++) {
-                pst.setString(1, L.getListaIngredientes().get(i).getIdPlato());
-                pst.setString(2, L.getListaIngredientes().get(i).getIngrediente());
-                pst.setString(3, L.getListaIngredientes().get(i).getCantidad());
+            for (int i = 0; i < L.size(); i++) {
+                Ingredientes oIngrediente = (Ingredientes) L.get(i);
+                pst.setString(1, oIngrediente.getIdPlato());
+                pst.setString(2, oIngrediente.getIngrediente());
+                pst.setString(3, oIngrediente.getCantidad());
                 rs = pst.executeQuery();
             }
 
@@ -58,70 +56,77 @@ public class IngredientesCAD extends ConexionDB {
         }
     }//FIN Metodo Guardar
 
-//    public static boolean modificar(Platos Pm) {
-//        PreparedStatement pst;
-//        ResultSet rs = null;
-//        boolean respuesta = false;
-//
-//        try {
-//            String Sql = "CALL ModificarPlato(?,?,?,?)";
-//            pst = getConexion().prepareStatement(Sql);
-//            pst.setString(1, Pm.getIdPlato());
-//            pst.setString(2, Pm.getCodigoPlato());
-//            pst.setString(3, Pm.getNombre());
-//            pst.setDouble(4, Pm.getValor());
-//
-//            rs = pst.executeQuery();
-//
-//            String resul = "";
-//            if (rs.next()) {
-//                resul = rs.getString("Mensaje");
-//            }
-//
-//            if ("Información del Plato Actualizada".equalsIgnoreCase(resul)) {
-//                Bandera.setRespuesta(resul);
-//                respuesta = true;
-//            } else {
-//                Bandera.setRespuesta(resul);
-//                respuesta = false;
-//            }
-//        } catch (SQLException e) {
-//            System.err.println("Error " + e);
-//        } finally {
-//            desconectar();
-//            return respuesta;
-//        }
-//    }//Fin Metodo Modificar
-//
-//    public static boolean eliminar(Platos Pe) {
-//        PreparedStatement pst;
-//        ResultSet rs = null;
-//        boolean respuesta = false;
-//
-//        try {
-//            String Sql = "CALL EliminarPlato(?)";
-//            pst = getConexion().prepareStatement(Sql);
-//            pst.setString(1, Pe.getIdPlato());
-//            rs = pst.executeQuery();
-//
-//            String resul = "";
-//            if (rs.next()) {
-//                resul = rs.getString("Mensaje");
-//            }
-//
-//            if ("Plato Eliminado".equalsIgnoreCase(resul)) {
-//                Bandera.setRespuesta(resul);
-//                respuesta = true;
-//            } else {
-//                Bandera.setRespuesta(resul);
-//                respuesta = false;
-//            }
-//        } catch (SQLException e) {
-//            System.err.println("Error " + e);
-//        } finally {
-//            desconectar();
-//            return respuesta;
-//        }
-//    }//Fin Metodo Eliminar
+    public static boolean modificar(List L) {
+        PreparedStatement pst;
+        ResultSet rs = null;
+        boolean respuesta = false;
+
+        try {
+            String Sql = "CALL ModificarIngredientes(?,?,?)";
+            pst = getConexion().prepareStatement(Sql);
+            
+            for (int i = 0; i < L.size(); i++) {
+                Ingredientes oIngrediente = (Ingredientes) L.get(i);
+                pst.setString(1, oIngrediente.getIdPlato());
+                pst.setString(2, oIngrediente.getIngrediente());
+                pst.setString(3, oIngrediente.getCantidad());
+                rs = pst.executeQuery();
+            }
+
+            String resul = "";
+            if (rs.next()) {
+                resul = rs.getString("Mensaje");
+            }
+
+            if ("Información de Ingredientes Actualizada".equalsIgnoreCase(resul)) {
+                Bandera.setRespuestaIngredientes(resul);
+                respuesta = true;
+            } else {
+                Bandera.setRespuestaIngredientes(resul);
+                respuesta = false;
+            }
+        } catch (SQLException e) {
+            System.err.println("Error " + e);
+        } finally {
+            desconectar();
+            return respuesta;
+        }
+    }//Fin Metodo Modificar
+
+    public static boolean eliminar(List L) {
+        PreparedStatement pst;
+        ResultSet rs = null;
+        boolean respuesta = false;
+
+        try {
+            String Sql = "CALL EliminarIngredientes(?,?)";
+            pst = getConexion().prepareStatement(Sql);
+            
+            for (int i = 0; i < L.size(); i++) {
+                Ingredientes oIngrediente = (Ingredientes) L.get(i);
+                pst.setString(1, oIngrediente.getIdPlato());
+                pst.setString(2, oIngrediente.getIngrediente());
+                rs = pst.executeQuery();
+            }
+
+            String resul = "";
+            if (rs.next()) {
+                resul = rs.getString("Mensaje");
+            }
+
+            if ("Ingrediente Eliminado".equalsIgnoreCase(resul)) {
+                Bandera.setRespuestaIngredientes(resul);
+                respuesta = true;
+            } else {
+                Bandera.setRespuestaIngredientes(resul);
+                respuesta = false;
+            }
+        } catch (SQLException e) {
+            System.err.println("Error " + e);
+        } finally {
+            desconectar();
+            return respuesta;
+        }
+    }//Fin Metodo Eliminar
 
 }

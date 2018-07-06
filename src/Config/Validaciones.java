@@ -246,6 +246,11 @@ public class Validaciones {
             respuesta.put("campo","TxtCodigo.requestFocusInWindow()");
             return respuesta;
         } 
+        if (P.getSeccion().equals("") || P.getSeccion().equalsIgnoreCase("Seleccione...")) {
+            respuesta.put("Mensaje","Debe seleccionar una Seccion valida");
+            respuesta.put("campo","CbxSeccion.requestFocusInWindow()");
+            return respuesta;
+        } 
         if (P.getNombre().equals("")) {
             respuesta.put("Mensaje","El campo Nombre se encuentra Vacio");
             respuesta.put("campo","TxtNombre.requestFocusInWindow()");
