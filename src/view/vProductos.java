@@ -142,7 +142,7 @@ public class vProductos extends javax.swing.JInternalFrame {
         P.setIdProveedor(Integer.toString(CbxProveedor.getSelectedIndex()));
         P.setIdCategoria(Integer.toString(CbxCategoria.getSelectedIndex()));
         P.setNombre(TxtNombre.getText());
-        P.setPrecioCosto(Integer.parseInt(TxtPrecioCosto.getText()));
+        P.setPrecioCosto(Double.parseDouble(TxtPrecioCosto.getText()));
         P.setCantidad(Integer.parseInt(TxtCantidad.getText()));
         P.setIdUMedida(Integer.toString(CbxUndMedida.getSelectedIndex()));
         P.setStock(Integer.parseInt(TxtStock.getText()));

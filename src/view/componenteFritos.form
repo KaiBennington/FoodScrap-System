@@ -62,12 +62,14 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
               <EmptySpace min="-2" pref="0" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="lblNombre" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
-                  <Component id="txtCantidad" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
-                  <Component id="jLabel19" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
-                  <Component id="txtValorUnitario" alignment="1" pref="23" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="txtValorUnitario" alignment="1" max="32767" attributes="0"/>
                   <Component id="lblValor" alignment="1" max="32767" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="lblNombre" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
+                      <Component id="txtCantidad" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
+                      <Component id="jLabel19" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
+                  </Group>
               </Group>
           </Group>
       </Group>
@@ -124,7 +126,7 @@
           <Color blue="0" green="0" red="ff" type="rgb"/>
         </Property>
         <Property name="horizontalAlignment" type="int" value="0"/>
-        <Property name="text" type="java.lang.String" value="3.000"/>
+        <Property name="text" type="java.lang.String" value="0000"/>
       </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>

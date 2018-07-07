@@ -22,7 +22,6 @@ import java.util.Map;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
-import javax.swing.text.TableView;
 
 /**
  *
@@ -696,8 +695,21 @@ public class vPlatos extends javax.swing.JInternalFrame {
             String Codigo = TxtCodigo.getText();
 
             Platos Pl = new Platos(id, Codigo);
+            
+            List ListaIngredientes = new ArrayList();
+            int filas = TblIngredientes.getRowCount();
+            for (int i = 0; i < filas; i++) {
+                String Cod, Ingrediente, Cantidad;
 
-            boolean Eliminar = PlatosCAD.eliminar(Pl);
+                Cod = LblIdPlato.getText();
+                Ingrediente = TblIngredientes.getValueAt(i, 0).toString();
+                Cantidad = TblIngredientes.getValueAt(i, 1).toString();
+
+                Ingredientes In = new Ingredientes(Cod, Ingrediente, Cantidad);
+                ListaIngredientes.add(In);
+            }
+
+            boolean Eliminar = PlatosCAD.eliminar(Pl,ListaIngredientes);
 
             if (!Eliminar) {
                 JOptionPane.showMessageDialog(null, Bandera.getRespuesta());
@@ -707,6 +719,7 @@ public class vPlatos extends javax.swing.JInternalFrame {
             } else {
                 limpiarCampos();
                 botonesInicio(false, false, false, true, false, false, false, false);
+                mostrarDatos("");
                 buscarSi();
                 LblOk.setText(Bandera.getRespuesta());
                 LblOk.setVisible(true);

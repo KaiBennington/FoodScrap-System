@@ -50,8 +50,8 @@ public class PlatosCAD extends ConexionDB {
                 } else {
                     Msj_Ingredientes = Bandera.getRespuestaIngredientes();
                 }
-                String R_Plato = resul ;
-                
+                String R_Plato = resul;
+
                 String[] Rsp_Pl = R_Plato.split(" ");
                 String parte = Rsp_Pl[0]; //Plato
                 Bandera.setRespuesta(parte + " e " + Msj_Ingredientes);
@@ -91,21 +91,21 @@ public class PlatosCAD extends ConexionDB {
             }
 
             if ("Información del Plato Actualizada".equalsIgnoreCase(resul)) {
-                
-                boolean  modificarIngredientes = IngredientesCAD.modificar(L);
+
+                boolean modificarIngredientes = IngredientesCAD.modificar(L);
 
                 if (!modificarIngredientes) {
                     return false;
                 } else {
                     Msj_Ingredientes = Bandera.getRespuestaIngredientes();
                 }
-                String R_Plato = resul ;
+                String R_Plato = resul;
 //                Información de Ingredientes Actualizada
                 String[] Rsp_Pl = R_Plato.split("(?<= )");
                 String parte = Rsp_Pl[0]; //Informacion
                 Bandera.setRespuesta(parte + " e " + Msj_Ingredientes);
                 respuesta = true;
-                
+
             } else {
                 Bandera.setRespuesta(resul);
                 respuesta = false;
@@ -125,24 +125,37 @@ public class PlatosCAD extends ConexionDB {
         String Msj_Ingredientes;
 
         try {
-            String Sql = "CALL EliminarPlato(?,?)";
-            pst = getConexion().prepareStatement(Sql);
-            pst.setString(1, Pe.getIdPlato());
-            pst.setString(2, Pe.getCodigoPlato());
-            rs = pst.executeQuery();
+            boolean eliminarIngredientes = IngredientesCAD.eliminar(L);
 
-            String resul = "";
-            if (rs.next()) {
-                resul = rs.getString("Mensaje");
-            }
-
-            if ("Plato Eliminado".equalsIgnoreCase(resul)) {
-                Bandera.setRespuesta(resul);
-                respuesta = true;
+            if (!eliminarIngredientes) {
+                return false;
             } else {
-                Bandera.setRespuesta(resul);
-                respuesta = false;
-            }
+                Msj_Ingredientes = Bandera.getRespuestaIngredientes();
+
+                String Sql = "CALL EliminarPlato(?,?)";
+                pst = getConexion().prepareStatement(Sql);
+                pst.setString(1, Pe.getIdPlato());
+                pst.setString(2, Pe.getCodigoPlato());
+                rs = pst.executeQuery();
+
+                String resul = "";
+                if (rs.next()) {
+                    resul = rs.getString("Mensaje");
+                }
+
+                if ("Plato Eliminado".equalsIgnoreCase(resul)) {
+                    String R_Plato = resul;
+
+                    String[] Rsp_Pl = R_Plato.split(" ");
+                    String parte = Rsp_Pl[0]; //Plato
+                    Bandera.setRespuesta(parte + " e " + Msj_Ingredientes);
+                    respuesta = true;
+                } else {
+                    Bandera.setRespuesta(resul + " " + Msj_Ingredientes);
+                    respuesta = false;
+                }
+            }// Fin if Eliminar Ingredientes
+
         } catch (SQLException e) {
             System.err.println("Error " + e);
         } finally {

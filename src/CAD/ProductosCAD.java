@@ -30,7 +30,7 @@ public class ProductosCAD extends ConexionDB{
             pst.setString(2, P.getIdProveedor());
             pst.setString(3, P.getIdCategoria());
             pst.setString(4, P.getNombre());
-            pst.setInt(5, P.getPrecioCosto());
+            pst.setDouble(5, P.getPrecioCosto());
             pst.setInt(6, P.getCantidad());
             pst.setString(7, P.getIdUMedida());
             pst.setInt(8, P.getStock());    
@@ -69,7 +69,7 @@ public class ProductosCAD extends ConexionDB{
             pst.setString(2, Pm.getIdProveedor());
             pst.setString(3, Pm.getIdCategoria());
             pst.setString(4, Pm.getNombre());
-            pst.setInt(5, Pm.getPrecioCosto());
+            pst.setDouble(5, Pm.getPrecioCosto());
             pst.setInt(6, Pm.getCantidad());
             pst.setString(7, Pm.getIdUMedida());
             pst.setInt(8, Pm.getStock());  

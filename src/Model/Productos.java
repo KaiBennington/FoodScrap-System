@@ -16,7 +16,7 @@ public class Productos {
     private String IdProveedor;
     private String IdCategoria;
     private String Nombre;
-    private int PrecioCosto;
+    private double PrecioCosto;
     private int Cantidad;
     private String IdUMedida;
     private int Stock;
@@ -77,11 +77,11 @@ public class Productos {
         this.Nombre = Nombre;
     }
 
-    public int getPrecioCosto() {
+    public double getPrecioCosto() {
         return PrecioCosto;
     }
 
-    public void setPrecioCosto(int PrecioCosto) {
+    public void setPrecioCosto(double PrecioCosto) {
         this.PrecioCosto = PrecioCosto;
     }
 
