@@ -78,6 +78,8 @@ public class Platos {
         this.idPlato = idPlato;
         this.CodigoPlato = CodigoPlato;
     }
+    
+    
     //</editor-fold>
 
 }

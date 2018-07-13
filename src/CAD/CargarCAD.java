@@ -9,7 +9,7 @@ import Config.Bandera;
 import Model.Categorias;
 import Model.ConexionDB;
 import static Model.ConexionDB.getConexion;
-import Model.Ingredientes;
+import Model.Platos;
 import Model.PreguntaSecreta;
 import Model.Productos;
 import Model.Proveedores;
@@ -176,6 +176,41 @@ public class CargarCAD extends ConexionDB {
         }
         return Lista;
     }// FIN Metodo Cargar Ingredientes
+    //</editor-fold>
+    
+    //<editor-fold desc="CARGAR PLATOS" defaultstate="collapsed">
+    public ArrayList CargarPlatos() {
+        //Jtab Platos
+        PreparedStatement pst;
+        ResultSet rs = null;
+        ArrayList Lista = new ArrayList();
+        try {
+
+            String Sql = "CALL CargarPlatos();";
+            pst = getConexion().prepareStatement(Sql);
+            rs = pst.executeQuery();
+
+            while (rs.next()) {
+                String Codigo,Nombre, Seccion;
+                double Valor;
+                Codigo = (rs.getString("Codigo"));
+                Nombre = (rs.getString("Nombre"));              
+                Valor = (rs.getDouble("Valor"));
+                Seccion = (rs.getString("IdSeccion"));
+
+                Platos Pl = new Platos();
+                Pl.setCodigoPlato(Codigo);
+                Pl.setNombre(Nombre);
+                Pl.setValor(Valor);
+                Pl.setSeccion(Seccion);
+                
+                Lista.add(Pl);
+            }
+            return Lista;
+        } catch (SQLException ex) {
+        }
+        return Lista;
+    }// FIN Metodo Cargar Platos
     //</editor-fold>
     
     //<editor-fold desc="CARGAR SECCIONES" defaultstate="collapsed">

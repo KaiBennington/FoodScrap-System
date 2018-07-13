@@ -6,6 +6,7 @@
 package Config;
 
 import Model.Categorias;
+import Model.Gastos;
 import Model.Ingredientes;
 import Model.Platos;
 import Model.Productos;
@@ -400,6 +401,30 @@ public class Validaciones {
         respuesta.remove("Mensaje");
 //        boolean val = respuesta.isEmpty();
 //        System.out.println("valor vacio "+val);
+        return respuesta;
+    }
+    //</editor-fold>
+    
+    //<editor-fold desc="VALIDAR GASTOS" defaultstate="collapsed">
+    public Map validarCamposGastos(Map respuesta){
+        
+        Gastos Gs = (Gastos)respuesta.get("Gasto");
+        
+        if (Gs.getIdFactura() <= 0 || "".equals(Gs.getIdFactura())) {
+            respuesta.put("Mensaje","Error en el Numero de Factura");
+            return respuesta;
+        } 
+        if (Gs.getDescripcion().equalsIgnoreCase("")) {
+            respuesta.put("Mensaje","El campo Descripción se encuentra vacio");
+            respuesta.put("campo","TxtDescripcionGasto.requestFocusInWindow()");
+            return respuesta;
+        }
+        if (Gs.getValor() <= 0 || "".equals(Gs.getValor())) {
+            respuesta.put("Mensaje","El campo Valor se encuentra vacio ó\n Contiene un valor incorrecto");
+            respuesta.put("campo","TxtValorGasto.requestFocusInWindow()");
+            return respuesta;
+        }
+        respuesta.remove("Mensaje");
         return respuesta;
     }
     //</editor-fold>

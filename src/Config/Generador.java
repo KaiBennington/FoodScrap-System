@@ -23,11 +23,13 @@ public class Generador {
     
     public static boolean generarContraseña() {
        String caracteres[] = {
-           "q","w","e","r","t","y","u","i","o","p","a","s","d","f","g",
-           "h","j","k","l","ñ","z","x","c","v","b","n","m",
+           "q","w","e","r","t","y","u","i","o","p",
+           "a","s","d","f","g","h","j","k","l","ñ",
+           "z","x","c","v","b","n","m",
            "1","2","3","4","5","6","7","8","9","0",
-           "Q","A","Z","X","S","W","E","D","C","V","F","R","T","G",
-           "B","N","H","Y","U","J","M","I","K","O","L","P","Ñ"
+           "Q","A","Z","X","S","W","E","D","C","V",
+           "F","R","T","G","B","N","H","Y","U","J",
+           "M","I","K","O","L","P","Ñ"
        };
         
         String Generado = "";
