@@ -1,5 +1,10 @@
 package view;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import view.vCierreSucursal;
 
 public class componenteFritos extends javax.swing.JPanel {
@@ -7,7 +12,9 @@ public class componenteFritos extends javax.swing.JPanel {
     /**
      * Creates new form jpComponente
      */
-    public componenteFritos(int index) {
+    static vCierreSucursal vC = new vCierreSucursal();
+    Map MapRelease = new HashMap();
+    public componenteFritos(int index,Map MapRelease) {
         initComponents();
         //JPanel
         setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
@@ -15,14 +22,13 @@ public class componenteFritos extends javax.swing.JPanel {
         this.setVisible(true);
         txtValorUnitario.setVisible(false);
         LblSeccion.setVisible(false);
+        this.MapRelease = MapRelease;
     }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        btn = new javax.swing.JButton();
         lblNombre = new javax.swing.JLabel();
         txtCantidad = new javax.swing.JTextField();
         jLabel19 = new javax.swing.JLabel();
@@ -31,12 +37,6 @@ public class componenteFritos extends javax.swing.JPanel {
         LblCodigo = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         LblSeccion = new javax.swing.JLabel();
-
-        jLabel1.setText("Pruebaaa:");
-
-        btn.setText("OK");
-        btn.setMargin(new java.awt.Insets(2, 2, 2, 2));
-        btn.setPreferredSize(new java.awt.Dimension(47, 26));
 
         setBackground(new java.awt.Color(255, 255, 255));
         setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -87,6 +87,7 @@ public class componenteFritos extends javax.swing.JPanel {
         LblCodigo.setForeground(new java.awt.Color(204, 204, 204));
         LblCodigo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         LblCodigo.setText("Cod :");
+        LblCodigo.setToolTipText("Codigo");
 
         jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
@@ -135,9 +136,12 @@ public class componenteFritos extends javax.swing.JPanel {
 
     private void txtCantidadKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadKeyReleased
         if (txtCantidad.getText() == null  || txtCantidad.getText().equalsIgnoreCase("")) {
+            lblValor.setText(""+0);
            return; 
+        }else{
+            Suma();
         }
-        Suma();
+        
     }//GEN-LAST:event_txtCantidadKeyReleased
 
     private void txtCantidadMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtCantidadMouseClicked
@@ -158,8 +162,10 @@ public class componenteFritos extends javax.swing.JPanel {
             int c = 0;
             txtCantidad.setText("" + c);
             Suma();
+        }else{
+            Suma();
         }
-        Suma();
+        
     }//GEN-LAST:event_txtCantidadFocusLost
 
     private void txtCantidadFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCantidadFocusGained
@@ -172,8 +178,6 @@ public class componenteFritos extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JLabel LblCodigo;
     public javax.swing.JLabel LblSeccion;
-    public javax.swing.JButton btn;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JSeparator jSeparator1;
     public javax.swing.JLabel lblNombre;
@@ -183,16 +187,34 @@ public class componenteFritos extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
 
+    //<editor-fold desc="SUMA" defaultstate="collapsed"> 
     void Suma(){
+        //Suma
         Double cantidad = Double.parseDouble(txtCantidad.getText());
         double valorUnitario = Double.parseDouble(txtValorUnitario.getText());
         double totalUnitario = (valorUnitario * cantidad);
-        lblValor.setText(totalUnitario + "");
+        lblValor.setText(totalUnitario + "");       
         
-        vCierreSucursal oVCierre = new vCierreSucursal();
-        double totalActualFritos = Double.parseDouble(oVCierre.Lbl_ValorFritos.getText());
-        totalActualFritos = totalActualFritos + totalUnitario;
-        oVCierre.Lbl_ValorFritos.setText(""+totalActualFritos);
+        //MapRelease casteado en un objeto tipo label
+        JLabel lblTotal = (JLabel) MapRelease.get("lblTotal");
+        JLabel lblCant = (JLabel) MapRelease.get("lblCant");
+        //Variables Del total de los valores
+        double valorFritos = 0; int CantFritos = 0;
+        lblTotal.setText(""+valorFritos);
         
+        //MapRelease casteado en un objeto tipo Map
+        Map fritos = (Map) MapRelease.get("mapFritos");
+        Iterator it = fritos.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry entry = (Map.Entry) it.next();
+            //se recupera el componente
+            componenteFritos oComponenteFritos = ((componenteFritos) entry.getValue());
+            //Guardamos el resultado de los componentes en sus respectivas variables
+            CantFritos = CantFritos + (Integer.parseInt(oComponenteFritos.txtCantidad.getText()));
+            valorFritos = valorFritos + (Double.parseDouble(oComponenteFritos.lblValor.getText()));
+        }
+        lblCant.setText(""+CantFritos);
+        lblTotal.setText(""+valorFritos);
     }
+    //</editor-fold>
 }

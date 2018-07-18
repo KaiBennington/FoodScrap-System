@@ -30,20 +30,22 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
     /**
      * Creates new form vCierreSucursal
      */
-    private Map fritos = new HashMap();
+    public Map fritos = new HashMap();
     Map mapGastos = new HashMap();
-
+    Map MapRelease = new HashMap();
     public vCierreSucursal() {
         initComponents();
-        
+
 //        this.Lbl_ValorFritos.setText(""+totalFritos); 
-        
         cargarCombos();
         LblFecha.setText("");
         botonesInicio(false, false, true, false, false, false, false);
 
         llenarFritos();
         mostrarDatos("");
+        MapRelease.put("lblTotal", this.Lbl_ValorFritos);
+        MapRelease.put("lblCant", this.Lbl_ItemFritos);
+        MapRelease.put("mapFritos", fritos);
     }
 
     //<editor-fold desc="CARGAR FECHA" defaultstate="collapsed">    
@@ -100,7 +102,7 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
         BtnEliminar.setVisible(eliminar);
         BtnCancelar.setVisible(cancelar);
     }
-    
+
     void gastosInicio() {
         TxtDescripcionGasto.setText("");
         TxtValorGasto.setText("");
@@ -167,19 +169,21 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
     //<editor-fold desc="LLENAR FRITOS" defaultstate="collapsed">    
     private void llenarFritos() {
         int index = 0, y = 0;
-        
-        CargarCAD oCargarCAD = new CargarCAD();        
+
+        CargarCAD oCargarCAD = new CargarCAD();
         List ListaPlatos = oCargarCAD.CargarPlatos();
-        
+
         while (index < ListaPlatos.size()) {
-            componenteFritos jpc = new componenteFritos(index);
+            componenteFritos jpc = new componenteFritos(index,this.MapRelease);
             Platos oPlatoDetalle = (Platos) ListaPlatos.get(index);
 
             jpc.LblCodigo.setText(oPlatoDetalle.getCodigoPlato());
             jpc.lblNombre.setText(oPlatoDetalle.getNombre() + "");
-            jpc.lblValor.setText("" + oPlatoDetalle.getValor());
+            jpc.lblValor.setText("" + (oPlatoDetalle.getValor() * Double.parseDouble(jpc.txtCantidad.getText())));
             jpc.txtValorUnitario.setText("" + oPlatoDetalle.getValor());
             jpc.LblSeccion.setText(oPlatoDetalle.getSeccion());
+            //
+            jpc.txtCantidad.getText();
             // damos valores a X,Y,Ancho,Alto
             jpc.setBounds(0, y, 265, 35);
 
@@ -205,10 +209,16 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
         Lbl_ValorGastos.setText("");
 
         //-- JP_Platos Vendidos
-        componenteFritos oJP_Fritos = new componenteFritos(0);
-        oJP_Fritos.txtCantidad.setText("");
-        Lbl_ItemFritos.setText("");
-        Lbl_ValorFritos.setText("");
+        Iterator it = ((Map) MapRelease.get("mapFritos")).entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry entry = (Map.Entry) it.next();
+            //se recupera el componente
+            componenteFritos oComponenteFritos = ((componenteFritos) entry.getValue());
+            oComponenteFritos.txtCantidad.setText("0");
+            oComponenteFritos.lblValor.setText("0.0");
+        }
+        Lbl_ItemFritos.setText("0");
+        Lbl_ValorFritos.setText("0.0");
 
         ///    
         TxtPapaSale.setText("");
@@ -227,7 +237,6 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
     }
 
     //</editor-fold>
-    
     //<editor-fold desc="LLENAR GASTOS" defaultstate="collapsed">
     void llenarGasto(Gastos G) {
         G.setIdFactura(Integer.parseInt(LblNumFactura.getText()));
@@ -239,6 +248,7 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
             G.setValor(Double.parseDouble(TxtValorGasto.getText()));
         }
     }
+
     //</editor-fold>
     /**
      * This method is called from within the constructor to initialize the form.
@@ -276,10 +286,11 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
         JP_Platos = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jPanel5 = new javax.swing.JPanel();
-        jLabel13 = new javax.swing.JLabel();
-        Lbl_ItemFritos = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         Lbl_ValorFritos = new javax.swing.JLabel();
+        BtnCalcular = new javax.swing.JButton();
+        jLabel13 = new javax.swing.JLabel();
+        Lbl_ItemFritos = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
         TxtPapaDevuelve = new javax.swing.JTextField();
@@ -503,7 +514,7 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 261, Short.MAX_VALUE)
+            .addGap(0, 268, Short.MAX_VALUE)
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -512,27 +523,36 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
 
         jScrollPane3.setViewportView(jPanel5);
 
-        jLabel13.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
-        jLabel13.setText("Cant Items :");
-
-        Lbl_ItemFritos.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
-        Lbl_ItemFritos.setForeground(new java.awt.Color(255, 0, 0));
-        Lbl_ItemFritos.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-
         jLabel15.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         jLabel15.setText("Valor Total :");
 
         Lbl_ValorFritos.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         Lbl_ValorFritos.setForeground(new java.awt.Color(255, 0, 0));
-        Lbl_ValorFritos.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         Lbl_ValorFritos.setText("0.00");
         Lbl_ValorFritos.addInputMethodListener(new java.awt.event.InputMethodListener() {
-            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
-            }
             public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
                 Lbl_ValorFritosInputMethodTextChanged(evt);
             }
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+            }
         });
+
+        BtnCalcular.setBackground(new java.awt.Color(255, 153, 0));
+        BtnCalcular.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Cierre.png"))); // NOI18N
+        BtnCalcular.setToolTipText("Calcular");
+        BtnCalcular.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnCalcularActionPerformed(evt);
+            }
+        });
+
+        jLabel13.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
+        jLabel13.setText("CPV");
+        jLabel13.setToolTipText("Cantidad Platos Vendidos");
+
+        Lbl_ItemFritos.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
+        Lbl_ItemFritos.setForeground(new java.awt.Color(255, 0, 0));
+        Lbl_ItemFritos.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
         javax.swing.GroupLayout JP_PlatosLayout = new javax.swing.GroupLayout(JP_Platos);
         JP_Platos.setLayout(JP_PlatosLayout);
@@ -541,28 +561,35 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
             .addGroup(JP_PlatosLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(JP_PlatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3)
+                    .addGroup(JP_PlatosLayout.createSequentialGroup()
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(JP_PlatosLayout.createSequentialGroup()
                         .addComponent(jLabel13)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(Lbl_ItemFritos, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(Lbl_ItemFritos, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(28, 28, 28)
                         .addComponent(jLabel15)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(Lbl_ValorFritos, javax.swing.GroupLayout.DEFAULT_SIZE, 78, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addComponent(Lbl_ValorFritos, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(BtnCalcular, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(12, 12, 12))))
         );
         JP_PlatosLayout.setVerticalGroup(
             JP_PlatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(JP_PlatosLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 319, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 306, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(JP_PlatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(Lbl_ItemFritos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(JP_PlatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(Lbl_ValorFritos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(Lbl_ValorFritos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(Lbl_ItemFritos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(JP_PlatosLayout.createSequentialGroup()
+                        .addComponent(BtnCalcular, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -996,15 +1023,11 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -1238,12 +1261,19 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_TxtValorGastoKeyTyped
 
     private void Lbl_ValorFritosInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_Lbl_ValorFritosInputMethodTextChanged
-        
+
     }//GEN-LAST:event_Lbl_ValorFritosInputMethodTextChanged
+
+    private void BtnCalcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCalcularActionPerformed
+        if (!platosVendidos()) {
+            JOptionPane.showMessageDialog(null, "Debe haber al menos un plato a liquidar");
+        }
+    }//GEN-LAST:event_BtnCalcularActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnAgregar;
     private javax.swing.JButton BtnAgregarGasto;
+    private javax.swing.JButton BtnCalcular;
     private javax.swing.JButton BtnCancelar;
     private javax.swing.JButton BtnEliminar;
     private javax.swing.JButton BtnModificar;
@@ -1309,36 +1339,43 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
     private javax.swing.JSeparator jSeparator5;
     // End of variables declaration//GEN-END:variables
 
-    
-    void gastos(){
+    void gastos() {
         double totalGastos = 0;
-        int Items = 0 ;
-        
+        int Items = 0;
+
         int filas = TblGastos.getRowCount();
         for (int i = 0; i < filas; i++) {
             Items = filas;
             totalGastos = totalGastos + Integer.parseInt(TblGastos.getValueAt(i, 1).toString());
-        }        
-        Lbl_ItemGastos.setText(""+Items);                
-        Lbl_ValorGastos.setText(""+totalGastos);
+        }
+        Lbl_ItemGastos.setText("" + Items);
+        Lbl_ValorGastos.setText("" + totalGastos);
     }
     
-    void platosVendidos(){
-        
+    public boolean platosVendidos() {
+
         //se recorre el MAP
         int CantPlatosVendidos = 0;
+        double ValorPlatosVendidos = 0;
         Iterator it = this.fritos.entrySet().iterator();
-        while(it.hasNext()) {
-            Map.Entry entry = (Map.Entry)it.next();
+        while (it.hasNext()) {
+            Map.Entry entry = (Map.Entry) it.next();
             //se recupera el componente
             componenteFritos oComponenteFritos = ((componenteFritos) entry.getValue());
-            //mostramos resultado
+            //Guardamos el resultado de los componentes en sus respectivas variables
             CantPlatosVendidos = CantPlatosVendidos + (Integer.parseInt(oComponenteFritos.txtCantidad.getText()));
-//            JOptionPane.showMessageDialog(null, "Producto: "+oComponenteFritos.lblNombre.getText()+"\n"+
-//                    "Cantidad: "+oComponenteFritos.txtCantidad.getText()+"\n"+
-//                    "Valor Total: "+oComponenteFritos.lblValor.getText());
+            ValorPlatosVendidos = ValorPlatosVendidos + (Double.parseDouble(oComponenteFritos.lblValor.getText()));
         }
         
-        this.Lbl_ItemFritos.setText(""+CantPlatosVendidos);        
+        //Preguntamos si las variables se encuentran nulas o en cero
+        if (CantPlatosVendidos == 0 || ValorPlatosVendidos == 0) {
+            return false;
+        } else {
+            //si son diferentes de cero , mostramos en la vista y retornamos true
+            this.Lbl_ItemFritos.setText("" + CantPlatosVendidos);
+            this.Lbl_ValorFritos.setText("" + ValorPlatosVendidos);
+            
+            return true;
+        }
     }
 }
