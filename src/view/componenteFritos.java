@@ -4,16 +4,14 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import view.vCierreSucursal;
 
 public class componenteFritos extends javax.swing.JPanel {
 
     /**
      * Creates new form jpComponente
-     */
-    static vCierreSucursal vC = new vCierreSucursal();
+     */    
     Map MapRelease = new HashMap();
+    
     public componenteFritos(int index,Map MapRelease) {
         initComponents();
         //JPanel
@@ -137,11 +135,9 @@ public class componenteFritos extends javax.swing.JPanel {
     private void txtCantidadKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadKeyReleased
         if (txtCantidad.getText() == null  || txtCantidad.getText().equalsIgnoreCase("")) {
             lblValor.setText(""+0);
-           return; 
         }else{
             Suma();
-        }
-        
+        }        
     }//GEN-LAST:event_txtCantidadKeyReleased
 
     private void txtCantidadMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtCantidadMouseClicked
@@ -164,8 +160,7 @@ public class componenteFritos extends javax.swing.JPanel {
             Suma();
         }else{
             Suma();
-        }
-        
+        }        
     }//GEN-LAST:event_txtCantidadFocusLost
 
     private void txtCantidadFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCantidadFocusGained
