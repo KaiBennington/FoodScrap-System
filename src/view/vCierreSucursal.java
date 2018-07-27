@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package view;
 
 import CAD.CargarCAD;
@@ -12,12 +7,14 @@ import Config.Validaciones;
 import Model.Gastos;
 import Model.Platos;
 import Model.Sucursales;
+import java.awt.event.KeyEvent;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
@@ -33,20 +30,34 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
     public Map fritos = new HashMap();
     Map mapGastos = new HashMap();
     Map MapRelease = new HashMap();
+
     public vCierreSucursal() {
         initComponents();
+        TxtTotalBruto.setEditable(false);
+        TxtTotalNeto.setEditable(false);
 
-//        this.Lbl_ValorFritos.setText(""+totalFritos); 
         cargarCombos();
         LblFecha.setText("");
         botonesInicio(false, false, true, false, false, false, false);
-
-        llenarFritos();
         mostrarDatos("");
+        llenarFritos();
+        
         MapRelease.put("lblTotal", this.Lbl_ValorFritos);
         MapRelease.put("lblCant", this.Lbl_ItemFritos);
+        MapRelease.put("TxtBruto", this.TxtTotalBruto);        
+        MapRelease.put("TxtNeto", this.TxtTotalNeto);        
         MapRelease.put("mapFritos", fritos);
     }
+
+    //<editor-fold desc="LIMPIAR TABLA GASTOS" defaultstate="collapsed">
+    public void limpiarTablaGastos() {
+        DefaultTableModel tb = (DefaultTableModel) TblGastos.getModel();
+        int a = TblGastos.getRowCount() - 1;
+        for (int i = a; i >= 0; i--) {
+            tb.removeRow(tb.getRowCount() - 1);
+        }
+    }
+    //</editor-fold>
 
     //<editor-fold desc="CARGAR FECHA" defaultstate="collapsed">    
     void cargarFecha() {
@@ -69,19 +80,18 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
             Sucursales Sc = (Sucursales) ListaComboS.get(i);
             CbxSucursal.addItem(Sc.getNombre());
         }
-//                         
+        //                         
     }
     //</editor-fold>
 
     //<editor-fold desc="BOTONES INICIO" defaultstate="collapsed">
     void botonesInicio(boolean Ok, boolean datos, boolean nuevo, boolean Agregar, boolean modificar, boolean eliminar, boolean cancelar) {
-        CbxSucursal.setSelectedIndex(0);
         CbxSucursal.requestFocus();
         LblOk.setVisible(Ok);
         /////
         LblNumFactura.setEnabled(datos);
         CbxSucursal.setEnabled(datos);
-//        TabPrincipal.setEnabled(datos);
+        TabPrincipal.setVisible(datos);
         ///
         TxtPapaSale.setEnabled(datos);
         TxtPapaDevuelve.setEnabled(datos);
@@ -106,38 +116,6 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
     void gastosInicio() {
         TxtDescripcionGasto.setText("");
         TxtValorGasto.setText("");
-    }
-    //</editor-fold>
-
-    //<editor-fold desc="HABILITAR CAMPOS" defaultstate="collapsed">
-    void habilitarCampos(int sucursal, boolean datos, boolean nuevo, boolean Agregar, boolean modificar, boolean eliminar, boolean cancelar) {
-        CbxSucursal.setSelectedIndex(sucursal);
-        CbxSucursal.requestFocus();
-        /////
-        LblNumFactura.setEnabled(datos);
-        CbxSucursal.setEnabled(datos);
-        TabPrincipal.setEnabled(datos);
-        ///
-        TxtPapaSale.setEnabled(datos);
-        TxtPapaDevuelve.setEnabled(datos);
-        TxtBaseMonedas.setEnabled(datos);
-        TxtBaseBilletes.setEnabled(datos);
-        ///
-        TxtTotalNeto.setEnabled(datos);
-        TxtTotalBruto.setEnabled(datos);
-        TxtNetoExistente.setEnabled(datos);
-        TxtAlcancia.setEnabled(datos);
-        Lbl_Resta.setEnabled(datos);
-
-        /////
-        BtnNuevo.setVisible(nuevo);
-        /////
-        BtnAgregar.setVisible(Agregar);
-        BtnModificar.setVisible(modificar);
-        BtnEliminar.setVisible(eliminar);
-        BtnCancelar.setVisible(cancelar);
-
-        buscarNo();
     }
     //</editor-fold>
 
@@ -174,7 +152,7 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
         List ListaPlatos = oCargarCAD.CargarPlatos();
 
         while (index < ListaPlatos.size()) {
-            componenteFritos jpc = new componenteFritos(index,this.MapRelease);
+            componenteFritos jpc = new componenteFritos(index, this.MapRelease);
             Platos oPlatoDetalle = (Platos) ListaPlatos.get(index);
 
             jpc.LblCodigo.setText(oPlatoDetalle.getCodigoPlato());
@@ -200,26 +178,14 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
     //<editor-fold desc="lIMPIAR CAMPOS" defaultstate="collapsed">
     public void limpiarCampos() {
         LblOk.setVisible(false);
-        ////
-        //Tab Principal
         //-- JP_Gastos
         TxtDescripcionGasto.setText("");
         TxtValorGasto.setText("");
-        Lbl_ItemGastos.setText("");
-        Lbl_ValorGastos.setText("");
-
-        //-- JP_Platos Vendidos
-        Iterator it = ((Map) MapRelease.get("mapFritos")).entrySet().iterator();
-        while (it.hasNext()) {
-            Map.Entry entry = (Map.Entry) it.next();
-            //se recupera el componente
-            componenteFritos oComponenteFritos = ((componenteFritos) entry.getValue());
-            oComponenteFritos.txtCantidad.setText("0");
-            oComponenteFritos.lblValor.setText("0.0");
-        }
+        Lbl_ItemGastos.setText("0");
+        Lbl_ValorGastos.setText("0.0");
+        //-- JP_Platos Vendidos        
         Lbl_ItemFritos.setText("0");
         Lbl_ValorFritos.setText("0.0");
-
         ///    
         TxtPapaSale.setText("");
         TxtPapaDevuelve.setText("");
@@ -231,12 +197,26 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
         TxtTotalBruto.setText("");
         TxtNetoExistente.setText("");
         TxtAlcancia.setText("");
-        Lbl_Resta.setText("");
-
+        Lbl_Resta.setText("0");
+        //---
+        limpiarTablaGastos();
+        //
+        TxtBuscar.setText("");
 //        cargarId();
     }
 
+    void limpiarComponentes() {
+        Iterator it = ((Map) MapRelease.get("mapFritos")).entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry entry = (Map.Entry) it.next();
+            //se recupera el componente
+            componenteFritos oComponenteFritos = ((componenteFritos) entry.getValue());
+            oComponenteFritos.txtCantidad.setText("0");
+            oComponenteFritos.lblValor.setText("0.0");
+        }
+    }
     //</editor-fold>
+
     //<editor-fold desc="LLENAR GASTOS" defaultstate="collapsed">
     void llenarGasto(Gastos G) {
         G.setIdFactura(Integer.parseInt(LblNumFactura.getText()));
@@ -248,8 +228,8 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
             G.setValor(Double.parseDouble(TxtValorGasto.getText()));
         }
     }
-
     //</editor-fold>
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -288,7 +268,6 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
         jPanel5 = new javax.swing.JPanel();
         jLabel15 = new javax.swing.JLabel();
         Lbl_ValorFritos = new javax.swing.JLabel();
-        BtnCalcular = new javax.swing.JButton();
         jLabel13 = new javax.swing.JLabel();
         Lbl_ItemFritos = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
@@ -455,6 +434,7 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
         Lbl_ItemGastos.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         Lbl_ItemGastos.setForeground(new java.awt.Color(255, 0, 0));
         Lbl_ItemGastos.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        Lbl_ItemGastos.setText("0");
 
         jLabel10.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         jLabel10.setText("Valor Total :");
@@ -462,6 +442,7 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
         Lbl_ValorGastos.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         Lbl_ValorGastos.setForeground(new java.awt.Color(255, 0, 0));
         Lbl_ValorGastos.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        Lbl_ValorGastos.setText("0.0");
 
         javax.swing.GroupLayout JP_GastosLayout = new javax.swing.GroupLayout(JP_Gastos);
         JP_Gastos.setLayout(JP_GastosLayout);
@@ -530,19 +511,10 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
         Lbl_ValorFritos.setForeground(new java.awt.Color(255, 0, 0));
         Lbl_ValorFritos.setText("0.00");
         Lbl_ValorFritos.addInputMethodListener(new java.awt.event.InputMethodListener() {
-            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
-                Lbl_ValorFritosInputMethodTextChanged(evt);
-            }
             public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
             }
-        });
-
-        BtnCalcular.setBackground(new java.awt.Color(255, 153, 0));
-        BtnCalcular.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Cierre.png"))); // NOI18N
-        BtnCalcular.setToolTipText("Calcular");
-        BtnCalcular.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BtnCalcularActionPerformed(evt);
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+                Lbl_ValorFritosInputMethodTextChanged(evt);
             }
         });
 
@@ -553,6 +525,7 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
         Lbl_ItemFritos.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         Lbl_ItemFritos.setForeground(new java.awt.Color(255, 0, 0));
         Lbl_ItemFritos.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        Lbl_ItemFritos.setText("0");
 
         javax.swing.GroupLayout JP_PlatosLayout = new javax.swing.GroupLayout(JP_Platos);
         JP_Platos.setLayout(JP_PlatosLayout);
@@ -560,21 +533,17 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
             JP_PlatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(JP_PlatosLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(JP_PlatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(JP_PlatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(JP_PlatosLayout.createSequentialGroup()
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(JP_PlatosLayout.createSequentialGroup()
-                        .addComponent(jLabel13)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(Lbl_ItemFritos, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(24, 24, 24)
                         .addComponent(jLabel15)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(Lbl_ValorFritos, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(BtnCalcular, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(12, 12, 12))))
+                        .addComponent(Lbl_ValorFritos, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(10, Short.MAX_VALUE))
         );
         JP_PlatosLayout.setVerticalGroup(
             JP_PlatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -583,12 +552,9 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 306, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(JP_PlatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(Lbl_ValorFritos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(Lbl_ValorFritos, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
                     .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(Lbl_ItemFritos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(JP_PlatosLayout.createSequentialGroup()
-                        .addComponent(BtnCalcular, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -604,6 +570,11 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
         TxtPapaDevuelve.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         TxtPapaDevuelve.setForeground(new java.awt.Color(255, 0, 0));
         TxtPapaDevuelve.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        TxtPapaDevuelve.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                TxtPapaDevuelveKeyTyped(evt);
+            }
+        });
 
         jLabel16.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         jLabel16.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -616,6 +587,11 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
         TxtPapaSale.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         TxtPapaSale.setForeground(new java.awt.Color(255, 0, 0));
         TxtPapaSale.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        TxtPapaSale.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                TxtPapaSaleKeyTyped(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -650,6 +626,11 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
         TxtBaseBilletes.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         TxtBaseBilletes.setForeground(new java.awt.Color(255, 0, 0));
         TxtBaseBilletes.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        TxtBaseBilletes.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                TxtBaseBilletesKeyTyped(evt);
+            }
+        });
 
         jLabel17.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         jLabel17.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -662,6 +643,11 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
         TxtBaseMonedas.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         TxtBaseMonedas.setForeground(new java.awt.Color(255, 0, 0));
         TxtBaseMonedas.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        TxtBaseMonedas.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                TxtBaseMonedasKeyTyped(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
@@ -695,28 +681,48 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
         jLabel5.setText("Total Bruto :");
 
         TxtTotalBruto.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
-        TxtTotalBruto.setForeground(new java.awt.Color(255, 0, 0));
+        TxtTotalBruto.setForeground(new java.awt.Color(153, 153, 153));
         TxtTotalBruto.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        TxtTotalBruto.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                TxtTotalBrutoKeyTyped(evt);
+            }
+        });
 
         jLabel19.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         jLabel19.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel19.setText("Total Neto :");
 
         TxtTotalNeto.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
-        TxtTotalNeto.setForeground(new java.awt.Color(255, 0, 0));
+        TxtTotalNeto.setForeground(new java.awt.Color(153, 153, 153));
         TxtTotalNeto.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        TxtTotalNeto.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                TxtTotalNetoKeyTyped(evt);
+            }
+        });
 
         jLabel20.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         jLabel20.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel20.setText("Neto Existente :");
 
         TxtNetoExistente.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
-        TxtNetoExistente.setForeground(new java.awt.Color(255, 0, 0));
+        TxtNetoExistente.setForeground(new java.awt.Color(51, 51, 255));
         TxtNetoExistente.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        TxtNetoExistente.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                TxtNetoExistenteKeyTyped(evt);
+            }
+        });
 
         TxtAlcancia.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         TxtAlcancia.setForeground(new java.awt.Color(255, 0, 0));
         TxtAlcancia.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        TxtAlcancia.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                TxtAlcanciaKeyTyped(evt);
+            }
+        });
 
         jLabel23.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         jLabel23.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -729,7 +735,7 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
         Lbl_Resta.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         Lbl_Resta.setForeground(new java.awt.Color(255, 0, 0));
         Lbl_Resta.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        Lbl_Resta.setText("000000");
+        Lbl_Resta.setText("0");
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -1050,12 +1056,11 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_TxtBuscarKeyReleased
 
     private void BtnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnNuevoActionPerformed
-        //<editor-fold desc="NUEVO" defaultstate="collapsed">
-        limpiarCampos();
-        mostrarDatos("");
-        cargarFecha();
-        botonesInicio(false, true, false, true, false, false, true);
-        buscarNo();
+        //<editor-fold desc="NUEVO" defaultstate="collapsed">   
+        botonesInicio(false, false, false, false, false, false, true);
+        CbxSucursal.setEnabled(true);
+        CbxSucursal.requestFocus();
+        TxtBuscar.setText("");
         //</editor-fold>
     }//GEN-LAST:event_BtnNuevoActionPerformed
 
@@ -1167,16 +1172,32 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
 
     private void BtnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCancelarActionPerformed
         //<editor-fold desc="CANCELAR" defaultstate="collapsed">
+        botonesInicio(false, false, true, false, false, false, false);
         mostrarDatos("");
         limpiarCampos();
+        limpiarComponentes();
+        CbxSucursal.setSelectedIndex(0);
         buscarSi();
-        botonesInicio(false, false, true, false, false, false, false);
+        LblFecha.setText("");
+        BtnNuevo.requestFocus();
         //</editor-fold>
     }//GEN-LAST:event_BtnCancelarActionPerformed
 
     private void CbxSucursalItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_CbxSucursalItemStateChanged
-        if (CbxSucursal.getSelectedIndex() > 0) {
+        if (CbxSucursal.getSelectedIndex() <= 0) {            
+            botonesInicio(false, false, true, false, false, false, false);
+            mostrarDatos("");
+            buscarSi();
+            LblFecha.setText("");
+            BtnNuevo.requestFocus();
             limpiarCampos();
+        } else {
+            botonesInicio(false, true, false, true, false, false, true);
+            limpiarCampos();
+            limpiarComponentes();
+            mostrarDatos("");
+            cargarFecha();
+            buscarNo();
         }
     }//GEN-LAST:event_CbxSucursalItemStateChanged
 
@@ -1254,26 +1275,48 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_TxtValorGastoActionPerformed
 
     private void TxtValorGastoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TxtValorGastoKeyTyped
-        char car = evt.getKeyChar();
-        if ((car < '0' || car > '9')) {
-            evt.consume();
-        }
+        soloNumeros(evt, TxtValorGasto);
     }//GEN-LAST:event_TxtValorGastoKeyTyped
 
     private void Lbl_ValorFritosInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_Lbl_ValorFritosInputMethodTextChanged
 
     }//GEN-LAST:event_Lbl_ValorFritosInputMethodTextChanged
 
-    private void BtnCalcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCalcularActionPerformed
-        if (!platosVendidos()) {
-            JOptionPane.showMessageDialog(null, "Debe haber al menos un plato a liquidar");
-        }
-    }//GEN-LAST:event_BtnCalcularActionPerformed
+    private void TxtPapaSaleKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TxtPapaSaleKeyTyped
+        soloNumeros(evt, TxtPapaSale);
+    }//GEN-LAST:event_TxtPapaSaleKeyTyped
+
+    private void TxtPapaDevuelveKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TxtPapaDevuelveKeyTyped
+        soloNumeros(evt, TxtPapaDevuelve);
+    }//GEN-LAST:event_TxtPapaDevuelveKeyTyped
+
+    private void TxtBaseMonedasKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TxtBaseMonedasKeyTyped
+        soloNumeros(evt, TxtBaseMonedas);
+    }//GEN-LAST:event_TxtBaseMonedasKeyTyped
+
+    private void TxtBaseBilletesKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TxtBaseBilletesKeyTyped
+        soloNumeros(evt, TxtBaseBilletes);
+    }//GEN-LAST:event_TxtBaseBilletesKeyTyped
+
+    private void TxtAlcanciaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TxtAlcanciaKeyTyped
+        soloNumeros(evt, TxtAlcancia);
+    }//GEN-LAST:event_TxtAlcanciaKeyTyped
+
+    private void TxtNetoExistenteKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TxtNetoExistenteKeyTyped
+        soloNumeros(evt, TxtNetoExistente);
+    }//GEN-LAST:event_TxtNetoExistenteKeyTyped
+
+    private void TxtTotalNetoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TxtTotalNetoKeyTyped
+        soloNumeros(evt, TxtTotalNeto);
+    }//GEN-LAST:event_TxtTotalNetoKeyTyped
+
+    private void TxtTotalBrutoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TxtTotalBrutoKeyTyped
+        soloNumeros(evt, TxtTotalBruto);
+    }//GEN-LAST:event_TxtTotalBrutoKeyTyped
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnAgregar;
     private javax.swing.JButton BtnAgregarGasto;
-    private javax.swing.JButton BtnCalcular;
     private javax.swing.JButton BtnCancelar;
     private javax.swing.JButton BtnEliminar;
     private javax.swing.JButton BtnModificar;
@@ -1286,10 +1329,10 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
     private javax.swing.JLabel LblNumFactura;
     private javax.swing.JLabel LblOk;
     private javax.swing.JLabel Lbl_ItemFritos;
-    private javax.swing.JLabel Lbl_ItemGastos;
+    public javax.swing.JLabel Lbl_ItemGastos;
     private javax.swing.JLabel Lbl_Resta;
     public javax.swing.JLabel Lbl_ValorFritos;
-    private javax.swing.JLabel Lbl_ValorGastos;
+    public javax.swing.JLabel Lbl_ValorGastos;
     private javax.swing.JTabbedPane TabPrincipal;
     private javax.swing.JTable TblCierreSucursales;
     private javax.swing.JTable TblGastos;
@@ -1339,6 +1382,7 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
     private javax.swing.JSeparator jSeparator5;
     // End of variables declaration//GEN-END:variables
 
+    //<editor-fold desc="GASTOS" defaultstate="collapsed">
     void gastos() {
         double totalGastos = 0;
         int Items = 0;
@@ -1350,32 +1394,36 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
         }
         Lbl_ItemGastos.setText("" + Items);
         Lbl_ValorGastos.setText("" + totalGastos);
-    }
-    
-    public boolean platosVendidos() {
-
-        //se recorre el MAP
-        int CantPlatosVendidos = 0;
-        double ValorPlatosVendidos = 0;
-        Iterator it = this.fritos.entrySet().iterator();
-        while (it.hasNext()) {
-            Map.Entry entry = (Map.Entry) it.next();
-            //se recupera el componente
-            componenteFritos oComponenteFritos = ((componenteFritos) entry.getValue());
-            //Guardamos el resultado de los componentes en sus respectivas variables
-            CantPlatosVendidos = CantPlatosVendidos + (Integer.parseInt(oComponenteFritos.txtCantidad.getText()));
-            ValorPlatosVendidos = ValorPlatosVendidos + (Double.parseDouble(oComponenteFritos.lblValor.getText()));
-        }
+        MapRelease.put("lblGastos", this.Lbl_ValorGastos);
         
-        //Preguntamos si las variables se encuentran nulas o en cero
-        if (CantPlatosVendidos == 0 || ValorPlatosVendidos == 0) {
-            return false;
-        } else {
-            //si son diferentes de cero , mostramos en la vista y retornamos true
-            this.Lbl_ItemFritos.setText("" + CantPlatosVendidos);
-            this.Lbl_ValorFritos.setText("" + ValorPlatosVendidos);
-            
-            return true;
+        TxtTotalNeto.setText(""+ (Double.parseDouble(Lbl_ValorFritos.getText()) - Double.parseDouble(Lbl_ValorGastos.getText())));
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="SOLO NUMEROS" defaultstate="collapsed">
+    void soloNumeros(java.awt.event.KeyEvent evt, JTextField Text) {
+        char car = evt.getKeyChar();
+        if (((car < '0' || car > '9')) && (car != KeyEvent.VK_BACK_SPACE)
+        && (car != '.' || Text.getText().contains("."))) {
+            evt.consume();
         }
     }
+    //</editor-fold>
+    
+//    //<editor-fold desc="SOLO LETRAS" defaultstate="collapsed">
+//    void soloLetras(java.awt.event.KeyEvent evt, JTextField Text) {
+//        char car = evt.getKeyChar();
+//        if (((car < '0' || car > '9')) && (car != KeyEvent.VK_BACK_SPACE)
+//        && (car != '.' || Text.getText().contains("."))) {
+//            evt.consume();
+//        }
+//    }
+//    //</editor-fold>
+    
+    //<editor-fold desc="SOLO NUMEROS" defaultstate="collapsed">
+    void totalNeto() {
+        
+        
+    }
+    //</editor-fold>
 }

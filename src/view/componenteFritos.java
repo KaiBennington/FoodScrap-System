@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import javax.swing.JLabel;
+import javax.swing.JTextField;
 
 public class componenteFritos extends javax.swing.JPanel {
 
@@ -16,7 +17,6 @@ public class componenteFritos extends javax.swing.JPanel {
         initComponents();
         //JPanel
         setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
-//        this.setSize(230, 30);
         this.setVisible(true);
         txtValorUnitario.setVisible(false);
         LblSeccion.setVisible(false);
@@ -193,6 +193,9 @@ public class componenteFritos extends javax.swing.JPanel {
         //MapRelease casteado en un objeto tipo label
         JLabel lblTotal = (JLabel) MapRelease.get("lblTotal");
         JLabel lblCant = (JLabel) MapRelease.get("lblCant");
+        JLabel lblvalGastos = (JLabel) MapRelease.get("lblGastos");
+        JTextField txtBruto = (JTextField) MapRelease.get("TxtBruto");
+        JTextField txtNeto = (JTextField) MapRelease.get("TxtNeto");
         //Variables Del total de los valores
         double valorFritos = 0; int CantFritos = 0;
         lblTotal.setText(""+valorFritos);
@@ -210,6 +213,8 @@ public class componenteFritos extends javax.swing.JPanel {
         }
         lblCant.setText(""+CantFritos);
         lblTotal.setText(""+valorFritos);
+        txtBruto.setText(""+valorFritos);
+        txtNeto.setText(""+(valorFritos - (Double.parseDouble(lblvalGastos.getText()))));
     }
     //</editor-fold>
 }
