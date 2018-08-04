@@ -6,6 +6,7 @@
 package Config;
 
 import Model.Categorias;
+import Model.CierreSucursal;
 import Model.Gastos;
 import Model.Ingredientes;
 import Model.Platos;
@@ -422,6 +423,70 @@ public class Validaciones {
         if (Gs.getValor() <= 0 || "".equals(Gs.getValor())) {
             respuesta.put("Mensaje","El campo Valor se encuentra vacio ó\n Contiene un valor incorrecto");
             respuesta.put("campo","TxtValorGasto.requestFocusInWindow()");
+            return respuesta;
+        }
+        respuesta.remove("Mensaje");
+        return respuesta;
+    }
+    //</editor-fold>
+    
+    //<editor-fold desc="VALIDAR GASTOS" defaultstate="collapsed">
+    public Map validarCamposCierreSucursal(Map respuesta){
+        
+        CierreSucursal Cs = (CierreSucursal)respuesta.get("CierreSucursal");
+        
+        if (Cs.getNumFactura() <= 0 || "".equals(Cs.getNumFactura())) {
+            respuesta.put("Mensaje","Error en el Numero de Factura");
+            return respuesta;
+        } 
+        if (Cs.getFechaFactura().equalsIgnoreCase("")) {
+            respuesta.put("Mensaje","El campo Fecha se encuentra vacio");
+            respuesta.put("campo","LblFecha.requestFocusInWindow()");
+            return respuesta;
+        }
+        if (Cs.getSucursal().equalsIgnoreCase("") || Cs.getSucursal().equalsIgnoreCase("Seleccione...")) {
+            respuesta.put("Mensaje","El campo Sucursal se encuentra vacio");
+            respuesta.put("campo","CbxSucursal.requestFocusInWindow()");
+            return respuesta;
+        }
+        if ("".equals(Cs.getP_Sale())) {
+            respuesta.put("Mensaje","El campo Papa Sale se encuentra vacio ó\n Contiene un valor incorrecto");
+            respuesta.put("campo","TxtPapaSale.requestFocusInWindow()");
+            return respuesta;
+        }
+        if ("".equals(Cs.getP_Devuelve())) {
+            respuesta.put("Mensaje","El campo Papa Devuelve se encuentra vacio ó\n Contiene un valor incorrecto");
+            respuesta.put("campo","TxtPapaDevuelve.requestFocusInWindow()");
+            return respuesta;
+        }
+        if ("".equals(Cs.getBaseInicial())) {
+            respuesta.put("Mensaje","El campo Base Inicial se encuentra vacio ó\n Contiene un valor incorrecto");
+            respuesta.put("campo","TxtBaseInicial.requestFocusInWindow()");
+            return respuesta;
+        }
+        if ("".equals(Cs.getAlcancia())) {
+            respuesta.put("Mensaje","El campo Alcancia se encuentra vacio ó\n Contiene un valor incorrecto");
+            respuesta.put("campo","TxtAlcancia.requestFocusInWindow()");
+            return respuesta;
+        }
+        if (Cs.getNetoExistente()< 0 || "".equals(Cs.getNetoExistente())) {
+            respuesta.put("Mensaje","El campo Neto Existente se encuentra vacio ó\n Contiene un valor incorrecto");
+            respuesta.put("campo","TxtNetoExistente.requestFocusInWindow()");
+            return respuesta;
+        }
+        if (Cs.getTotalNeto()< 0 || "".equals(Cs.getTotalNeto())) {
+            respuesta.put("Mensaje","El campo Total Neto se encuentra vacio ó\n Contiene un valor incorrecto");
+            respuesta.put("campo","TxtTotalNeto.requestFocusInWindow()");
+            return respuesta;
+        }
+        if (Cs.getTotalBruto()< 0 || "".equals(Cs.getTotalBruto())) {
+            respuesta.put("Mensaje","El campo Total Bruto se encuentra vacio ó\n Contiene un valor incorrecto");
+            respuesta.put("campo","TxtTotalBruto.requestFocusInWindow()");
+            return respuesta;
+        }
+        if ("".equals(Cs.getResta())) {
+            respuesta.put("Mensaje","El campo Resta se encuentra vacio ó\n Contiene un valor incorrecto");
+            respuesta.put("campo","Lbl_Resta.requestFocusInWindow()");
             return respuesta;
         }
         respuesta.remove("Mensaje");
