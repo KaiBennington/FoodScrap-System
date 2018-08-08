@@ -8,7 +8,7 @@ package CAD;
 import Config.Bandera;
 import Model.Categorias;
 import Model.ConexionDB;
-import static Model.ConexionDB.getConexion;
+//import static Model.ConexionDB.getConexion;
 import Model.Platos;
 import Model.PreguntaSecreta;
 import Model.Productos;

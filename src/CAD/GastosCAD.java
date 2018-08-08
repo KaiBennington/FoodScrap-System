@@ -7,7 +7,7 @@ package CAD;
 
 import Config.Bandera;
 import Model.ConexionDB;
-import Model.Ingredientes;
+import Model.Gastos;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,22 +17,22 @@ import java.util.List;
  *
  * @author USUARIO
  */
-public class IngredientesCAD extends ConexionDB {
-
-    public static boolean guardar(List L) {
+public class GastosCAD extends ConexionDB{
+    
+        public static boolean guardar(List L) {
         PreparedStatement pst;
         ResultSet rs = null;
         boolean respuesta = false;
 
         try {
-            String Sql = "CALL GuardarIngredientes(?,?,?)";
+            String Sql = "CALL GuardarGastos(?,?,?)";
             pst = getConexion().prepareStatement(Sql);
 
             for (int i = 0; i < L.size(); i++) {
-                Ingredientes oIngrediente = (Ingredientes) L.get(i);
-                pst.setString(1, oIngrediente.getIdPlato());
-                pst.setString(2, oIngrediente.getIngrediente());
-                pst.setString(3, oIngrediente.getCantidad());
+                Gastos oGastos = (Gastos) L.get(i);
+                pst.setInt(1, oGastos.getIdFactura());
+                pst.setString(2, oGastos.getDescripcion());
+                pst.setDouble(3, oGastos.getValor());
                 rs = pst.executeQuery();
             }
 
@@ -41,7 +41,7 @@ public class IngredientesCAD extends ConexionDB {
                 resul = rs.getString("Mensaje");
             }
 
-            if ("Ingredientes Registrados".equalsIgnoreCase(resul)) {
+            if ("Gastos Registrados".equalsIgnoreCase(resul)) {
                 Bandera.setSubRespuesta(resul);
                 respuesta = true;
             } else {
@@ -62,14 +62,14 @@ public class IngredientesCAD extends ConexionDB {
         boolean respuesta = false;
 
         try {
-            String Sql = "CALL ModificarIngredientes(?,?,?)";
+            String Sql = "CALL ModificarGastos(?,?,?)";
             pst = getConexion().prepareStatement(Sql);
             
             for (int i = 0; i < L.size(); i++) {
-                Ingredientes oIngrediente = (Ingredientes) L.get(i);
-                pst.setString(1, oIngrediente.getIdPlato());
-                pst.setString(2, oIngrediente.getIngrediente());
-                pst.setString(3, oIngrediente.getCantidad());
+                Gastos oGastos = (Gastos) L.get(i);
+                pst.setInt(1, oGastos.getIdFactura());
+                pst.setString(2, oGastos.getDescripcion());
+                pst.setDouble(3, oGastos.getValor());
                 rs = pst.executeQuery();
             }
 
@@ -78,7 +78,7 @@ public class IngredientesCAD extends ConexionDB {
                 resul = rs.getString("Mensaje");
             }
 
-            if ("Información de Ingredientes Actualizada".equalsIgnoreCase(resul)) {
+            if ("Información de Gastos Actualizada".equalsIgnoreCase(resul)) {
                 Bandera.setSubRespuesta(resul);
                 respuesta = true;
             } else {
@@ -99,13 +99,13 @@ public class IngredientesCAD extends ConexionDB {
         boolean respuesta = false;
 
         try {
-            String Sql = "CALL EliminarIngredientes(?,?)";
+            String Sql = "CALL EliminarGastos(?,?)";
             pst = getConexion().prepareStatement(Sql);
             
             for (int i = 0; i < L.size(); i++) {
-                Ingredientes oIngrediente = (Ingredientes) L.get(i);
-                pst.setString(1, oIngrediente.getIdPlato());
-                pst.setString(2, oIngrediente.getIngrediente());
+                Gastos oGastos = (Gastos) L.get(i);
+                pst.setInt(1, oGastos.getIdFactura());
+                pst.setString(2, oGastos.getDescripcion());
                 rs = pst.executeQuery();
             }
 
@@ -114,7 +114,7 @@ public class IngredientesCAD extends ConexionDB {
                 resul = rs.getString("Mensaje");
             }
 
-            if ("Ingrediente Eliminado".equalsIgnoreCase(resul)) {
+            if ("Gastos Eliminados".equalsIgnoreCase(resul)) {
                 Bandera.setSubRespuesta(resul);
                 respuesta = true;
             } else {
@@ -128,5 +128,4 @@ public class IngredientesCAD extends ConexionDB {
             return respuesta;
         }
     }//Fin Metodo Eliminar
-
 }

@@ -5,6 +5,8 @@
  */
 package Model;
 
+import java.sql.Date;
+
 /**
  *
  * @author USUARIO
@@ -13,7 +15,7 @@ public class CierreSucursal {
 
     //<editor-fold desc="ATRIBUTOS" defaultstate="collapsed"> 
     private int NumFactura;
-    private String FechaFactura;
+    private Date FechaFactura;
     private String Sucursal;
     private double P_Sale;
     private double P_Devuelve;
@@ -26,7 +28,7 @@ public class CierreSucursal {
     //</editor-fold>
 
     //<editor-fold desc="CONSTRUCTOR" defaultstate="collapsed"> 
-    public CierreSucursal(int NumFactura, String FechaFactura, String Sucursal, double P_Sale, double P_Devuelve, double BaseInicial, double Alcancia, double NetoExistente, double TotalNeto, double TotalBruto, double Resta) {
+    public CierreSucursal(int NumFactura, Date FechaFactura, String Sucursal, double P_Sale, double P_Devuelve, double BaseInicial, double Alcancia, double NetoExistente, double TotalNeto, double TotalBruto, double Resta) {
         this.NumFactura = NumFactura;
         this.FechaFactura = FechaFactura;
         this.Sucursal = Sucursal;
@@ -54,11 +56,11 @@ public class CierreSucursal {
         this.NumFactura = NumFactura;
     }
 
-    public String getFechaFactura() {
+    public Date getFechaFactura() {
         return FechaFactura;
     }
 
-    public void setFechaFactura(String FechaFactura) {
+    public void setFechaFactura(Date FechaFactura) {
         this.FechaFactura = FechaFactura;
     }
 

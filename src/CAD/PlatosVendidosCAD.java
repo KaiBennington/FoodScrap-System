@@ -7,32 +7,33 @@ package CAD;
 
 import Config.Bandera;
 import Model.ConexionDB;
-import Model.Ingredientes;
+import Model.PlatosVendidos;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  *
  * @author USUARIO
  */
-public class IngredientesCAD extends ConexionDB {
-
-    public static boolean guardar(List L) {
+public class PlatosVendidosCAD extends ConexionDB{
+    
+    public static boolean guardar(ArrayList L) {
         PreparedStatement pst;
         ResultSet rs = null;
         boolean respuesta = false;
 
         try {
-            String Sql = "CALL GuardarIngredientes(?,?,?)";
+            String Sql = "CALL GuardarPlatosVendidos(?,?,?)";
             pst = getConexion().prepareStatement(Sql);
 
             for (int i = 0; i < L.size(); i++) {
-                Ingredientes oIngrediente = (Ingredientes) L.get(i);
-                pst.setString(1, oIngrediente.getIdPlato());
-                pst.setString(2, oIngrediente.getIngrediente());
-                pst.setString(3, oIngrediente.getCantidad());
+                PlatosVendidos oPlatosVend = (PlatosVendidos) L.get(i);
+                pst.setString(1, oPlatosVend.getCodigoPlato());
+                pst.setInt(2, oPlatosVend.getNum_Factura());
+                pst.setString(3, oPlatosVend.getCantidad());
                 rs = pst.executeQuery();
             }
 
@@ -41,7 +42,7 @@ public class IngredientesCAD extends ConexionDB {
                 resul = rs.getString("Mensaje");
             }
 
-            if ("Ingredientes Registrados".equalsIgnoreCase(resul)) {
+            if ("P. Vendidos Registrados".equalsIgnoreCase(resul)) {
                 Bandera.setSubRespuesta(resul);
                 respuesta = true;
             } else {
@@ -56,20 +57,20 @@ public class IngredientesCAD extends ConexionDB {
         }
     }//FIN Metodo Guardar
 
-    public static boolean modificar(List L) {
+    public static boolean modificar(ArrayList L) {
         PreparedStatement pst;
         ResultSet rs = null;
         boolean respuesta = false;
 
         try {
-            String Sql = "CALL ModificarIngredientes(?,?,?)";
+            String Sql = "CALL ModificarPlatosVendidos(?,?,?)";
             pst = getConexion().prepareStatement(Sql);
             
             for (int i = 0; i < L.size(); i++) {
-                Ingredientes oIngrediente = (Ingredientes) L.get(i);
-                pst.setString(1, oIngrediente.getIdPlato());
-                pst.setString(2, oIngrediente.getIngrediente());
-                pst.setString(3, oIngrediente.getCantidad());
+                PlatosVendidos oPlatosVend = (PlatosVendidos) L.get(i);
+                pst.setString(1, oPlatosVend.getCodigoPlato());
+                pst.setInt(2, oPlatosVend.getNum_Factura());
+                pst.setString(3, oPlatosVend.getCantidad());
                 rs = pst.executeQuery();
             }
 
@@ -78,7 +79,7 @@ public class IngredientesCAD extends ConexionDB {
                 resul = rs.getString("Mensaje");
             }
 
-            if ("Información de Ingredientes Actualizada".equalsIgnoreCase(resul)) {
+            if ("Información de P. Vendidos Actualizada".equalsIgnoreCase(resul)) {
                 Bandera.setSubRespuesta(resul);
                 respuesta = true;
             } else {
@@ -93,19 +94,19 @@ public class IngredientesCAD extends ConexionDB {
         }
     }//Fin Metodo Modificar
 
-    public static boolean eliminar(List L) {
+    public static boolean eliminar(ArrayList L) {
         PreparedStatement pst;
         ResultSet rs = null;
         boolean respuesta = false;
 
         try {
-            String Sql = "CALL EliminarIngredientes(?,?)";
+            String Sql = "CALL EliminarPlatosVendidos(?,?)";
             pst = getConexion().prepareStatement(Sql);
             
             for (int i = 0; i < L.size(); i++) {
-                Ingredientes oIngrediente = (Ingredientes) L.get(i);
-                pst.setString(1, oIngrediente.getIdPlato());
-                pst.setString(2, oIngrediente.getIngrediente());
+                PlatosVendidos oPlatosVend = (PlatosVendidos) L.get(i);
+                pst.setString(1, oPlatosVend.getCodigoPlato());
+                pst.setInt(2, oPlatosVend.getNum_Factura());
                 rs = pst.executeQuery();
             }
 
@@ -114,7 +115,7 @@ public class IngredientesCAD extends ConexionDB {
                 resul = rs.getString("Mensaje");
             }
 
-            if ("Ingrediente Eliminado".equalsIgnoreCase(resul)) {
+            if ("P. Vendidos Eliminados".equalsIgnoreCase(resul)) {
                 Bandera.setSubRespuesta(resul);
                 respuesta = true;
             } else {
@@ -128,5 +129,4 @@ public class IngredientesCAD extends ConexionDB {
             return respuesta;
         }
     }//Fin Metodo Eliminar
-
 }

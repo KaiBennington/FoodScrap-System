@@ -193,6 +193,12 @@ public class vPlatos extends javax.swing.JInternalFrame {
         I.setIngrediente(CbxIngrediente.getSelectedItem().toString());
         I.setCantidad(TxtCantidad.getText());
     }
+    
+    void restaurarIngredientes() {
+        CbxIngrediente.setSelectedIndex(0);
+        TxtCantidad.setText("");
+        CbxIngrediente.setEnabled(true);
+    }
     //</editor-fold>
 
     //<editor-fold desc="HABILITAR CAMPOS" defaultstate="collapsed">
@@ -234,8 +240,8 @@ public class vPlatos extends javax.swing.JInternalFrame {
     public boolean validarTablaIngredientes(DefaultTableModel Ingredientes) {
         return Ingredientes.getRowCount() != 0;
     }
-
     //</editor-fold>
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -934,6 +940,8 @@ public class vPlatos extends javax.swing.JInternalFrame {
                     JOptionPane.showMessageDialog(null, "Se ha modificado el Ingrediente");
                     mapIngredientes.put(fila[0], fila[0]);
                     IngredientesInicio();
+                   restaurarIngredientes();
+                    
                 } else {
                     JOptionPane.showMessageDialog(null, "El ingrediente: " + fila[0] + " ya existe en la tabla.");
                     IngredientesInicio();
@@ -968,6 +976,7 @@ public class vPlatos extends javax.swing.JInternalFrame {
         int fila = TblIngredientes.getSelectedRow();
         if (fila >= 0) {
             CbxIngrediente.setSelectedItem(TblIngredientes.getValueAt(fila, 0).toString());
+            CbxIngrediente.setEnabled(false);
             TxtCantidad.setText(TblIngredientes.getValueAt(fila, 1).toString());
 
             BtnAgregar.setEnabled(true);
@@ -997,6 +1006,9 @@ public class vPlatos extends javax.swing.JInternalFrame {
 
                 mapIngredientes.remove(TblIngredientes.getValueAt(fila, 0).toString());
                 tb.removeRow(TblIngredientes.getSelectedRow());
+                
+                restaurarIngredientes();
+                
 
             } else {
                 return;

@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Config;
 
 import Model.Categorias;
@@ -21,7 +17,7 @@ import java.util.Map;
 
 /**
  *
- * @author USUARIO
+ * @author KAI BENNINGTON - MediaSoft Developers
  */
 public class Validaciones {
     
@@ -439,17 +435,17 @@ public class Validaciones {
             respuesta.put("Mensaje","Error en el Numero de Factura");
             return respuesta;
         } 
-        if (Cs.getFechaFactura().equalsIgnoreCase("")) {
+        if (Cs.getFechaFactura() == null) {
             respuesta.put("Mensaje","El campo Fecha se encuentra vacio");
             respuesta.put("campo","LblFecha.requestFocusInWindow()");
             return respuesta;
         }
-        if (Cs.getSucursal().equalsIgnoreCase("") || Cs.getSucursal().equalsIgnoreCase("Seleccione...")) {
+        if (Cs.getSucursal() == null || Cs.getSucursal().equalsIgnoreCase("") || Cs.getSucursal().equalsIgnoreCase("Seleccione...")) {
             respuesta.put("Mensaje","El campo Sucursal se encuentra vacio");
             respuesta.put("campo","CbxSucursal.requestFocusInWindow()");
             return respuesta;
         }
-        if ("".equals(Cs.getP_Sale())) {
+        if ("".equals(Cs.getP_Sale()) || Cs.getP_Sale() == 0 ) {
             respuesta.put("Mensaje","El campo Papa Sale se encuentra vacio ó\n Contiene un valor incorrecto");
             respuesta.put("campo","TxtPapaSale.requestFocusInWindow()");
             return respuesta;
@@ -464,23 +460,28 @@ public class Validaciones {
             respuesta.put("campo","TxtBaseInicial.requestFocusInWindow()");
             return respuesta;
         }
-        if ("".equals(Cs.getAlcancia())) {
+        if ("".equals(Cs.getAlcancia()) || Cs.getAlcancia() < 0 ) {
             respuesta.put("Mensaje","El campo Alcancia se encuentra vacio ó\n Contiene un valor incorrecto");
             respuesta.put("campo","TxtAlcancia.requestFocusInWindow()");
             return respuesta;
-        }
+        }   
         if (Cs.getNetoExistente()< 0 || "".equals(Cs.getNetoExistente())) {
             respuesta.put("Mensaje","El campo Neto Existente se encuentra vacio ó\n Contiene un valor incorrecto");
             respuesta.put("campo","TxtNetoExistente.requestFocusInWindow()");
             return respuesta;
         }
-        if (Cs.getTotalNeto()< 0 || "".equals(Cs.getTotalNeto())) {
+        if ("".equals(Cs.getTotalNeto())) {
             respuesta.put("Mensaje","El campo Total Neto se encuentra vacio ó\n Contiene un valor incorrecto");
             respuesta.put("campo","TxtTotalNeto.requestFocusInWindow()");
             return respuesta;
         }
-        if (Cs.getTotalBruto()< 0 || "".equals(Cs.getTotalBruto())) {
+        if ("".equals(Cs.getTotalBruto())) {
             respuesta.put("Mensaje","El campo Total Bruto se encuentra vacio ó\n Contiene un valor incorrecto");
+            respuesta.put("campo","TxtTotalBruto.requestFocusInWindow()");
+            return respuesta;
+        }
+        if (Cs.getTotalBruto() <= 0) {
+            respuesta.put("Mensaje","No se efectuaron ventas para generar un cierre\nVerifique la pestaña de platos vendidos");
             respuesta.put("campo","TxtTotalBruto.requestFocusInWindow()");
             return respuesta;
         }

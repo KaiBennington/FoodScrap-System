@@ -23,7 +23,7 @@ public class Bandera {
     
 //    --------------------
     public static String Respuesta; 
-    public static String RespuestaIngredientes; 
+    public static String SubRespuesta; 
     private String Codigo;
 //    --------------------
     private String Tabla;
@@ -73,12 +73,12 @@ public class Bandera {
         Bandera.Respuesta = Respuesta;
     }
 
-    public static String getRespuestaIngredientes() {
-        return RespuestaIngredientes;
+    public static String getSubRespuesta() {
+        return SubRespuesta;
     }
 
-    public static void setRespuestaIngredientes(String RespuestaIngredientes) {
-        Bandera.RespuestaIngredientes = RespuestaIngredientes;
+    public static void setSubRespuesta(String SubRespuesta) {
+        Bandera.SubRespuesta = SubRespuesta;
     }
     
     public static String getUsuario() {

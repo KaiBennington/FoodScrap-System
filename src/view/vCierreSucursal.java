@@ -8,10 +8,11 @@ import Config.Validaciones;
 import Model.CierreSucursal;
 import Model.Gastos;
 import Model.Platos;
+import Model.PlatosVendidos;
 import Model.Sucursales;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
-import java.util.Date;
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -33,7 +34,6 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
     public Map fritos = new HashMap();
     Map mapGastos = new HashMap();
     Map MapRelease = new HashMap();
-//    Map mapIngredientes = new HashMap();
     List QuitarGastos = new ArrayList();
 
     public vCierreSucursal() {
@@ -66,7 +66,7 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
 
     //<editor-fold desc="CARGAR FECHA" defaultstate="collapsed">    
     void cargarFecha() {
-        Date d = new Date();
+        java.util.Date d = new java.util.Date();
         LblFecha.setText(d.getDate() + "/" + (d.getMonth() + 1) + "/" + (d.getYear() + 1900));//                         
     }
     //</editor-fold>
@@ -223,7 +223,7 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
     //<editor-fold desc="LLENAR GASTOS" defaultstate="collapsed">
     void llenarGasto(Gastos G) {
         G.setIdFactura(Integer.parseInt(LblNumFactura.getText()));
-        G.setDescripcion(TxtDescripcionGasto.getText());
+        G.setDescripcion(TxtDescripcionGasto.getText().toUpperCase());
         if (TxtValorGasto.getText() == null || TxtValorGasto.getText().equalsIgnoreCase("")) {
             double c = 0;
             G.setValor(c);
@@ -233,24 +233,22 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
     }
     //</editor-fold>
 
+    //<editor-fold desc="PARSEOS" defaultstate="collapsed">
     double decimal(JTextField JT) {
-        double J = Double.parseDouble(JT.getText());
-        return J;
+
+        if ("".equals(JT.getText()) || JT.getText() == null) {
+            return 0;
+        }
+
+        return Double.parseDouble(JT.getText());
     }
+    //</editor-fold>
 
     //<editor-fold desc="LLENAR CIERRE SUCURSAL" defaultstate="collapsed">
     void llenarCierreSucursal(CierreSucursal Cs) {
         Cs.setNumFactura(Integer.parseInt(LblNumFactura.getText()));
-
-        String Lbl_Fecha = LblFecha.getText();
-        String[] Rsp_Fecha = Lbl_Fecha.split("/");
-
-        String Año = Rsp_Fecha[2];
-        String Mes = Rsp_Fecha[1];
-        String Dia = Rsp_Fecha[0];
-        String Fecha = Año + "-" + Mes + "-" + Dia;
-
-        Cs.setFechaFactura(Fecha);
+        Date fechaF = new Date(new java.util.Date(LblFecha.getText()).getTime());
+        Cs.setFechaFactura(fechaF);
         Cs.setSucursal(CbxSucursal.getSelectedItem().toString());
         Cs.setP_Sale(decimal(TxtPapaSale));
         Cs.setP_Devuelve(decimal(TxtPapaDevuelve));
@@ -259,7 +257,39 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
         Cs.setNetoExistente(decimal(TxtNetoExistente));
         Cs.setTotalNeto(decimal(TxtTotalNeto));
         Cs.setTotalBruto(decimal(TxtTotalBruto));
-        Cs.setResta(Double.parseDouble(Lbl_Resta.getText()));
+        Cs.setResta(Double.parseDouble((Lbl_Resta.getText())));
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="VALIDAR TABLA GASTOS" defaultstate="collapsed">
+    public boolean validarTablaGastos(DefaultTableModel Gastos) {
+        return Gastos.getRowCount() != 0;
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="VALIDAR PLATOS VENDIDOS" defaultstate="collapsed">
+    public ArrayList validarPlatosVendidos(Map PlatoVendido) {
+
+        ArrayList ListaPlatosVendidos = new ArrayList();
+        int NFactura;
+        String CodigoPlato, CantidadPlato;
+
+        Iterator it = ((Map) PlatoVendido.get("mapFritos")).entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry entry = (Map.Entry) it.next();
+
+            componenteFritos oComponenteFritos = ((componenteFritos) entry.getValue());
+
+            if (!oComponenteFritos.txtCantidad.getText().equals("0")) {
+                CodigoPlato = oComponenteFritos.LblCodigo.getText();
+                NFactura = Integer.parseInt(LblNumFactura.getText());
+                CantidadPlato = oComponenteFritos.txtCantidad.getText();
+
+                PlatosVendidos Pv = new PlatosVendidos(CodigoPlato, NFactura, CantidadPlato);
+                ListaPlatosVendidos.add(Pv);
+            }
+        }
+        return ListaPlatosVendidos;
     }
     //</editor-fold>
 
@@ -416,6 +446,11 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
         TxtDescripcionGasto.setForeground(new java.awt.Color(255, 0, 0));
         TxtDescripcionGasto.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         TxtDescripcionGasto.setToolTipText("Descripción");
+        TxtDescripcionGasto.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                TxtDescripcionGastoKeyReleased(evt);
+            }
+        });
 
         TxtValorGasto.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         TxtValorGasto.setForeground(new java.awt.Color(255, 0, 0));
@@ -1117,23 +1152,58 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
 
         if (rsp.containsKey("Mensaje")) {
             JOptionPane.showMessageDialog(null, rsp.get("Mensaje"));
-            //            rsp.get("campo");
-            //            String Focus = (String)rsp.get("campo");
-            //            System.out.println(""+Focus);
         } else {
 
-            boolean guardar = CierreSucursalesCAD.guardar(Cs);
+            boolean tabGastos = validarTablaGastos((DefaultTableModel) TblGastos.getModel());
+
+            List ListaGastos = new ArrayList();
+            if (tabGastos) {
+
+                int filas = TblGastos.getRowCount();
+                for (int i = 0; i < filas; i++) {
+                    int NumFact;
+                    String Descripcion;
+                    double Valor;
+
+                    NumFact = Integer.parseInt(LblNumFactura.getText());
+                    Descripcion = TblGastos.getValueAt(i, 0).toString();
+                    Valor = Double.parseDouble(TblGastos.getValueAt(i, 1).toString());
+
+                    Gastos Gs = new Gastos(NumFact, Descripcion, Valor);
+                    ListaGastos.add(Gs);
+                }// Fin For
+            }// Fin IF (tabGastos)
+
+            ArrayList ListaPlatosVendidos = validarPlatosVendidos(MapRelease);
+
+            if (ListaPlatosVendidos.isEmpty()) {
+
+                JOptionPane.showMessageDialog(null, "No se vendieron platos");
+                return;
+            }// Fin IF (tabPlatosVendidos)
+
+            boolean guardar = CierreSucursalesCAD.guardar(Cs, ListaPlatosVendidos, ListaGastos);
 
             if (!guardar) {
-                limpiarCampos();
-                JOptionPane.showMessageDialog(null, Bandera.getRespuesta());
-//                TxtNit.requestFocus();
-            } else {
-                limpiarCampos();
-                LblOk.setText(Bandera.getRespuesta());
-                mostrarDatos("");
+                ListaPlatosVendidos.clear();
+                ListaGastos.clear();
+                limpiarCampos();                
                 botonesInicio(true, false, true, false, false, false, false);
                 buscarSi();
+                mostrarDatos("");
+                JOptionPane.showMessageDialog(null, Bandera.getRespuesta());
+                BtnNuevo.requestFocus();
+                Bandera.setRespuesta("");
+            } else {
+                ListaPlatosVendidos.clear();
+                ListaGastos.clear();
+                limpiarCampos();
+                botonesInicio(true, false, true, false, false, false, false);
+                buscarSi();
+                mostrarDatos("");
+                LblOk.setText(Bandera.getRespuesta());
+                LblOk.setVisible(true);
+                Bandera.setRespuesta("");
             }
         }
         //</editor-fold>
@@ -1262,7 +1332,7 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
             DefaultTableModel modelo = (DefaultTableModel) TblGastos.getModel();
 
             Object[] fila = new Object[2];
-            fila[0] = TxtDescripcionGasto.getText();
+            fila[0] = TxtDescripcionGasto.getText().toUpperCase();
             fila[1] = TxtValorGasto.getText();
 
             int Seleccion = TblGastos.getSelectedRow();
@@ -1437,6 +1507,10 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
         vCamposPapa(TxtPapaDevuelve, "0");
     }//GEN-LAST:event_TxtPapaDevuelveFocusLost
 
+    private void TxtDescripcionGastoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TxtDescripcionGastoKeyReleased
+        
+    }//GEN-LAST:event_TxtDescripcionGastoKeyReleased
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnAgregar;
     private javax.swing.JButton BtnAgregarGasto;
@@ -1533,7 +1607,7 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
     }
     //</editor-fold>
 
-//    //<editor-fold desc="SOLO LETRAS" defaultstate="collapsed">
+    //    //<editor-fold desc="SOLO LETRAS" defaultstate="collapsed">
 //    void soloLetras(java.awt.event.KeyEvent evt, JTextField Text) {
 //        char car = evt.getKeyChar();
 //        if (((car < '0' || car > '9')) && (car != KeyEvent.VK_BACK_SPACE)

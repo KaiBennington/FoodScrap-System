@@ -48,7 +48,7 @@ public class PlatosCAD extends ConexionDB {
                 if (!guardarIngredientes) {
                     return false;
                 } else {
-                    Msj_Ingredientes = Bandera.getRespuestaIngredientes();
+                    Msj_Ingredientes = Bandera.getSubRespuesta();
                 }
                 String R_Plato = resul;
 
@@ -97,7 +97,7 @@ public class PlatosCAD extends ConexionDB {
                 if (!modificarIngredientes) {
                     return false;
                 } else {
-                    Msj_Ingredientes = Bandera.getRespuestaIngredientes();
+                    Msj_Ingredientes = Bandera.getSubRespuesta();
                 }
                 String R_Plato = resul;
 //                Información de Ingredientes Actualizada
@@ -130,7 +130,7 @@ public class PlatosCAD extends ConexionDB {
             if (!eliminarIngredientes) {
                 return false;
             } else {
-                Msj_Ingredientes = Bandera.getRespuestaIngredientes();
+                Msj_Ingredientes = Bandera.getSubRespuesta();
 
                 String Sql = "CALL EliminarPlato(?,?)";
                 pst = getConexion().prepareStatement(Sql);
