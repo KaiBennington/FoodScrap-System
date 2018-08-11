@@ -516,8 +516,8 @@ public class TablasCAD extends ConexionDB {
             if (Valor.equals("")) {
                 JOptionPane.showMessageDialog(null, "No se encuentran los ingredientes del Plato\n Verifique que tenga conexión a la Base de Datos.");
             } else {
-                Sql = "SELECT I.*,P.Nombre As Nombre FROM Ingredientes I INNER JOIN Productos P ON I.IdProducto = P.IdProducto WHERE I.IdPlato = "+Valor+" ;";
-                }
+                Sql = "SELECT I.*,P.Nombre As Nombre FROM Ingredientes I INNER JOIN Productos P ON I.IdProducto = P.IdProducto WHERE I.IdPlato = " + Valor + " ;";
+            }
             pst = getConexion().prepareStatement(Sql);
             rs = pst.executeQuery();
             int i = 0;
@@ -535,5 +535,65 @@ public class TablasCAD extends ConexionDB {
         }
         return modelo;
     } //FIN Tabla Ingredientes
+    //</editor-fold>    
+
+    //<editor-fold desc="TABLA CIERRE SUCURSAL" defaultstate="collapsed">
+    public DefaultTableModel getTablaCierreSucursal(String Valor) {
+
+        int registros = 0;
+        String[] NombreClmns = {"Nº Factura", "Fecha", "Sucursal",
+                                "Neto Existente", "Total Neto", "Total Bruto",
+                                "Resta", "Papa Sale", "Papa Devuelve",
+                                "Base Inicial", "Alcancia"
+                               };
+
+        PreparedStatement pst;
+        ResultSet rs = null;
+        try {
+            String Sql = "SELECT count(*) as total FROM Cierre_Sucursal ;";
+            pst = getConexion().prepareStatement(Sql);
+            rs = pst.executeQuery();
+
+            rs.next();
+            registros = rs.getInt("total");
+            rs.close();
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+
+        Object[][] data = new String[registros][11];
+        try {
+            String Sql = null;
+            if (Valor.equals("")) {
+                Sql = "SELECT * FROM Cierre_Sucursal  ;";
+            } else {
+                Sql = "SELECT * FROM Cierre_Sucursal WHERE upper (Num_Factura) LIKE upper ('" + Valor + "%')";
+            }
+            pst = getConexion().prepareStatement(Sql);
+            rs = pst.executeQuery();
+            int i = 0;
+            while (rs.next()) {
+                data[i][0] = rs.getString("Num_Factura");
+                data[i][1] = rs.getString("Fecha");
+                data[i][2] = rs.getString("Id_Sucursal");
+                data[i][3] = rs.getString("NetoExistente");
+                data[i][4] = rs.getString("Total_Neto");
+                data[i][5] = rs.getString("Total_Bruto");
+                data[i][6] = rs.getString("Resta");
+                data[i][7] = rs.getString("Papa_Sale");
+                data[i][8] = rs.getString("Papa_Devuelve");
+                data[i][9] = rs.getString("Base_Inicial");
+                data[i][10] = rs.getString("Alcancia");
+
+                i++;
+            }
+            rs.close();
+            modelo.setDataVector(data, NombreClmns);
+
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+        return modelo;
+    } //FIN Tabla Cierre Sucursal
     //</editor-fold>    
 }

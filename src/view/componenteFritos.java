@@ -13,7 +13,7 @@ public class componenteFritos extends javax.swing.JPanel {
      */    
     Map MapRelease = new HashMap();
     
-    public componenteFritos(int index,Map MapRelease) {
+    public componenteFritos(int index, Map MapRelease) {
         initComponents();
         //JPanel
         setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
@@ -22,7 +22,7 @@ public class componenteFritos extends javax.swing.JPanel {
         LblSeccion.setVisible(false);
         this.MapRelease = MapRelease;
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -133,15 +133,15 @@ public class componenteFritos extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtCantidadKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadKeyReleased
-        if (txtCantidad.getText() == null  || txtCantidad.getText().equalsIgnoreCase("")) {
-            lblValor.setText(""+0);
-        }else{
+        if (txtCantidad.getText() == null || txtCantidad.getText().equalsIgnoreCase("")) {
+            lblValor.setText("" + 0);
+        } else {
             Suma();
         }        
     }//GEN-LAST:event_txtCantidadKeyReleased
 
     private void txtCantidadMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtCantidadMouseClicked
-        if (txtCantidad.getText() == null  || txtCantidad.getText().equalsIgnoreCase("0")) {
+        if (txtCantidad.getText() == null || txtCantidad.getText().equalsIgnoreCase("0")) {
             txtCantidad.setText("");
         }
     }//GEN-LAST:event_txtCantidadMouseClicked
@@ -155,10 +155,9 @@ public class componenteFritos extends javax.swing.JPanel {
 
     private void txtCantidadFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCantidadFocusLost
         if (txtCantidad.getText() == null || txtCantidad.getText().equalsIgnoreCase("") || txtCantidad.getText().equalsIgnoreCase("0")) {
-            int c = 0;
-            txtCantidad.setText("" + c);
+            txtCantidad.setText(""+entero(txtCantidad));
             Suma();
-        }else{
+        } else {
             Suma();
         }        
     }//GEN-LAST:event_txtCantidadFocusLost
@@ -181,15 +180,14 @@ public class componenteFritos extends javax.swing.JPanel {
     public javax.swing.JLabel txtValorUnitario;
     // End of variables declaration//GEN-END:variables
 
-
     //<editor-fold desc="SUMA" defaultstate="collapsed"> 
-    void Suma(){
+    void Suma() {
         //Suma
         Double cantidad = Double.parseDouble(txtCantidad.getText());
         double valorUnitario = Double.parseDouble(txtValorUnitario.getText());
         double totalUnitario = (valorUnitario * cantidad);
-        lblValor.setText(totalUnitario + "");       
-        
+        lblValor.setText(totalUnitario + "");
+
         //MapRelease casteado en un objeto tipo label
         JLabel lblTotal = (JLabel) MapRelease.get("lblTotal");
         JLabel lblCant = (JLabel) MapRelease.get("lblCant");
@@ -197,9 +195,10 @@ public class componenteFritos extends javax.swing.JPanel {
         JTextField txtBruto = (JTextField) MapRelease.get("TxtBruto");
         JTextField txtNeto = (JTextField) MapRelease.get("TxtNeto");
         //Variables Del total de los valores
-        double valorFritos = 0; int CantFritos = 0;
-        lblTotal.setText(""+valorFritos);
-        
+        double valorFritos = 0;
+        int CantFritos = 0;
+        lblTotal.setText("" + valorFritos);
+
         //MapRelease casteado en un objeto tipo Map
         Map fritos = (Map) MapRelease.get("mapFritos");
         Iterator it = fritos.entrySet().iterator();
@@ -211,10 +210,31 @@ public class componenteFritos extends javax.swing.JPanel {
             CantFritos = CantFritos + (Integer.parseInt(oComponenteFritos.txtCantidad.getText()));
             valorFritos = valorFritos + (Double.parseDouble(oComponenteFritos.lblValor.getText()));
         }
-        lblCant.setText(""+CantFritos);
-        lblTotal.setText(""+valorFritos);
-        txtBruto.setText(""+valorFritos);
-        txtNeto.setText(""+(valorFritos - (Double.parseDouble(lblvalGastos.getText()))));
+        lblCant.setText("" + CantFritos);
+        lblTotal.setText("" + valorFritos);
+        txtBruto.setText("" + valorFritos);
+        txtNeto.setText("" + (valorFritos - (decimal_Label(lblvalGastos))));
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="PARSEOS" defaultstate="collapsed">
+    int entero(JTextField JL) {
+        
+        if ("".equals(JL.getText()) || JL.getText() == null) {
+            return 0;
+        }
+        
+        return Integer.parseInt(JL.getText());
+    }
+
+    ////
+    double decimal_Label(JLabel JL) {
+        
+        if ("".equals(JL.getText()) || JL.getText() == null) {
+            return 0;
+        }
+        
+        return Double.parseDouble(JL.getText());
     }
     //</editor-fold>
 }

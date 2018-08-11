@@ -10,6 +10,7 @@ import Model.Gastos;
 import Model.Platos;
 import Model.PlatosVendidos;
 import Model.Sucursales;
+import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.sql.Date;
@@ -51,6 +52,7 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
         MapRelease.put("lblCant", this.Lbl_ItemFritos);
         MapRelease.put("TxtBruto", this.TxtTotalBruto);
         MapRelease.put("TxtNeto", this.TxtTotalNeto);
+        MapRelease.put("lblGastos", this.Lbl_ValorGastos);
         MapRelease.put("mapFritos", fritos);
     }
 
@@ -138,7 +140,7 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
     //<editor-fold desc="MOSTRAR DATOS" defaultstate="collapsed">
     void mostrarDatos(String Valor) {
         TablasCAD ModelTable = new TablasCAD();
-        TblCierreSucursales.setModel(ModelTable.getTablaProductos(Valor));
+        TblCierreSucursales.setModel(ModelTable.getTablaCierreSucursal(Valor));
         TableColumnModel columnModel = TblCierreSucursales.getColumnModel();
         for (int i = 0; i < columnModel.getColumnCount(); i++) {
             columnModel.getColumn(i).setPreferredWidth(100);
@@ -186,10 +188,10 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
         TxtDescripcionGasto.setText("");
         TxtValorGasto.setText("");
         Lbl_ItemGastos.setText("0");
-        Lbl_ValorGastos.setText("0.0");
+        Lbl_ValorGastos.setText("0");
         //-- JP_Platos Vendidos        
         Lbl_ItemFritos.setText("0");
-        Lbl_ValorFritos.setText("0.0");
+        Lbl_ValorFritos.setText("0");
         ///    
         TxtPapaSale.setText("");
         TxtPapaDevuelve.setText("");
@@ -747,6 +749,13 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
         TxtTotalNeto.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         TxtTotalNeto.setForeground(new java.awt.Color(153, 153, 153));
         TxtTotalNeto.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        TxtTotalNeto.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+            }
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+                TxtTotalNetoInputMethodTextChanged(evt);
+            }
+        });
         TxtTotalNeto.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 TxtTotalNetoKeyTyped(evt);
@@ -761,6 +770,9 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
         TxtNetoExistente.setForeground(new java.awt.Color(51, 51, 255));
         TxtNetoExistente.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         TxtNetoExistente.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                TxtNetoExistenteKeyReleased(evt);
+            }
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 TxtNetoExistenteKeyTyped(evt);
             }
@@ -779,7 +791,20 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
         TxtBaseInicial.setForeground(new java.awt.Color(255, 0, 0));
         TxtBaseInicial.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         TxtBaseInicial.setText("0");
+        TxtBaseInicial.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                TxtBaseInicialFocusLost(evt);
+            }
+        });
+        TxtBaseInicial.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                TxtBaseInicialMouseExited(evt);
+            }
+        });
         TxtBaseInicial.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                TxtBaseInicialKeyReleased(evt);
+            }
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 TxtBaseInicialKeyTyped(evt);
             }
@@ -1130,7 +1155,8 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_TxtBuscarKeyReleased
 
     private void BtnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnNuevoActionPerformed
-        //<editor-fold desc="NUEVO" defaultstate="collapsed">   
+        //<editor-fold desc="NUEVO" defaultstate="collapsed">    
+        cargarCombos();
         botonesInicio(false, false, false, false, false, false, true);
         CbxSucursal.setEnabled(true);
         CbxSucursal.requestFocus();
@@ -1141,6 +1167,7 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
     private void BtnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAgregarActionPerformed
         //<editor-fold desc="GUARDAR" defaultstate="collapsed">
         // Btn Guardar
+        calcularResta();
         Map rsp = new HashMap();
         CierreSucursal Cs = new CierreSucursal();
         llenarCierreSucursal(Cs);
@@ -1187,7 +1214,7 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
             if (!guardar) {
                 ListaPlatosVendidos.clear();
                 ListaGastos.clear();
-                limpiarCampos();                
+                limpiarCampos();
                 botonesInicio(true, false, true, false, false, false, false);
                 buscarSi();
                 mostrarDatos("");
@@ -1199,6 +1226,7 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
                 ListaGastos.clear();
                 limpiarCampos();
                 botonesInicio(true, false, true, false, false, false, false);
+                cargarCombos();
                 buscarSi();
                 mostrarDatos("");
                 LblOk.setText(Bandera.getRespuesta());
@@ -1340,10 +1368,12 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
             if (mapGastos.containsKey(fila[0]) && Seleccion < 0) {
                 JOptionPane.showMessageDialog(null, "El Gasto: " + fila[0] + " ya existe en la tabla.");
                 gastosInicio();
+                calcularResta();
                 return;
             } else if ("".equals(fila[0])) {
                 JOptionPane.showMessageDialog(null, "El Gasto necesita una descripcion.");
                 gastosInicio();
+                calcularResta();
                 return;
             } else if (mapGastos.containsKey(fila[0]) && Seleccion >= 0) {
                 String W = TblGastos.getValueAt(Seleccion, 0).toString();
@@ -1352,14 +1382,17 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
                     JOptionPane.showMessageDialog(null, "Se ha modificado el Gasto");
                     mapGastos.put(fila[0], fila[0]);
                     gastosInicio();
+                    calcularResta();
                 } else {
                     JOptionPane.showMessageDialog(null, "El Gasto: " + fila[0] + " ya existe en la tabla.");
                     gastosInicio();
+                    calcularResta();
                     return;
                 }
             } ////
             else {
                 mapGastos.put(fila[0], fila[0]);
+                calcularResta();
             }
 
             modelo.addRow(fila);
@@ -1371,11 +1404,14 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
             LblOk.setText("Se agrego el Gasto");
             LblOk.setVisible(true);
             gastosInicio();
+            calcularResta();
             g = 0;
         } else {
             JOptionPane.showMessageDialog(null, "El Gasto no se puedo agregar");
+            calcularResta();
         }
         gastos();
+        calcularResta();
         TxtDescripcionGasto.setEnabled(true);
         //</editor-fold>
     }//GEN-LAST:event_BtnAgregarGastoActionPerformed
@@ -1500,7 +1536,7 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_TxtPapaDevuelveFocusGained
 
     private void TxtPapaSaleFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_TxtPapaSaleFocusLost
-        vCamposPapa(TxtPapaSale, "0");
+//        vCamposPapa(TxtPapaSale, "0");
     }//GEN-LAST:event_TxtPapaSaleFocusLost
 
     private void TxtPapaDevuelveFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_TxtPapaDevuelveFocusLost
@@ -1508,8 +1544,30 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_TxtPapaDevuelveFocusLost
 
     private void TxtDescripcionGastoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TxtDescripcionGastoKeyReleased
-        
+
     }//GEN-LAST:event_TxtDescripcionGastoKeyReleased
+
+    private void TxtNetoExistenteKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TxtNetoExistenteKeyReleased
+        // TODO add your handling code here:
+//        Lbl_Resta.setText("" + (decimal(TxtNetoExistente) - decimal(TxtTotalNeto)));        
+        calcularResta();        
+    }//GEN-LAST:event_TxtNetoExistenteKeyReleased
+
+    private void TxtBaseInicialKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TxtBaseInicialKeyReleased
+        calcularResta();
+    }//GEN-LAST:event_TxtBaseInicialKeyReleased
+
+    private void TxtBaseInicialMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TxtBaseInicialMouseExited
+        // TODO add your handling code here:        
+    }//GEN-LAST:event_TxtBaseInicialMouseExited
+
+    private void TxtBaseInicialFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_TxtBaseInicialFocusLost
+        
+    }//GEN-LAST:event_TxtBaseInicialFocusLost
+
+    private void TxtTotalNetoInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_TxtTotalNetoInputMethodTextChanged
+       
+    }//GEN-LAST:event_TxtTotalNetoInputMethodTextChanged
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnAgregar;
@@ -1591,7 +1649,7 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
         }
         Lbl_ItemGastos.setText("" + Items);
         Lbl_ValorGastos.setText("" + totalGastos);
-        MapRelease.put("lblGastos", this.Lbl_ValorGastos);
+//        MapRelease.put("lblGastos", this.Lbl_ValorGastos);
 
         TxtTotalNeto.setText("" + (Double.parseDouble(Lbl_ValorFritos.getText()) - Double.parseDouble(Lbl_ValorGastos.getText())));
     }
@@ -1606,21 +1664,44 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
         }
     }
     //</editor-fold>
-
-    //    //<editor-fold desc="SOLO LETRAS" defaultstate="collapsed">
-//    void soloLetras(java.awt.event.KeyEvent evt, JTextField Text) {
-//        char car = evt.getKeyChar();
-//        if (((car < '0' || car > '9')) && (car != KeyEvent.VK_BACK_SPACE)
-//        && (car != '.' || Text.getText().contains("."))) {
-//            evt.consume();
-//        }
-//    }
-//    //</editor-fold>
+    
     //<editor-fold desc="VERIFICAR CAMPOS PAPA" defaultstate="collapsed">
     void vCamposPapa(JTextField Text, String Valor) {
         if (Text.getText() == null || Text.getText().equalsIgnoreCase("0") || Text.getText().equals("")) {
             Text.setText(Valor);
         }
+    }
+    //</editor-fold>
+    
+    //<editor-fold desc="RECALCULAR RESTA" defaultstate="collapsed">
+    void calcularResta() {
+        
+//        double TNeto = decimal(TxtTotalNeto); 
+//        double Base = decimal(TxtBaseInicial);
+//        double NetoEx = decimal(TxtNetoExistente); 
+//        double Resta =  NetoEx -(TNeto + Base); 
+        
+        double Bruto = decimal(TxtTotalBruto);
+        double Base = decimal(TxtBaseInicial);
+        double Gastos = Double.parseDouble(Lbl_ValorGastos.getText());
+        double NetoEx = decimal(TxtNetoExistente);
+        double Suma = (NetoEx - ((Bruto + Base) - Gastos));
+//        double Resta = (NetoEx - Suma);
+        
+        Lbl_Resta.setText(""+Suma);
+        if (Double.parseDouble(Lbl_Resta.getText()) < 0) {
+            Lbl_Resta.setForeground(Color.RED);
+        } else if (Double.parseDouble(Lbl_Resta.getText()) > 0) {
+            Lbl_Resta.setForeground(new Color(0, 153, 51));
+        } else {
+            Lbl_Resta.setForeground(Color.BLUE);
+        }
+        
+        
+        
+        
+                
+                
     }
     //</editor-fold>
 }
