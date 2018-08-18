@@ -9,6 +9,7 @@ import CAD.CargarCAD;
 import CAD.TablasCAD;
 import CAD.TipoDocumentoCAD;
 import Config.Bandera;
+import Config.Configuraciones;
 import Config.Validaciones;
 import Model.TipoDocumento;
 import java.util.HashMap;
@@ -186,6 +187,11 @@ public class vTipoDocumento extends javax.swing.JInternalFrame {
         TxtNombre.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         TxtNombre.setForeground(new java.awt.Color(255, 0, 0));
         TxtNombre.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        TxtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                TxtNombreKeyTyped(evt);
+            }
+        });
 
         jLabel4.setFont(new java.awt.Font("Agency FB", 1, 16)); // NOI18N
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
@@ -194,6 +200,11 @@ public class vTipoDocumento extends javax.swing.JInternalFrame {
         TxtSiglas.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         TxtSiglas.setForeground(new java.awt.Color(255, 0, 0));
         TxtSiglas.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        TxtSiglas.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                TxtSiglasKeyTyped(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -545,6 +556,14 @@ public class vTipoDocumento extends javax.swing.JInternalFrame {
         buscarNo();
         //</editor-fold>
     }//GEN-LAST:event_MnEliminarActionPerformed
+
+    private void TxtSiglasKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TxtSiglasKeyTyped
+        Configuraciones.limiteCaracteres(TxtSiglas, 5, evt);        
+    }//GEN-LAST:event_TxtSiglasKeyTyped
+
+    private void TxtNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TxtNombreKeyTyped
+        Configuraciones.limiteCaracteres(TxtNombre, 30, evt);          
+    }//GEN-LAST:event_TxtNombreKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -319,6 +319,9 @@
                 <Property name="horizontalAlignment" type="int" value="0"/>
                 <Property name="toolTipText" type="java.lang.String" value="Raz&#xf3;n Social"/>
               </Properties>
+              <Events>
+                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="TxtRazonSocialKeyTyped"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JSeparator" name="jSeparator2">
             </Component>
@@ -381,6 +384,9 @@
                 </Property>
                 <Property name="horizontalAlignment" type="int" value="0"/>
               </Properties>
+              <Events>
+                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="TxtTelefonoKeyTyped"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel9">
               <Properties>
@@ -400,6 +406,9 @@
                 </Property>
                 <Property name="horizontalAlignment" type="int" value="0"/>
               </Properties>
+              <Events>
+                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="TxtFaxKeyTyped"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

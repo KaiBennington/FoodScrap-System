@@ -536,6 +536,53 @@ public class TablasCAD extends ConexionDB {
         return modelo;
     } //FIN Tabla Ingredientes
     //</editor-fold>    
+    
+    //<editor-fold desc="TABLA GASTOS" defaultstate="collapsed">
+    public DefaultTableModel getTablaGastos(String Valor) {
+
+        int registros = 0;
+        String[] NombreClmns = {"Descripción", "Valor"};
+
+        PreparedStatement pst;
+        ResultSet rs = null;
+        try {
+            String Sql = "SELECT count(*) as total FROM Gastos WHERE Num_Factura = " + Valor + " ;";
+            pst = getConexion().prepareStatement(Sql);
+            rs = pst.executeQuery();
+
+            rs.next();
+            registros = rs.getInt("total");
+            rs.close();
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+
+        Object[][] data = new String[registros][2];
+        try {
+            String Sql = null;
+            if (Valor.equals("")) {
+                JOptionPane.showMessageDialog(null, "No se encuentran los Gastos del Cierre\n Verifique que tenga conexión a la Base de Datos.");
+            } else {
+                Sql = "SELECT * FROM Gastos  WHERE Num_Factura = " + Valor + " ;";
+            }
+            pst = getConexion().prepareStatement(Sql);
+            rs = pst.executeQuery();
+            int i = 0;
+            while (rs.next()) {
+                data[i][0] = rs.getString("Descripcion");
+                data[i][1] = rs.getString("Valor");
+
+                i++;
+            }
+            rs.close();
+            modelo.setDataVector(data, NombreClmns);
+
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+        return modelo;
+    } //FIN Tabla Gastos
+    //</editor-fold>    
 
     //<editor-fold desc="TABLA CIERRE SUCURSAL" defaultstate="collapsed">
     public DefaultTableModel getTablaCierreSucursal(String Valor) {

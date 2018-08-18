@@ -9,6 +9,7 @@ import CAD.CargarCAD;
 import CAD.ProductosCAD;
 import CAD.TablasCAD;
 import Config.Bandera;
+import Config.Configuraciones;
 import Config.Validaciones;
 import Model.Categorias;
 import Model.Productos;
@@ -321,6 +322,11 @@ public class vProductos extends javax.swing.JInternalFrame {
         TxtPrecioCosto.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         TxtPrecioCosto.setForeground(new java.awt.Color(255, 0, 0));
         TxtPrecioCosto.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        TxtPrecioCosto.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                TxtPrecioCostoKeyTyped(evt);
+            }
+        });
 
         jLabel9.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -329,10 +335,20 @@ public class vProductos extends javax.swing.JInternalFrame {
         TxtCantidad.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         TxtCantidad.setForeground(new java.awt.Color(255, 0, 0));
         TxtCantidad.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        TxtCantidad.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                TxtCantidadKeyTyped(evt);
+            }
+        });
 
         TxtStock.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         TxtStock.setForeground(new java.awt.Color(255, 0, 0));
         TxtStock.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        TxtStock.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                TxtStockKeyTyped(evt);
+            }
+        });
 
         jLabel10.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -759,6 +775,18 @@ public class vProductos extends javax.swing.JInternalFrame {
         LblOk.setVisible(false);
         mostrarDatos("");
     }//GEN-LAST:event_jPanel1MousePressed
+
+    private void TxtPrecioCostoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TxtPrecioCostoKeyTyped
+        Configuraciones.soloNumeros(evt, TxtPrecioCosto);
+    }//GEN-LAST:event_TxtPrecioCostoKeyTyped
+
+    private void TxtCantidadKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TxtCantidadKeyTyped
+        Configuraciones.soloNumeros(evt, TxtCantidad);
+    }//GEN-LAST:event_TxtCantidadKeyTyped
+
+    private void TxtStockKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TxtStockKeyTyped
+        Configuraciones.soloNumeros(evt, TxtStock);
+    }//GEN-LAST:event_TxtStockKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

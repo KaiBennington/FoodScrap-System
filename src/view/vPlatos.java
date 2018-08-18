@@ -10,11 +10,13 @@ import CAD.IngredientesCAD;
 import CAD.PlatosCAD;
 import CAD.TablasCAD;
 import Config.Bandera;
+import Config.Configuraciones;
 import Config.Validaciones;
 import Model.Ingredientes;
 import Model.Platos;
 import Model.Productos;
 import Model.Secciones;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -193,7 +195,7 @@ public class vPlatos extends javax.swing.JInternalFrame {
         I.setIngrediente(CbxIngrediente.getSelectedItem().toString());
         I.setCantidad(TxtCantidad.getText());
     }
-    
+
     void restaurarIngredientes() {
         CbxIngrediente.setSelectedIndex(0);
         TxtCantidad.setText("");
@@ -225,7 +227,6 @@ public class vPlatos extends javax.swing.JInternalFrame {
     }
 
     //</editor-fold>
-    
     //<editor-fold desc="Ocultar Filas" defaultstate="collapsed">
     void ocultarFilas(int index) {
         TblConsultarPlatos.getColumnModel().getColumn(index).setMaxWidth(0);
@@ -235,13 +236,12 @@ public class vPlatos extends javax.swing.JInternalFrame {
     }
 
     //</editor-fold>
-    
     //<editor-fold desc="VALIDAR TABLA INGREDIENTES" defaultstate="collapsed">
     public boolean validarTablaIngredientes(DefaultTableModel Ingredientes) {
         return Ingredientes.getRowCount() != 0;
     }
     //</editor-fold>
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -359,6 +359,11 @@ public class vPlatos extends javax.swing.JInternalFrame {
 
         TxtCodigo.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         TxtCodigo.setForeground(new java.awt.Color(255, 0, 0));
+        TxtCodigo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                TxtCodigoKeyTyped(evt);
+            }
+        });
 
         jLabel5.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -366,6 +371,11 @@ public class vPlatos extends javax.swing.JInternalFrame {
 
         TxtNombre.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         TxtNombre.setForeground(new java.awt.Color(255, 0, 0));
+        TxtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                TxtNombreKeyTyped(evt);
+            }
+        });
 
         jLabel6.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -373,6 +383,11 @@ public class vPlatos extends javax.swing.JInternalFrame {
 
         TxtValor.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         TxtValor.setForeground(new java.awt.Color(255, 0, 0));
+        TxtValor.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                TxtValorKeyTyped(evt);
+            }
+        });
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Ingredientes", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.BELOW_TOP, new java.awt.Font("Agency FB", 1, 14))); // NOI18N
@@ -386,6 +401,11 @@ public class vPlatos extends javax.swing.JInternalFrame {
 
         TxtCantidad.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         TxtCantidad.setForeground(new java.awt.Color(255, 0, 0));
+        TxtCantidad.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                TxtCantidadKeyTyped(evt);
+            }
+        });
 
         TblIngredientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -701,7 +721,7 @@ public class vPlatos extends javax.swing.JInternalFrame {
             String Codigo = TxtCodigo.getText();
 
             Platos Pl = new Platos(id, Codigo);
-            
+
             List ListaIngredientes = new ArrayList();
             int filas = TblIngredientes.getRowCount();
             for (int i = 0; i < filas; i++) {
@@ -715,7 +735,7 @@ public class vPlatos extends javax.swing.JInternalFrame {
                 ListaIngredientes.add(In);
             }
 
-            boolean Eliminar = PlatosCAD.eliminar(Pl,ListaIngredientes);
+            boolean Eliminar = PlatosCAD.eliminar(Pl, ListaIngredientes);
 
             if (!Eliminar) {
                 JOptionPane.showMessageDialog(null, Bandera.getRespuesta());
@@ -776,32 +796,32 @@ public class vPlatos extends javax.swing.JInternalFrame {
                 ListaIngredientes.add(In);
             }
             verificarMapIngredientes();
-            
-            boolean Eliminar = false;
-            if (!QuitarIngredientes.isEmpty())Eliminar = IngredientesCAD.eliminar(QuitarIngredientes);
-            
-            
-                boolean Modificar = PlatosCAD.modificar(P, ListaIngredientes);
 
-                if (!Modificar) {
-                    JOptionPane.showMessageDialog(null, Bandera.getRespuesta());
-                    limpiarCampos();
-                    mostrarDatos("");
-                    botonesInicio(false, false, false, true, false, false, false, false);
-                    mapIngredientes.clear();
-                } else {
-                    limpiarCampos();
-                    botonesInicio(false, false, false, true, false, false, false, false);
-                    mostrarDatos("");
-                    buscarSi();
-                    LblOk.setText(Bandera.getRespuesta());
-                    LblOk.setVisible(true);
-                    Bandera.setRespuesta("");
-                    mapIngredientes.clear();
-                }/// Fin if Modificar
-                
-                QuitarIngredientes.clear();
-            
+            boolean Eliminar = false;
+            if (!QuitarIngredientes.isEmpty()) {
+                Eliminar = IngredientesCAD.eliminar(QuitarIngredientes);
+            }
+
+            boolean Modificar = PlatosCAD.modificar(P, ListaIngredientes);
+
+            if (!Modificar) {
+                JOptionPane.showMessageDialog(null, Bandera.getRespuesta());
+                limpiarCampos();
+                mostrarDatos("");
+                botonesInicio(false, false, false, true, false, false, false, false);
+                mapIngredientes.clear();
+            } else {
+                limpiarCampos();
+                botonesInicio(false, false, false, true, false, false, false, false);
+                mostrarDatos("");
+                buscarSi();
+                LblOk.setText(Bandera.getRespuesta());
+                LblOk.setVisible(true);
+                Bandera.setRespuesta("");
+                mapIngredientes.clear();
+            }/// Fin if Modificar
+
+            QuitarIngredientes.clear();
 
         }
         //</editor-fold>
@@ -940,8 +960,8 @@ public class vPlatos extends javax.swing.JInternalFrame {
                     JOptionPane.showMessageDialog(null, "Se ha modificado el Ingrediente");
                     mapIngredientes.put(fila[0], fila[0]);
                     IngredientesInicio();
-                   restaurarIngredientes();
-                    
+                    restaurarIngredientes();
+
                 } else {
                     JOptionPane.showMessageDialog(null, "El ingrediente: " + fila[0] + " ya existe en la tabla.");
                     IngredientesInicio();
@@ -1006,9 +1026,8 @@ public class vPlatos extends javax.swing.JInternalFrame {
 
                 mapIngredientes.remove(TblIngredientes.getValueAt(fila, 0).toString());
                 tb.removeRow(TblIngredientes.getSelectedRow());
-                
+
                 restaurarIngredientes();
-                
 
             } else {
                 return;
@@ -1018,6 +1037,22 @@ public class vPlatos extends javax.swing.JInternalFrame {
         }
         //</editor-fold>
     }//GEN-LAST:event_MnEliminar_IngreActionPerformed
+
+    private void TxtNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TxtNombreKeyTyped
+        Configuraciones.soloLetras(evt);
+    }//GEN-LAST:event_TxtNombreKeyTyped
+
+    private void TxtValorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TxtValorKeyTyped
+        Configuraciones.soloNumeros(evt, TxtValor);
+    }//GEN-LAST:event_TxtValorKeyTyped
+
+    private void TxtCantidadKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TxtCantidadKeyTyped
+        Configuraciones.soloNumeros(evt, TxtCantidad);
+    }//GEN-LAST:event_TxtCantidadKeyTyped
+
+    private void TxtCodigoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TxtCodigoKeyTyped
+        Configuraciones.soloNumeros(evt, TxtCodigo);
+    }//GEN-LAST:event_TxtCodigoKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

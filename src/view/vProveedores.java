@@ -9,6 +9,7 @@ import CAD.CargarCAD;
 import CAD.ProveedoresCAD;
 import CAD.TablasCAD;
 import Config.Bandera;
+import Config.Configuraciones;
 import Config.Validaciones;
 import Model.Proveedores;
 import java.util.HashMap;
@@ -270,6 +271,11 @@ public class vProveedores extends javax.swing.JInternalFrame {
         TxtRazonSocial.setForeground(new java.awt.Color(255, 0, 0));
         TxtRazonSocial.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         TxtRazonSocial.setToolTipText("Razón Social");
+        TxtRazonSocial.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                TxtRazonSocialKeyTyped(evt);
+            }
+        });
 
         jLabel6.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -294,6 +300,11 @@ public class vProveedores extends javax.swing.JInternalFrame {
         TxtTelefono.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         TxtTelefono.setForeground(new java.awt.Color(255, 0, 0));
         TxtTelefono.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        TxtTelefono.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                TxtTelefonoKeyTyped(evt);
+            }
+        });
 
         jLabel9.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         jLabel9.setText("Fax :");
@@ -301,6 +312,11 @@ public class vProveedores extends javax.swing.JInternalFrame {
         TxtFax.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         TxtFax.setForeground(new java.awt.Color(255, 0, 0));
         TxtFax.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        TxtFax.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                TxtFaxKeyTyped(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -720,6 +736,19 @@ public class vProveedores extends javax.swing.JInternalFrame {
     private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
         mostrarDatos("");
     }//GEN-LAST:event_formMouseClicked
+
+    private void TxtTelefonoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TxtTelefonoKeyTyped
+        Configuraciones.soloNumeros(evt, TxtTelefono);
+    }//GEN-LAST:event_TxtTelefonoKeyTyped
+
+    private void TxtFaxKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TxtFaxKeyTyped
+         Configuraciones.soloNumeros(evt, TxtFax);
+    }//GEN-LAST:event_TxtFaxKeyTyped
+
+    private void TxtRazonSocialKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TxtRazonSocialKeyTyped
+        Configuraciones.soloLetras(evt);
+        Configuraciones.limiteCaracteres(TxtRazonSocial, 10, evt);
+    }//GEN-LAST:event_TxtRazonSocialKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

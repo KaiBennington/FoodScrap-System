@@ -10,6 +10,7 @@ import CAD.TablasCAD;
 import CAD.UsuariosCAD;
 import Config.Validaciones;
 import Config.Bandera;
+import Config.Configuraciones;
 import Model.PreguntaSecreta;
 import Model.Roles;
 import Model.TipoDocumento;
@@ -325,7 +326,7 @@ public class vUsuarios extends javax.swing.JInternalFrame {
         });
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder(null, "", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.ABOVE_TOP, new java.awt.Font("Tahoma", 1, 12)), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(204, 204, 204))); // NOI18N
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder(null, "", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.ABOVE_TOP, new java.awt.Font("Tahoma", 1, 12)), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 12), new java.awt.Color(204, 204, 204))); // NOI18N
 
         jLabel3.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         jLabel3.setText("* Nombre :");
@@ -338,6 +339,11 @@ public class vUsuarios extends javax.swing.JInternalFrame {
                 TxtNombreActionPerformed(evt);
             }
         });
+        TxtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                TxtNombreKeyTyped(evt);
+            }
+        });
 
         jLabel8.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         jLabel8.setText("* Apellido :");
@@ -348,6 +354,11 @@ public class vUsuarios extends javax.swing.JInternalFrame {
         TxtApellido.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 TxtApellidoActionPerformed(evt);
+            }
+        });
+        TxtApellido.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                TxtApellidoKeyTyped(evt);
             }
         });
 
@@ -384,6 +395,11 @@ public class vUsuarios extends javax.swing.JInternalFrame {
                 TxtTelefonoActionPerformed(evt);
             }
         });
+        TxtTelefono.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                TxtTelefonoKeyTyped(evt);
+            }
+        });
 
         jLabel15.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         jLabel15.setText("* Numero de Documento:");
@@ -391,6 +407,11 @@ public class vUsuarios extends javax.swing.JInternalFrame {
         TxtDocumento.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         TxtDocumento.setForeground(new java.awt.Color(255, 0, 0));
         TxtDocumento.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        TxtDocumento.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                TxtDocumentoKeyTyped(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         jLabel1.setText("Tipo de Documento :");
@@ -892,7 +913,7 @@ public class vUsuarios extends javax.swing.JInternalFrame {
                 mostrarDatos("");
                 //botonesInicio();
             } else {
-                limpiarCampos();                
+                limpiarCampos();
                 buscarSi();
                 LblOk.setText(Bandera.getRespuesta());
                 LblOk.setVisible(true);
@@ -947,7 +968,7 @@ public class vUsuarios extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_BtnModificarActionPerformed
 
     private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
-        
+
     }//GEN-LAST:event_formMouseClicked
 
     private void LblBuscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LblBuscarMouseClicked
@@ -958,8 +979,8 @@ public class vUsuarios extends javax.swing.JInternalFrame {
         //<editor-fold desc="MENU MODIFICAR" defaultstate="collapsed">
         //habilitarCampos(false, true, false, true, false, true);
         //Seleccion fila modificar
-        if(Seleccion()){
-            habilitarCampos(false, true, false,false, true, false, true);
+        if (Seleccion()) {
+            habilitarCampos(false, true, false, false, true, false, true);
         }
         // BtnModificar.setVisible(oPermisos.validarPermiso("Guardar","Usuarios"));
         //</editor-fold>
@@ -969,11 +990,27 @@ public class vUsuarios extends javax.swing.JInternalFrame {
         //<editor-fold desc="MENU ELIMINAR" defaultstate="collapsed">
         //habilitarCampos(false, false, false, false, true, true);
         //Seleccion fila Eliminar
-        if(Seleccion()){
-            habilitarCampos(false, false, false,false, false, true, true);
+        if (Seleccion()) {
+            habilitarCampos(false, false, false, false, false, true, true);
         }
         //</editor-fold>
     }//GEN-LAST:event_MnEliminarActionPerformed
+
+    private void TxtNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TxtNombreKeyTyped
+        Configuraciones.soloLetras(evt);
+    }//GEN-LAST:event_TxtNombreKeyTyped
+
+    private void TxtApellidoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TxtApellidoKeyTyped
+        Configuraciones.soloLetras(evt);
+    }//GEN-LAST:event_TxtApellidoKeyTyped
+
+    private void TxtDocumentoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TxtDocumentoKeyTyped
+        Configuraciones.soloNumeros(evt, TxtDocumento);
+    }//GEN-LAST:event_TxtDocumentoKeyTyped
+
+    private void TxtTelefonoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TxtTelefonoKeyTyped
+         Configuraciones.soloNumeros(evt, TxtTelefono);
+    }//GEN-LAST:event_TxtTelefonoKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1050,13 +1087,13 @@ public class vUsuarios extends javax.swing.JInternalFrame {
             TxtConfirmar.setText(TblConsultarUsuario.getValueAt(fila, 10).toString());
             CbxPregunta.setSelectedIndex(Integer.parseInt(TblConsultarUsuario.getValueAt(fila, 15).toString()));
             TxtRespuesta.setText(TblConsultarUsuario.getValueAt(fila, 12).toString());
-            
+
             return true;
         } else {
-            JOptionPane.showMessageDialog(null, "No se ha seleccionado ningun Usuario de la tabla");            
+            JOptionPane.showMessageDialog(null, "No se ha seleccionado ningun Usuario de la tabla");
             buscarSi();
             return false;
-            
+
         }
     }
 

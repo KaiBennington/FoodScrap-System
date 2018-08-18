@@ -10,6 +10,7 @@ import Model.Categorias;
 import Model.ConexionDB;
 //import static Model.ConexionDB.getConexion;
 import Model.Platos;
+import Model.PlatosVendidos;
 import Model.PreguntaSecreta;
 import Model.Productos;
 import Model.Proveedores;
@@ -270,6 +271,37 @@ public class CargarCAD extends ConexionDB {
         }
         return Lista;
     }// FIN Metodo Cargar Sucursales
+    //</editor-fold>
+    
+    //<editor-fold desc="CARGAR DETALLES PLATOS V" defaultstate="collapsed">
+    public ArrayList CargarPlatosVendidos(String Valor) {
+        //Lista Detalles Platos
+        PreparedStatement pst;
+        ResultSet rs = null;
+        ArrayList Lista = new ArrayList();
+        try {
+
+            String Sql = "CALL CargarPlatosVendidos(?);";            
+            pst = getConexion().prepareStatement(Sql);
+            pst.setString(1, Valor);
+            rs = pst.executeQuery();
+
+            while (rs.next()) {
+                String Codigo, Cantidad;
+                int NFactura;
+                Codigo = (rs.getString("Codigo"));
+                NFactura = (rs.getInt("Num_Factura"));
+                Cantidad = (rs.getString("Cantidad"));
+
+                PlatosVendidos Pv = new PlatosVendidos(Codigo, NFactura, Cantidad);
+                Lista.add(Pv);
+//               System.out.println(""+Lista);
+            }
+            return Lista;
+        } catch (SQLException ex) {
+        }
+        return Lista;
+    }// FIN Metodo Detalles Platos Vendidos
     //</editor-fold>
 
     //<editor-fold desc="CARGAR ZONAS" defaultstate="collapsed">

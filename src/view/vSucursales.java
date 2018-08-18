@@ -9,6 +9,7 @@ import CAD.CargarCAD;
 import CAD.SucursalesCAD;
 import CAD.TablasCAD;
 import Config.Bandera;
+import Config.Configuraciones;
 import Config.Validaciones;
 import Model.Sucursales;
 import Model.Zonas;
@@ -248,6 +249,11 @@ public class vSucursales extends javax.swing.JInternalFrame {
         TxtNombre.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         TxtNombre.setForeground(new java.awt.Color(255, 0, 0));
         TxtNombre.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        TxtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                TxtNombreKeyTyped(evt);
+            }
+        });
 
         jLabel5.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -272,6 +278,11 @@ public class vSucursales extends javax.swing.JInternalFrame {
         TxtTelefono.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         TxtTelefono.setForeground(new java.awt.Color(255, 0, 0));
         TxtTelefono.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        TxtTelefono.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                TxtTelefonoKeyTyped(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -680,6 +691,14 @@ public class vSucursales extends javax.swing.JInternalFrame {
         LblOk.setVisible(false);
         mostrarDatos("");
     }//GEN-LAST:event_jPanel1MousePressed
+
+    private void TxtNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TxtNombreKeyTyped
+        Configuraciones.soloLetras(evt);
+    }//GEN-LAST:event_TxtNombreKeyTyped
+
+    private void TxtTelefonoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TxtTelefonoKeyTyped
+        Configuraciones.soloNumeros(evt, TxtTelefono);
+    }//GEN-LAST:event_TxtTelefonoKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

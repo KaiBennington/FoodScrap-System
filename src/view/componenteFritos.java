@@ -61,6 +61,13 @@ public class componenteFritos extends javax.swing.JPanel {
                 txtCantidadMouseClicked(evt);
             }
         });
+        txtCantidad.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+            }
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+                txtCantidadInputMethodTextChanged(evt);
+            }
+        });
         txtCantidad.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtCantidadKeyReleased(evt);
@@ -167,6 +174,10 @@ public class componenteFritos extends javax.swing.JPanel {
             txtCantidad.setText("");
         }
     }//GEN-LAST:event_txtCantidadFocusGained
+
+    private void txtCantidadInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_txtCantidadInputMethodTextChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCantidadInputMethodTextChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

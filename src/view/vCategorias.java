@@ -9,6 +9,7 @@ import CAD.CargarCAD;
 import CAD.CategoriasCAD;
 import CAD.TablasCAD;
 import Config.Bandera;
+import Config.Configuraciones;
 import Config.Validaciones;
 import Model.Categorias;
 import java.util.HashMap;
@@ -181,6 +182,11 @@ public class vCategorias extends javax.swing.JInternalFrame {
         TxtNombre.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         TxtNombre.setForeground(new java.awt.Color(255, 0, 0));
         TxtNombre.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        TxtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                TxtNombreKeyTyped(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -521,6 +527,10 @@ public class vCategorias extends javax.swing.JInternalFrame {
     private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
         vPrincipal.ventana = "";
     }//GEN-LAST:event_formInternalFrameClosing
+
+    private void TxtNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TxtNombreKeyTyped
+       Configuraciones.limiteCaracteres(TxtNombre, 30, evt);
+    }//GEN-LAST:event_TxtNombreKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
