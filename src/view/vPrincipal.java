@@ -143,6 +143,11 @@ public class vPrincipal extends javax.swing.JFrame {
 
         jMenu1.setText("Archivo");
         jMenu1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jMenu1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jMenu1MouseReleased(evt);
+            }
+        });
 
         jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Perfil.png"))); // NOI18N
         jMenuItem1.setText("Mi Perfil");
@@ -560,6 +565,10 @@ public class vPrincipal extends javax.swing.JFrame {
         }
         //</editor-fold>
     }//GEN-LAST:event_jMenuItem18ActionPerformed
+
+    private void jMenu1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu1MouseReleased
+        JOptionPane.showMessageDialog(null, "pacho");
+    }//GEN-LAST:event_jMenu1MouseReleased
 
     /**
      * @param args the command line arguments

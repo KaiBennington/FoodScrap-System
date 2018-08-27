@@ -770,9 +770,6 @@ public class vPlatos extends javax.swing.JInternalFrame {
 
         if (rsp.containsKey("Mensaje")) {
             JOptionPane.showMessageDialog(null, rsp.get("Mensaje"));
-            //            rsp.get("campo");
-            //            String Focus = (String)rsp.get("campo");
-            //            System.out.println(""+Focus);
         } else {
 
             boolean tab = validarTablaIngredientes((DefaultTableModel) TblIngredientes.getModel());
@@ -822,7 +819,6 @@ public class vPlatos extends javax.swing.JInternalFrame {
             }/// Fin if Modificar
 
             QuitarIngredientes.clear();
-
         }
         //</editor-fold>
     }//GEN-LAST:event_BtnModificarActionPerformed
@@ -842,7 +838,6 @@ public class vPlatos extends javax.swing.JInternalFrame {
         // Btn Guardar
         Map rsp = new HashMap();
         Platos P = new Platos();
-
         llenarPlato(P);
 
         rsp.put("Plato", P);
@@ -852,9 +847,6 @@ public class vPlatos extends javax.swing.JInternalFrame {
 
         if (rsp.containsKey("Mensaje")) {
             JOptionPane.showMessageDialog(null, rsp.get("Mensaje"));
-            //            rsp.get("campo");
-            //            String Focus = (String)rsp.get("campo");
-            //            System.out.println(""+Focus);
         } else {
 
             boolean tab = validarTablaIngredientes((DefaultTableModel) TblIngredientes.getModel());

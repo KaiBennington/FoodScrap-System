@@ -2,6 +2,8 @@ package view;
 
 import CAD.CargarCAD;
 import CAD.CierreSucursalesCAD;
+import CAD.GastosCAD;
+import CAD.PlatosVendidosCAD;
 import CAD.TablasCAD;
 import Config.Bandera;
 import Config.Configuraciones;
@@ -37,6 +39,7 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
     Map mapGastos = new HashMap();
     Map MapRelease = new HashMap();
     List QuitarGastos = new ArrayList();
+    List QuitarPlatosVendidos ;
 
     public vCierreSucursal() {
         initComponents();
@@ -76,10 +79,11 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
 
     //<editor-fold desc="CARGAR COMBOS" defaultstate="collapsed">    
     void cargarCombos() {
+        cargarIdFactura();
         CargarCAD oCargarCAD = new CargarCAD();
-        Bandera B = new Bandera("Cierre_Sucursal", "Num_Factura");
-        String P = oCargarCAD.cargarIds(B);
-        LblNumFactura.setText(P);
+//        Bandera B = new Bandera("Cierre_Sucursal", "Num_Factura");
+//        String P = oCargarCAD.cargarIds(B);
+//        LblNumFactura.setText(P);
 
         //Combo Sucursal
         List ListaComboS = oCargarCAD.CargarSucursal();
@@ -89,6 +93,15 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
             CbxSucursal.addItem(Sc.getNombre());
         }
         //                         
+    }
+    //</editor-fold>
+    
+    //<editor-fold desc="CARGAR COMBOS" defaultstate="collapsed">    
+    void cargarIdFactura() {
+        CargarCAD oCargarCAD = new CargarCAD();
+        Bandera B = new Bandera("Cierre_Sucursal", "Num_Factura");
+        String P = oCargarCAD.cargarIds(B);
+        LblNumFactura.setText(P);                         
     }
     //</editor-fold>
 
@@ -166,6 +179,8 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
         //Cargar Platos Vendidos        
         CargarCAD oCargarCAD = new CargarCAD();
         List ListaComboPv = oCargarCAD.CargarPlatosVendidos(Valor);
+        QuitarPlatosVendidos = ListaComboPv;
+//                .add(ListaComboPv);//// malo
 
         Iterator it = ((Map) MapRelease.get("mapFritos")).entrySet().iterator();
         while (it.hasNext()) {
@@ -286,7 +301,8 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
     //<editor-fold desc="LLENAR CIERRE SUCURSAL" defaultstate="collapsed">
     void llenarCierreSucursal(CierreSucursal Cs) {
         Cs.setNumFactura(Integer.parseInt(LblNumFactura.getText()));
-        Date fechaF = new Date(new java.util.Date(LblFecha.getText()).getTime());
+        java.util.Date d = new java.util.Date();
+        Date fechaF = new Date(d.getYear(),d.getMonth(),d.getDate());
         Cs.setFechaFactura(fechaF);
         Cs.setSucursal(CbxSucursal.getSelectedItem().toString());
         Cs.setP_Sale(decimal(TxtPapaSale));
@@ -304,6 +320,8 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
     public boolean validarTablaGastos(DefaultTableModel Gastos) {
         return Gastos.getRowCount() != 0;
     }
+    
+    
     //</editor-fold>
 
     //<editor-fold desc="VALIDAR PLATOS VENDIDOS" defaultstate="collapsed">
@@ -410,7 +428,7 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
         BtnCancelar = new javax.swing.JButton();
         LblOk = new javax.swing.JLabel();
 
-        MnModificar_Gasto.setText("Modificar Ingrediente");
+        MnModificar_Gasto.setText("Editar ");
         MnModificar_Gasto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 MnModificar_GastoActionPerformed(evt);
@@ -418,7 +436,7 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
         });
         PopM_Gastos.add(MnModificar_Gasto);
 
-        MnEliminar_Gasto.setText("Quitar Ingrediente");
+        MnEliminar_Gasto.setText("Quitar ");
         MnEliminar_Gasto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 MnEliminar_GastoActionPerformed(evt);
@@ -508,6 +526,9 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
         TxtDescripcionGasto.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 TxtDescripcionGastoKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                TxtDescripcionGastoKeyTyped(evt);
             }
         });
 
@@ -1274,6 +1295,7 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
                 ListaGastos.clear();
                 limpiarCampos();
                 botonesInicio(true, false, true, false, false, false, false);
+                cargarCombos();
                 buscarSi();
                 mostrarDatos("");
                 JOptionPane.showMessageDialog(null, Bandera.getRespuesta());
@@ -1339,10 +1361,19 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
                 JOptionPane.showMessageDialog(null, "No se vendieron platos");
                 return;
             }// Fin IF (tabPlatosVendidos)
+            
+            boolean EliminarG = false; boolean EliminarP = false;
+            
+            if (!QuitarGastos.isEmpty()) {
+                EliminarG = GastosCAD.eliminar(QuitarGastos);
+            }
+            if (!QuitarPlatosVendidos.isEmpty()) {
+                EliminarP = PlatosVendidosCAD.eliminar(QuitarPlatosVendidos);
+            }
 
-            boolean guardar = CierreSucursalesCAD.modificar(Cs, ListaPlatosVendidos, ListaGastos);
+            boolean modificar = CierreSucursalesCAD.modificar(Cs, ListaPlatosVendidos, ListaGastos);
 
-            if (!guardar) {
+            if (!modificar) {
                 ListaPlatosVendidos.clear();
                 ListaGastos.clear();
                 limpiarCampos();
@@ -1402,6 +1433,7 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
     private void BtnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCancelarActionPerformed
         //<editor-fold desc="CANCELAR" defaultstate="collapsed">
         botonesInicio(false, false, true, false, false, false, false);
+        cargarIdFactura();
         mostrarDatos("");
         limpiarCampos();
         limpiarComponentes();
@@ -1415,6 +1447,7 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
     private void CbxSucursalItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_CbxSucursalItemStateChanged
         if (CbxSucursal.getSelectedIndex() <= 0) {
             botonesInicio(false, false, true, false, false, false, false);
+            cargarIdFactura();
             mostrarDatos("");
             buscarSi();
             LblFecha.setText("");
@@ -1425,6 +1458,7 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
             limpiarCampos();
             limpiarComponentes();
             mostrarDatos("");
+            cargarIdFactura();
             cargarFecha();
             buscarNo();
         }
@@ -1443,10 +1477,7 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
         V.validarCamposGastos(rsp);
 
         if (rsp.containsKey("Mensaje")) {
-            JOptionPane.showMessageDialog(null, rsp.get("Mensaje"));
-            //            rsp.get("campo");
-            //            String Focus = (String)rsp.get("campo");
-            //            System.out.println(""+Focus);
+            JOptionPane.showMessageDialog(null, rsp.get("Mensaje"));            
         } else {
 
             DefaultTableModel modelo = (DefaultTableModel) TblGastos.getModel();
@@ -1551,7 +1582,6 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
     private void MnModificar_GastoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnModificar_GastoActionPerformed
         //<editor-fold desc="MENU MODIFICAR GASTO" defaultstate="collapsed">
         //Seleccion fila modificar
-//        DefaultTableModel tb = (DefaultTableModel) TblGastos.getModel();
         int fila = TblGastos.getSelectedRow();
         if (fila >= 0) {
             TxtDescripcionGasto.setText(TblGastos.getValueAt(fila, 0).toString());
@@ -1667,7 +1697,7 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
         if (Seleccion()) {
             TblCierreSucursales.setEnabled(true);
             gastos();
-//            habilitarCampos(false, true, true, false, false, true, false, true);
+            botonesInicio(false, true, false, false, true, false, true);
         }
         // BtnModificar.setVisible(oPermisos.validarPermiso("Guardar","Usuarios"));
         //</editor-fold>
@@ -1682,6 +1712,12 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
         }
         //</editor-fold>
     }//GEN-LAST:event_MnEliminarActionPerformed
+
+    private void TxtDescripcionGastoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TxtDescripcionGastoKeyTyped
+        if (!Character.isLetter(evt.getKeyChar()) && !(evt.getKeyChar() == KeyEvent.VK_BACK_SPACE)) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_TxtDescripcionGastoKeyTyped
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnAgregar;
@@ -1772,8 +1808,6 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
     }
     //</editor-fold>
 
-    
-
     //<editor-fold desc="VERIFICAR CAMPOS PAPA" defaultstate="collapsed">
     void vCamposPapa(JTextField Text, String Valor) {
         if (Text.getText() == null || Text.getText().equalsIgnoreCase("0") || Text.getText().equals("")) {
@@ -1816,7 +1850,7 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
 
             String Fecha = TblCierreSucursales.getValueAt(fila, 1).toString();
             String[] Fch = Fecha.split("-", 3);
-            LblFecha.setText(Fch[1] + "/" + Fch[2] + "/" + Fch[0]);
+            LblFecha.setText(Fch[2] + "/" + Fch[1] + "/" + Fch[0]);
 
             TxtNetoExistente.setText(TblCierreSucursales.getValueAt(fila, 3).toString());
             TxtTotalNeto.setText(TblCierreSucursales.getValueAt(fila, 4).toString());
@@ -1828,7 +1862,11 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
             TxtAlcancia.setText(TblCierreSucursales.getValueAt(fila, 10).toString());
             pintarResta();
 
-            mostrarGastos(TblCierreSucursales.getValueAt(fila, 0).toString());
+            mostrarGastos(TblCierreSucursales.getValueAt(fila, 0).toString());            
+            for (int i = 0; i < TblGastos.getRowCount(); i++) {
+                mapGastos.put(TblGastos.getValueAt(i, 0).toString().toUpperCase(),TblGastos.getValueAt(i, 0).toString().toUpperCase());
+            }
+            
             mostrarPlatosVendidos(TblCierreSucursales.getValueAt(fila, 0).toString());
 
             return true;

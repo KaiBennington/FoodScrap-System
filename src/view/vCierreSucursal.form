@@ -10,7 +10,7 @@
       <SubComponents>
         <MenuItem class="javax.swing.JMenuItem" name="MnModificar_Gasto">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Modificar Ingrediente"/>
+            <Property name="text" type="java.lang.String" value="Editar "/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MnModificar_GastoActionPerformed"/>
@@ -18,7 +18,7 @@
         </MenuItem>
         <MenuItem class="javax.swing.JMenuItem" name="MnEliminar_Gasto">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Quitar Ingrediente"/>
+            <Property name="text" type="java.lang.String" value="Quitar "/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MnEliminar_GastoActionPerformed"/>
@@ -438,6 +438,7 @@
                           </Properties>
                           <Events>
                             <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="TxtDescripcionGastoKeyReleased"/>
+                            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="TxtDescripcionGastoKeyTyped"/>
                           </Events>
                         </Component>
                         <Component class="javax.swing.JTextField" name="TxtValorGasto">

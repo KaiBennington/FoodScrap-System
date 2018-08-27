@@ -94,7 +94,7 @@ public class PlatosVendidosCAD extends ConexionDB{
         }
     }//Fin Metodo Modificar
 
-    public static boolean eliminar(ArrayList L) {
+    public static boolean eliminar(List L) {
         PreparedStatement pst;
         ResultSet rs = null;
         boolean respuesta = false;
