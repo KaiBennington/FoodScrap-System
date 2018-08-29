@@ -17,9 +17,9 @@ import java.util.List;
  *
  * @author USUARIO
  */
-public class GastosCAD extends ConexionDB{
-    
-        public static boolean guardar(List L) {
+public class GastosCAD extends ConexionDB {
+
+    public static boolean guardar(List L) {
         PreparedStatement pst;
         ResultSet rs = null;
         boolean respuesta = false;
@@ -64,7 +64,7 @@ public class GastosCAD extends ConexionDB{
         try {
             String Sql = "CALL ModificarGastos(?,?,?)";
             pst = getConexion().prepareStatement(Sql);
-            
+
             for (int i = 0; i < L.size(); i++) {
                 Gastos oGastos = (Gastos) L.get(i);
                 pst.setInt(1, oGastos.getIdFactura());
@@ -101,20 +101,20 @@ public class GastosCAD extends ConexionDB{
         try {
             String Sql = "CALL EliminarGastos(?,?)";
             pst = getConexion().prepareStatement(Sql);
-            
+
             for (int i = 0; i < L.size(); i++) {
                 Gastos oGastos = (Gastos) L.get(i);
                 pst.setInt(1, oGastos.getIdFactura());
                 pst.setString(2, oGastos.getDescripcion());
                 rs = pst.executeQuery();
             }
-
+            
             String resul = "";
             if (rs.next()) {
                 resul = rs.getString("Mensaje");
             }
 
-            if ("Gastos Eliminados".equalsIgnoreCase(resul)) {
+            if ("Gasto Eliminado".equalsIgnoreCase(resul)) {
                 Bandera.setSubRespuesta(resul);
                 respuesta = true;
             } else {

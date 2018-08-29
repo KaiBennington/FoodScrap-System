@@ -426,7 +426,7 @@ public class Validaciones {
     }
     //</editor-fold>
     
-    //<editor-fold desc="VALIDAR GASTOS" defaultstate="collapsed">
+    //<editor-fold desc="VALIDAR CIERRE SUCURSALES" defaultstate="collapsed">
     public Map validarCamposCierreSucursal(Map respuesta){
         
         CierreSucursal Cs = (CierreSucursal)respuesta.get("CierreSucursal");

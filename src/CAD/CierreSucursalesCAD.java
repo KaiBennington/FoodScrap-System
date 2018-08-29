@@ -145,4 +145,73 @@ public class CierreSucursalesCAD extends ConexionDB {
             return respuesta;
         }
     }//FIN Metodo Modificar
+
+    public static boolean eliminar(CierreSucursal Cs, ArrayList PlatosVendidos, List Gastos) {
+
+        boolean respuesta = false;
+        String RspEliminarCierre;
+
+        try {
+            boolean eliminarPlatosVendidos = PlatosVendidosCAD.eliminar(PlatosVendidos);
+            if (!eliminarPlatosVendidos) {
+                return false;
+            } else {
+                if (Gastos.size() > 0) {
+                    boolean eliminarGastos = GastosCAD.eliminar(Gastos);
+
+                    if (!eliminarGastos) {
+                        return false;
+                    }
+                }// End IF list Gastos.
+
+                boolean eliminarCierreSucursal = CierreSucursalesCAD.eliminarCierre(Cs);
+
+                if (!eliminarCierreSucursal) {
+                    return false;
+                }// End IF Bean Cierre
+                RspEliminarCierre = Bandera.getRespuesta();
+            }
+            respuesta = "Registro Cierre Sucursal Eliminado".equalsIgnoreCase(RspEliminarCierre);
+        } catch (Exception e) {
+            System.err.println("Error " + e);
+        } finally {
+            desconectar();
+            return respuesta;
+        }
+    }//Fin Metodo Eliminar
+
+    private static boolean eliminarCierre(CierreSucursal Cs) {
+
+        PreparedStatement pst;
+        ResultSet rs = null;
+        boolean respuesta = false;
+
+        try {
+            String Sql = "CALL EliminarCierreSucursal(?,?,?)";
+            pst = getConexion().prepareStatement(Sql);
+            pst.setInt(1, Cs.getNumFactura());
+            pst.setDate(2, Cs.getFechaFactura());
+            pst.setString(3, Cs.getSucursal());
+            rs = pst.executeQuery();
+
+            String resul = "";
+            if (rs.next()) {
+                resul = rs.getString("Mensaje");
+            }
+
+            if ("Registro Cierre Sucursal Eliminado".equalsIgnoreCase(resul)) {
+
+                Bandera.setRespuesta(resul);
+                respuesta = true;
+            } else {
+                Bandera.setRespuesta(resul);
+                respuesta = false;
+            }
+        } catch (SQLException e) {
+            System.err.println("Error " + e);
+        } finally {
+            desconectar();
+            return respuesta;
+        }
+    }
 }
