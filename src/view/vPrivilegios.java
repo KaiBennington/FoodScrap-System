@@ -8,7 +8,6 @@ package view;
 import CAD.PermisosCAD;
 import Config.Bandera;
 import Model.Permisos;
-import Model.TipoDocumento;
 import Model.Usuarios;
 import java.util.List;
 import javax.swing.JOptionPane;

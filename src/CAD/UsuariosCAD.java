@@ -6,6 +6,7 @@
 package CAD; 
 
 import Config.Bandera;
+import Model.Acceso;
 import Model.ConexionDB;
 import Model.Usuarios;
 import java.sql.PreparedStatement;
@@ -139,7 +140,7 @@ public class UsuariosCAD extends ConexionDB{
         }      
     }//Fin Metodo Eliminar
     
-    public static boolean acceder(Usuarios u){
+    public static boolean acceder(Acceso A){
         PreparedStatement pst;
         ResultSet rs = null;
         boolean respuesta = false;        
@@ -147,8 +148,8 @@ public class UsuariosCAD extends ConexionDB{
         try {
             String Sql = "CALL AccesoLogin(?,?)";
             pst = getConexion().prepareStatement(Sql);
-            pst.setString(1, u.getUsuario());
-            pst.setString(2, u.getContrasena());
+            pst.setString(1, A.getUsuario());
+            pst.setString(2, A.getContrasena());
             rs = pst.executeQuery();
             
             String resul = "";
@@ -158,11 +159,11 @@ public class UsuariosCAD extends ConexionDB{
             
             if("existe".equalsIgnoreCase(resul)){
                 respuesta = true;
-                Bandera.setNombre(rs.getString("Nombre"));
-                Bandera.setApellido(rs.getString("Apellidos")); 
-                Bandera.setUsuario(rs.getString("Usuario"));
-                Bandera.setNombreRol(rs.getString("Nombre_Rol"));
-                Bandera.setSiglasRol(rs.getString("Siglas_Rol"));
+                A.setNombre(rs.getString("Nombre"));
+                A.setApellido(rs.getString("Apellidos")); 
+                A.setUsuario(rs.getString("Usuario"));
+                A.setNomRoll(rs.getString("Nombre_Rol"));
+                A.setSiglasRoll(rs.getString("Siglas_Rol"));
             }
         } catch (SQLException e) {
             System.err.println("Error "+e);

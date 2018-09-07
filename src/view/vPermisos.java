@@ -7,10 +7,8 @@ package view;
 
 import java.awt.Component;
 import java.awt.Dimension;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
@@ -23,9 +21,7 @@ import static view.vPrincipal.Escritorio;
  */
 public class vPermisos extends javax.swing.JInternalFrame {
 
-    private static Map mapComponentes = new HashMap();
-    private static Map mapPermisos = new HashMap();
-
+    //<editor-fold desc="PROPIEDADES" defaultstate="collapsed"> 
     public Map getMapPermisos() {
         return mapPermisos;
     }
@@ -33,15 +29,58 @@ public class vPermisos extends javax.swing.JInternalFrame {
     public void setMapPermisos(Map mapPermisos) {
         vPermisos.mapPermisos = mapPermisos;
     }
-    
-    public vPermisos() {
+
+    public void clearMapPermisos() {
+        vPermisos.mapPermisos.clear();
+    }
+    //</editor-fold>
+
+    private static Map mapComponentes = new HashMap();
+    private static Map mapPermisos = new HashMap();
+    Map infoCampos = new HashMap();
+
+    public vPermisos(Map infoCampos, Map permisosOtorgados) {
         initComponents();
+        componenteTabPane();
+        this.infoCampos = infoCampos;
+        this.mapPermisos = permisosOtorgados;
+        verificarCamposRoles(mapPermisos);
+
+    }
+
+    //<editor-fold desc="MAP COMPONENTE TAB_PANE" defaultstate="collapsed"> 
+    public void componenteTabPane() {
         for (int i = 0; i < TabPanes.getComponents().length; i++) {
-            mapComponentes.put(TabPanes.getComponent(i).getName(),TabPanes.getComponent(i));
+            mapComponentes.put(TabPanes.getComponent(i).getName(), TabPanes.getComponent(i));
         }
         TabPanes.removeAll();
     }
+    //</editor-fold>
 
+    //<editor-fold desc="MAP VERIFICAR PERMISOS" defaultstate="collapsed"> 
+    public void verificarCamposRoles(Map mapPermisos) {
+
+        if (!mapPermisos.isEmpty()) {
+            Iterator entries = mapComponentes.entrySet().iterator();
+            while (entries.hasNext()) {
+                Map.Entry entry = (Map.Entry) entries.next();
+                JPanel oPanel = (JPanel) entry.getValue();
+                for (int i = 0; i < oPanel.getComponents().length; i++) {
+                    boolean isCheck = oPanel.getComponent(i).getClass() == JCheckBox.class;
+                    if (isCheck) {
+                        JCheckBox oCheck = (JCheckBox) oPanel.getComponent(i);
+                        if (mapPermisos.containsKey(oCheck.getName())) {
+                            oCheck.setSelected(true);
+                            //continue;
+                        }
+                        mapPermisos.put(oCheck.getName(), "S");
+                    }
+                }
+            }
+        }
+    }
+    //</editor-fold>
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -81,23 +120,6 @@ public class vPermisos extends javax.swing.JInternalFrame {
         jSeparator9 = new javax.swing.JSeparator();
         jSeparator10 = new javax.swing.JSeparator();
         jSeparator11 = new javax.swing.JSeparator();
-        TabPane_Consultar = new javax.swing.JPanel();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
-        Chk_ConsultarSucursales = new javax.swing.JCheckBox();
-        Chk_ConsultarProveedores = new javax.swing.JCheckBox();
-        Chk_ConsultarProductos = new javax.swing.JCheckBox();
-        Chk_ConsultarPlatos = new javax.swing.JCheckBox();
-        jLabel13 = new javax.swing.JLabel();
-        Chk_ConsultarUsuarios = new javax.swing.JCheckBox();
-        jLabel20 = new javax.swing.JLabel();
-        jSeparator2 = new javax.swing.JSeparator();
-        jSeparator3 = new javax.swing.JSeparator();
-        jSeparator4 = new javax.swing.JSeparator();
-        jSeparator5 = new javax.swing.JSeparator();
-        jSeparator6 = new javax.swing.JSeparator();
         TabPane_Configuracion = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
@@ -183,7 +205,7 @@ public class vPermisos extends javax.swing.JInternalFrame {
                     .addComponent(Chk_MiPerfil))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator18, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(229, Short.MAX_VALUE))
+                .addContainerGap(237, Short.MAX_VALUE))
         );
 
         TabPanes.addTab("Archivo", TabPane_Archivo);
@@ -197,7 +219,7 @@ public class vPermisos extends javax.swing.JInternalFrame {
         jLabel2.setText("Cierre de Sucursal :");
 
         Chk_CierreSucursal.setText("Habilitar");
-        Chk_CierreSucursal.setName("CierreSucursal"); // NOI18N
+        Chk_CierreSucursal.setName("CierreSucursales"); // NOI18N
 
         javax.swing.GroupLayout TabPane_MovimientosLayout = new javax.swing.GroupLayout(TabPane_Movimientos);
         TabPane_Movimientos.setLayout(TabPane_MovimientosLayout);
@@ -222,7 +244,7 @@ public class vPermisos extends javax.swing.JInternalFrame {
                     .addComponent(Chk_CierreSucursal))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator12, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(230, Short.MAX_VALUE))
+                .addContainerGap(238, Short.MAX_VALUE))
         );
 
         TabPanes.addTab("Movimientos", TabPane_Movimientos);
@@ -349,133 +371,6 @@ public class vPermisos extends javax.swing.JInternalFrame {
 
         TabPanes.addTab("Gestionar", TabPane_Gestionar);
 
-        TabPane_Consultar.setBackground(new java.awt.Color(255, 255, 255));
-        TabPane_Consultar.setName("Consultar"); // NOI18N
-
-        jLabel9.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
-        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Platos.png"))); // NOI18N
-        jLabel9.setText("Consultar Platos :");
-
-        jLabel10.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
-        jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Productos.png"))); // NOI18N
-        jLabel10.setText("Consultar Productos :");
-
-        jLabel11.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
-        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Proveedores.png"))); // NOI18N
-        jLabel11.setText("Consultar Proveedores :");
-
-        jLabel12.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
-        jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Sucursales.png"))); // NOI18N
-        jLabel12.setText("Consultar Sucursales :");
-
-        Chk_ConsultarSucursales.setText("Habilitar");
-        Chk_ConsultarSucursales.setName("ConsultarSucursales"); // NOI18N
-
-        Chk_ConsultarProveedores.setText("Habilitar");
-        Chk_ConsultarProveedores.setName("ConsultarProveedores"); // NOI18N
-
-        Chk_ConsultarProductos.setText("Habilitar");
-        Chk_ConsultarProductos.setName("ConsultarProductos"); // NOI18N
-
-        Chk_ConsultarPlatos.setText("Habilitar");
-        Chk_ConsultarPlatos.setName("ConsultarPlatos"); // NOI18N
-
-        jLabel13.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
-        jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Usuarios.png"))); // NOI18N
-        jLabel13.setText("Consultar Usuarios :");
-
-        Chk_ConsultarUsuarios.setText("Habilitar");
-        Chk_ConsultarUsuarios.setName("ConsultarUsuarios"); // NOI18N
-
-        jLabel20.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Informacion.png"))); // NOI18N
-        jLabel20.setToolTipText("Modulo en el que puede Consultar, Modificar o Eliminar \nDatos del sistema\n");
-
-        javax.swing.GroupLayout TabPane_ConsultarLayout = new javax.swing.GroupLayout(TabPane_Consultar);
-        TabPane_Consultar.setLayout(TabPane_ConsultarLayout);
-        TabPane_ConsultarLayout.setHorizontalGroup(
-            TabPane_ConsultarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, TabPane_ConsultarLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(TabPane_ConsultarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jSeparator6, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSeparator2)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, TabPane_ConsultarLayout.createSequentialGroup()
-                        .addComponent(jLabel9)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(Chk_ConsultarPlatos))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, TabPane_ConsultarLayout.createSequentialGroup()
-                        .addGroup(TabPane_ConsultarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jSeparator5, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jSeparator4, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jSeparator3, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(TabPane_ConsultarLayout.createSequentialGroup()
-                                .addComponent(jLabel12)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(Chk_ConsultarSucursales))
-                            .addGroup(TabPane_ConsultarLayout.createSequentialGroup()
-                                .addComponent(jLabel11)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(Chk_ConsultarProveedores))
-                            .addGroup(TabPane_ConsultarLayout.createSequentialGroup()
-                                .addComponent(jLabel10)
-                                .addGap(67, 67, 67)
-                                .addComponent(Chk_ConsultarProductos)))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(TabPane_ConsultarLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(TabPane_ConsultarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel20)
-                            .addGroup(TabPane_ConsultarLayout.createSequentialGroup()
-                                .addComponent(jLabel13)
-                                .addGap(73, 73, 73)
-                                .addComponent(Chk_ConsultarUsuarios)))))
-                .addGap(91, 91, 91))
-        );
-        TabPane_ConsultarLayout.setVerticalGroup(
-            TabPane_ConsultarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(TabPane_ConsultarLayout.createSequentialGroup()
-                .addGap(27, 27, 27)
-                .addGroup(TabPane_ConsultarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel9)
-                    .addComponent(Chk_ConsultarPlatos))
-                .addGap(3, 3, 3)
-                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(5, 5, 5)
-                .addGroup(TabPane_ConsultarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel10)
-                    .addComponent(Chk_ConsultarProductos))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(4, 4, 4)
-                .addGroup(TabPane_ConsultarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel11)
-                    .addComponent(Chk_ConsultarProveedores))
-                .addGap(3, 3, 3)
-                .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(5, 5, 5)
-                .addGroup(TabPane_ConsultarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel12)
-                    .addComponent(Chk_ConsultarSucursales))
-                .addGap(1, 1, 1)
-                .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(7, 7, 7)
-                .addGroup(TabPane_ConsultarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel13)
-                    .addComponent(Chk_ConsultarUsuarios))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSeparator6, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel20)
-                .addContainerGap())
-        );
-
-        TabPanes.addTab("Consular", TabPane_Consultar);
-
         TabPane_Configuracion.setBackground(new java.awt.Color(255, 255, 255));
         TabPane_Configuracion.setName("Configuración"); // NOI18N
 
@@ -509,7 +404,7 @@ public class vPermisos extends javax.swing.JInternalFrame {
         Chk_UndMedidas.setName("UnidadMedidas"); // NOI18N
 
         Chk_TipoDocumento.setText("Habilitar");
-        Chk_TipoDocumento.setName("TipoDocumento"); // NOI18N
+        Chk_TipoDocumento.setName("TipoDocumentos"); // NOI18N
 
         jLabel21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Informacion.png"))); // NOI18N
         jLabel21.setToolTipText("Modulo en el que puede Configurar Datos del sistema\n");
@@ -585,7 +480,7 @@ public class vPermisos extends javax.swing.JInternalFrame {
 
         CbxMenus.setFont(new java.awt.Font("Agency FB", 0, 14)); // NOI18N
         CbxMenus.setForeground(new java.awt.Color(255, 0, 0));
-        CbxMenus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione...", "Archivo", "Movimientos", "Gestionar", "Consultar", "Configuración" }));
+        CbxMenus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione...", "Archivo", "Movimientos", "Gestionar", "Configuración" }));
         CbxMenus.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 CbxMenusItemStateChanged(evt);
@@ -678,29 +573,57 @@ public class vPermisos extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_formInternalFrameClosing
 
     private void BtnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAceptarActionPerformed
-         
         mapPermisos.clear();
         Iterator entries = mapComponentes.entrySet().iterator();
         while (entries.hasNext()) {
             Map.Entry entry = (Map.Entry) entries.next();
-            JPanel oPanel = (JPanel)entry.getValue();
+            JPanel oPanel = (JPanel) entry.getValue();
             for (int i = 0; i < oPanel.getComponents().length; i++) {
                 boolean isCheck = oPanel.getComponent(i).getClass() == JCheckBox.class;
-                if(isCheck){
+                if (isCheck) {
                     JCheckBox oCheck = (JCheckBox) oPanel.getComponent(i);
-                    if(!oCheck.isSelected()){
+                    if (!oCheck.isSelected()) {
                         continue;
                     }
                     mapPermisos.put(oCheck.getName(), "S");
                 }
             }
         }
-         this.dispose();
+        vRoles vR = new vRoles();
+        if (!vPrincipal.ventana.equalsIgnoreCase("Roles")) {
+            vPrincipal.ventana = "Roles";
+
+            Escritorio.add(vR);
+            Dimension desktopSize = Escritorio.getSize();
+            Dimension FrameSize = vR.getSize();
+            vR.setLocation((desktopSize.width - FrameSize.width) / 2, (desktopSize.height - FrameSize.height) / 2);
+
+            vR.infoCampos.clear();
+            vR.infoCampos.put("CamposRoles", this.infoCampos);
+
+            String Id = infoCampos.get("Id").toString();
+            String Nombre = infoCampos.get("Nombre").toString();
+            String Siglas = infoCampos.get("Siglas").toString();
+
+            vR.Lbl_Id.setText(Id);
+            vR.TxtNombre.setText(Nombre);
+            vR.TxtSiglas.setText(Siglas);
+            ///
+            vR.PermisosOtorgados = mapPermisos;
+            vR.LblPermisos.setText(Integer.toString(mapPermisos.size()));
+            ///
+            vR.botonesInicio(false, true, true, true, false, true, false, false, true, true);
+            vR.show();
+            this.dispose();
+        } else {
+            JOptionPane.showMessageDialog(null, "LA VENTANA 'Roles' YA SE ENCUENTRA ABIERTA");
+
+        }
     }//GEN-LAST:event_BtnAceptarActionPerformed
 
     private void CbxMenusItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_CbxMenusItemStateChanged
         TabPanes.removeAll();
-        TabPanes.add((Component)mapComponentes.get(CbxMenus.getSelectedItem()));
+        TabPanes.add((Component) mapComponentes.get(CbxMenus.getSelectedItem()));
     }//GEN-LAST:event_CbxMenusItemStateChanged
 
 
@@ -709,11 +632,6 @@ public class vPermisos extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox<String> CbxMenus;
     private javax.swing.JCheckBox Chk_Categorias;
     private javax.swing.JCheckBox Chk_CierreSucursal;
-    private javax.swing.JCheckBox Chk_ConsultarPlatos;
-    private javax.swing.JCheckBox Chk_ConsultarProductos;
-    private javax.swing.JCheckBox Chk_ConsultarProveedores;
-    private javax.swing.JCheckBox Chk_ConsultarSucursales;
-    private javax.swing.JCheckBox Chk_ConsultarUsuarios;
     private javax.swing.JCheckBox Chk_MiPerfil;
     private javax.swing.JCheckBox Chk_Platos;
     private javax.swing.JCheckBox Chk_Productos;
@@ -725,15 +643,10 @@ public class vPermisos extends javax.swing.JInternalFrame {
     private javax.swing.JCheckBox Chk_Usuarios;
     private javax.swing.JPanel TabPane_Archivo;
     private javax.swing.JPanel TabPane_Configuracion;
-    private javax.swing.JPanel TabPane_Consultar;
     private javax.swing.JPanel TabPane_Gestionar;
     private javax.swing.JPanel TabPane_Movimientos;
     private javax.swing.JTabbedPane TabPanes;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
@@ -741,7 +654,6 @@ public class vPermisos extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -749,7 +661,6 @@ public class vPermisos extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JSeparator jSeparator1;
@@ -762,11 +673,6 @@ public class vPermisos extends javax.swing.JInternalFrame {
     private javax.swing.JSeparator jSeparator16;
     private javax.swing.JSeparator jSeparator17;
     private javax.swing.JSeparator jSeparator18;
-    private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JSeparator jSeparator3;
-    private javax.swing.JSeparator jSeparator4;
-    private javax.swing.JSeparator jSeparator5;
-    private javax.swing.JSeparator jSeparator6;
     private javax.swing.JSeparator jSeparator7;
     private javax.swing.JSeparator jSeparator8;
     private javax.swing.JSeparator jSeparator9;

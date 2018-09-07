@@ -6,7 +6,10 @@
 package view;
 
 import CAD.UsuariosCAD;
-import Model.Usuarios;
+import Config.Validaciones;
+import Model.Acceso;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.*;
 import javax.swing.JOptionPane;
 
@@ -26,7 +29,7 @@ public class vAcceso extends javax.swing.JFrame {
         setTitle("Ventana de acceso");
         LblMensajeNo.setText("");
         PBCargar.setVisible(false);
-        
+
     }
 
     /**
@@ -198,30 +201,32 @@ public class vAcceso extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void LblOlvidoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LblOlvidoMouseClicked
-        int Info= JOptionPane.showConfirmDialog(null,"¿Haz Olvidado tu contraseña?","Información",JOptionPane.YES_NO_OPTION);
+        int Info = JOptionPane.showConfirmDialog(null, "¿Haz Olvidado tu contraseña?", "Información", JOptionPane.YES_NO_OPTION);
 
-        if (Info==0) {
-            vRecuperacionC vr=new vRecuperacionC();
+        if (Info == 0) {
+            vRecuperacionC vr = new vRecuperacionC();
             vr.setLocationRelativeTo(null);
             vr.setVisible(true);
             this.dispose();
-        }else{}
+        } else {
+        }
     }//GEN-LAST:event_LblOlvidoMouseClicked
 
     private void BtnAccederActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAccederActionPerformed
         // Boton de acceso
-      Acceso();
+        Acceso();
+
     }//GEN-LAST:event_BtnAccederActionPerformed
 
     private void TxtContrasenaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TxtContrasenaKeyPressed
-        if(evt.getKeyCode()==10){            
-                Acceso();            
+        if (evt.getKeyCode() == 10) {
+            Acceso();
         }
     }//GEN-LAST:event_TxtContrasenaKeyPressed
 
     private void TxtUsuarioKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TxtUsuarioKeyPressed
-        if(evt.getKeyCode()==10){            
-                TxtContrasena.requestFocus();
+        if (evt.getKeyCode() == 10) {
+            TxtContrasena.requestFocus();
         }
     }//GEN-LAST:event_TxtUsuarioKeyPressed
 
@@ -281,30 +286,44 @@ public class vAcceso extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     // End of variables declaration//GEN-END:variables
 
-    public void Acceso(){
+    public void Acceso() {
         try {
-            Usuarios su=new Usuarios();
-            su.setUsuario(TxtUsuario.getText());
-            su.setContrasena(TxtContrasena.getText());
-            
-            boolean acceso = UsuariosCAD.acceder(su);
-            
-            if(!acceso){
-                LblMensajeNo.setText("Acceso Denegado");
-                TxtUsuario.requestFocus();
-                TxtContrasena.setText("");
-                PBCargar.setVisible(false);
-            }else{
-                
-                //PBCargar :: poner a cargar la barra de progreso ! FALTA
-                LblMensajeNo.setText("");
-                new vPrincipal().setVisible(true);                
-                this.dispose();//descanse
+            Map rsp = new HashMap();
+            Acceso Ac = new Acceso();
+
+            Ac.setUsuario(TxtUsuario.getText());
+            Ac.setContrasena(TxtContrasena.getText());
+
+            rsp.put("Acceso", Ac);
+
+            Validaciones V = new Validaciones();
+            V.validarCamposAcceso(rsp);
+
+            if (rsp.containsKey("Mensaje")) {
+                JOptionPane.showMessageDialog(null, rsp.get("Mensaje"));
+            } else {
+
+                boolean acceso = UsuariosCAD.acceder(Ac);
+
+                if (!acceso) {
+                    LblMensajeNo.setText("Acceso Denegado");
+                    TxtUsuario.requestFocus();
+                    TxtUsuario.selectAll();
+                    TxtContrasena.setText("");
+                    PBCargar.setVisible(false);
+                } else {
+
+                    //PBCargar :: poner a cargar la barra de progreso ! FALTA
+                    LblMensajeNo.setText("");
+                    vPrincipal vP = new vPrincipal(Ac);
+                    vP.setVisible(true);
+                    this.dispose();//descanse
+                }
             }
         } catch (Exception e) {
-            
+
             LblMensajeNo.setText("Acceso Denegado");
         }
-            
+
     }//Fin metodo Acceso
 }

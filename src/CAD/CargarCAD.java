@@ -6,8 +6,10 @@
 package CAD;
 
 import Config.Bandera;
+import Model.Acceso;
 import Model.Categorias;
 import Model.ConexionDB;
+import Model.Permisos;
 //import static Model.ConexionDB.getConexion;
 import Model.Platos;
 import Model.PlatosVendidos;
@@ -24,6 +26,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -60,7 +63,7 @@ public class CargarCAD extends ConexionDB {
         return Lista;
     }// FIN Metodo Cargar Tipo documento
     //</editor-fold>
-    
+
     //<editor-fold desc="CARGAR UNIDAD DE MEDIDA" defaultstate="collapsed">
     public ArrayList CargarUndMedida() {
         //Combo Unidad de Medida
@@ -90,7 +93,7 @@ public class CargarCAD extends ConexionDB {
         return Lista;
     }// FIN Metodo Cargar Unidad de Medida
     //</editor-fold>
-    
+
     //<editor-fold desc="CARGAR CATEGORIAS" defaultstate="collapsed">
     public ArrayList CargarCategoria() {
         //Combo Categorias
@@ -107,7 +110,7 @@ public class CargarCAD extends ConexionDB {
                 String Nombre;
                 int Codigo;
                 Codigo = (rs.getInt(1));
-                Nombre = (rs.getString(2));                
+                Nombre = (rs.getString(2));
 
                 Categorias Ct = new Categorias("" + Codigo, Nombre);
                 Lista.add(Ct);
@@ -119,7 +122,7 @@ public class CargarCAD extends ConexionDB {
         return Lista;
     }// FIN Metodo Cargar Categorias
     //</editor-fold>
-    
+
     //<editor-fold desc="CARGAR PROVEEDORES" defaultstate="collapsed">
     public ArrayList CargarProveedor() {
         //Combo Proveedores
@@ -136,8 +139,8 @@ public class CargarCAD extends ConexionDB {
                 String Nombre, RazonSocial;
                 int Codigo;
                 Codigo = (rs.getInt(1));
-                Nombre = (rs.getString(2));                
-                RazonSocial = (rs.getString(3));                
+                Nombre = (rs.getString(2));
+                RazonSocial = (rs.getString(3));
 
                 Proveedores Pr = new Proveedores("" + Codigo, Nombre, RazonSocial);
                 Lista.add(Pr);
@@ -149,7 +152,7 @@ public class CargarCAD extends ConexionDB {
         return Lista;
     }// FIN Metodo Cargar Proveedores
     //</editor-fold>
-    
+
     //<editor-fold desc="CARGAR INGREDIENTES" defaultstate="collapsed">
     public ArrayList CargarIngrediente() {
         //Combo Ingredientes
@@ -166,7 +169,7 @@ public class CargarCAD extends ConexionDB {
                 String Nombre;
                 int Codigo;
                 Codigo = (rs.getInt(1));
-                Nombre = (rs.getString(2));              
+                Nombre = (rs.getString(2));
 
                 Productos Pr = new Productos("" + Codigo, Nombre);
                 Lista.add(Pr);
@@ -178,7 +181,7 @@ public class CargarCAD extends ConexionDB {
         return Lista;
     }// FIN Metodo Cargar Ingredientes
     //</editor-fold>
-    
+
     //<editor-fold desc="CARGAR PLATOS" defaultstate="collapsed">
     public ArrayList CargarPlatos() {
         //Jtab Platos
@@ -192,10 +195,10 @@ public class CargarCAD extends ConexionDB {
             rs = pst.executeQuery();
 
             while (rs.next()) {
-                String Codigo,Nombre, Seccion;
+                String Codigo, Nombre, Seccion;
                 double Valor;
                 Codigo = (rs.getString("Codigo"));
-                Nombre = (rs.getString("Nombre"));              
+                Nombre = (rs.getString("Nombre"));
                 Valor = (rs.getDouble("Valor"));
                 Seccion = (rs.getString("IdSeccion"));
 
@@ -204,7 +207,7 @@ public class CargarCAD extends ConexionDB {
                 Pl.setNombre(Nombre);
                 Pl.setValor(Valor);
                 Pl.setSeccion(Seccion);
-                
+
                 Lista.add(Pl);
             }
             return Lista;
@@ -213,9 +216,9 @@ public class CargarCAD extends ConexionDB {
         return Lista;
     }// FIN Metodo Cargar Platos
     //</editor-fold>
-    
+
     //<editor-fold desc="CARGAR SECCIONES" defaultstate="collapsed">
-        public ArrayList CargarSeccion() {
+    public ArrayList CargarSeccion() {
         //Combo Secciones
         PreparedStatement pst;
         ResultSet rs = null;
@@ -230,7 +233,7 @@ public class CargarCAD extends ConexionDB {
                 String Nombre;
                 int Codigo;
                 Codigo = (rs.getInt(1));
-                Nombre = (rs.getString(2));              
+                Nombre = (rs.getString(2));
 
                 Secciones Sc = new Secciones("" + Codigo, Nombre);
                 Lista.add(Sc);
@@ -272,7 +275,7 @@ public class CargarCAD extends ConexionDB {
         return Lista;
     }// FIN Metodo Cargar Sucursales
     //</editor-fold>
-    
+
     //<editor-fold desc="CARGAR DETALLES PLATOS V" defaultstate="collapsed">
     public ArrayList CargarPlatosVendidos(String Valor) {
         //Lista Detalles Platos
@@ -281,7 +284,7 @@ public class CargarCAD extends ConexionDB {
         ArrayList Lista = new ArrayList();
         try {
 
-            String Sql = "CALL CargarPlatosVendidos(?);";            
+            String Sql = "CALL CargarPlatosVendidos(?);";
             pst = getConexion().prepareStatement(Sql);
             pst.setString(1, Valor);
             rs = pst.executeQuery();
@@ -497,6 +500,36 @@ public class CargarCAD extends ConexionDB {
         }
         desconectar();
         return CI;
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="CARGAR PERMISOS" defaultstate="collapsed">
+    public List cargarPermisos(Acceso Ac) {
+        PreparedStatement pst;
+        ResultSet rs = null;
+        List ListaPermisos = new ArrayList();
+
+        try {
+            String Sql = "select Nombre_Permiso, Codigo_Permiso from permisos where Id_Roll = (Select Id_Roll from Roles where Nombre = ?);";
+            pst = getConexion().prepareStatement(Sql);
+            pst.setString(1, Ac.getNomRoll());
+            rs = pst.executeQuery();
+
+            while (rs.next()) {
+                String Permiso, Codigo;
+
+                Permiso = (rs.getString(1));
+                Codigo = (rs.getString(2));
+
+                Permisos Pm = new Permisos(Codigo, Permiso);
+                ListaPermisos.add(Pm);
+
+            }
+
+        } catch (SQLException ex) {
+        }
+        desconectar();
+        return ListaPermisos;
     }
     //</editor-fold>
 }

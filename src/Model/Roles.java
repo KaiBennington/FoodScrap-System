@@ -14,12 +14,20 @@ public class Roles {
     private int IdRol;
     private String Nombre;
     private String Siglas;
+    private int PermisosMod;
 
     public Roles(int IdRol, String Nombre, String Siglas) {
         this.IdRol = IdRol;
         this.Nombre = Nombre;
         this.Siglas = Siglas;
     }
+
+    public Roles(int IdRol, String Nombre, String Siglas, int PermisosMod) {
+        this.IdRol = IdRol;
+        this.Nombre = Nombre;
+        this.Siglas = Siglas;
+        this.PermisosMod = PermisosMod;
+    }    
 
     public Roles() {
     }
@@ -47,6 +55,13 @@ public class Roles {
     public void setSiglas(String Siglas) {
         this.Siglas = Siglas;
     }
-    
+
+    public int getPermisosMod() {
+        return PermisosMod;
+    }
+
+    public void setPermisosMod(int PermisosMod) {
+        this.PermisosMod = PermisosMod;
+    }    
     
 }

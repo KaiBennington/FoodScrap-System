@@ -5,7 +5,9 @@
  */
 package view;
 
-import Config.Bandera;
+import CAD.CargarCAD;
+import Model.Acceso;
+import Model.Permisos;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -14,10 +16,16 @@ import java.awt.Insets;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.border.Border;
 
@@ -30,44 +38,73 @@ public class vPrincipal extends javax.swing.JFrame {
     /**
      * Creates new form vPrincipal
      */
-    static String ventana="";
-    public vPrincipal() {
+    static String ventana = "";
+    Map mapListaPermisos = new HashMap();
+    Acceso Ac;
+//    List R;
+
+    public vPrincipal(Acceso Ac) {
         initComponents();
+        this.Ac = Ac;
+        cargarDatos(Ac);
+        cargarPermisos(Ac);
+//        recorrerMenu(jMenuBar1.getSubElements());
+    }
+
+    //<editor-fold desc="IMAGEN DE FONDO" defaultstate="collapsed"> 
+    public class ImagenFondo implements Border {
+
+        BufferedImage fondo;
+
+        public ImagenFondo() {
+            try {
+                //se obtiene la imagen            
+                URL url = new URL(getClass().getResource("/img/Titles/Fondo_LogoFood2.png").toString());
+                fondo = ImageIO.read(url);
+
+            } catch (IOException ex) {
+                Logger.getLogger(ImagenFondo.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        // se sobreescriben metodos propios de Border
+
+        public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
+            //se dibuja la imagen de fondo en el centro del contenedor
+            //cada que se redimensione el contenedor, la imagen automaticamente se posiciona en el centro
+            g.drawImage(fondo, (x + (width - fondo.getWidth()) / 2), (y + (height - fondo.getHeight()) / 2), null);
+        }
+
+        public Insets getBorderInsets(Component c) {
+            return new Insets(0, 0, 0, 0);
+        }
+
+        public boolean isBorderOpaque() {
+            return true;
+        }
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="CARGAR DATOS" defaultstate="collapsed"> 
+    void cargarDatos(Acceso Ac) {
         Escritorio.setBorder(new ImagenFondo());
         setIconImage(new ImageIcon(getClass().getResource("/img/Titles/IconoLogo.png")).getImage());
         setExtendedState(MAXIMIZED_BOTH);
-        LblNombre.setText("Usuario Actual : "+ Bandera.getNombre() + " " + Bandera.getApellido());
+        LblNombre.setText("Usuario Actual : " + Ac.getNombre() + " " + Ac.getApellido());
         LblNombre.setForeground(Color.BLACK);
-        LblRoll.setText(Bandera.getNombreRol() + " ( " + Bandera.getSiglasRol()+" )");
-//        recorrerMenu(jMenuBar1.getSubElements());
-                
+        LblRoll.setText(Ac.getNomRoll() + " ( " + Ac.getSiglasRoll() + " )");
     }
-    
-    public class ImagenFondo implements Border {    
-    BufferedImage fondo;
-    public ImagenFondo(){    
-        try {       
-            //se obtiene la imagen            
-            URL url = new URL(getClass().getResource("/img/Titles/Fondo_LogoFood2.png").toString());
-            fondo = ImageIO.read(url);    
-            
-        } catch (IOException ex) {
-            Logger.getLogger(ImagenFondo.class.getName()).log(Level.SEVERE, null, ex);
-        }      
+    //</editor-fold>
+
+    //<editor-fold desc="CARGAR ID" defaultstate="collapsed">
+    void cargarPermisos(Acceso Ac) {
+        //Cargar Permisos
+        CargarCAD oCargarCAD = new CargarCAD();
+        List R = oCargarCAD.cargarPermisos(Ac);
+        if (!R.isEmpty()) {
+            PermisosUsuario(R, Ac);
+        }
     }
-    // se sobreescriben metodos propios de Border
-    public void paintBorder(Component c, Graphics g, int x, int y, int width, int height){     
-        //se dibuja la imagen de fondo en el centro del contenedor
-        //cada que se redimensione el contenedor, la imagen automaticamente se posiciona en el centro
-        g.drawImage(fondo, (x + (width - fondo.getWidth())/2),(y + (height - fondo.getHeight())/2), null);
-    }
-    public Insets getBorderInsets(Component c){
-    return new Insets(0,0,0,0);
-    }
-    public boolean isBorderOpaque(){
-    return true;
-    }
-}
+    //</editor-fold>
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -82,23 +119,21 @@ public class vPrincipal extends javax.swing.JFrame {
         LblRoll = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         Escritorio = new javax.swing.JDesktopPane();
-        jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        MnPrincipal = new javax.swing.JMenuBar();
+        MnArchivo = new javax.swing.JMenu();
+        MiPerfil = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
+        MnMovimientos = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
-        jMenu3 = new javax.swing.JMenu();
+        MnGestiones = new javax.swing.JMenu();
         jMenuItem7 = new javax.swing.JMenuItem();
         jMenuItem8 = new javax.swing.JMenuItem();
         jMenuItem10 = new javax.swing.JMenuItem();
         jMenuItem9 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
-        jMenu4 = new javax.swing.JMenu();
-        jMenuItem13 = new javax.swing.JMenuItem();
-        jMenu5 = new javax.swing.JMenu();
+        MnConfiguracion = new javax.swing.JMenu();
         jMenuItem15 = new javax.swing.JMenuItem();
         jMenuItem16 = new javax.swing.JMenuItem();
         jMenuItem17 = new javax.swing.JMenuItem();
@@ -106,6 +141,7 @@ public class vPrincipal extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("FoodScrap System V1.0 (easy order)");
+        setName("VistaPrincipal"); // NOI18N
 
         LblNombre.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         LblNombre.setText("Nombre");
@@ -139,161 +175,170 @@ public class vPrincipal extends javax.swing.JFrame {
             .addComponent(Escritorio, javax.swing.GroupLayout.Alignment.TRAILING)
         );
 
-        jMenuBar1.setBackground(new java.awt.Color(255, 255, 255));
+        MnPrincipal.setBackground(new java.awt.Color(255, 255, 255));
+        MnPrincipal.setName("Menu Principal"); // NOI18N
 
-        jMenu1.setText("Archivo");
-        jMenu1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jMenu1.addMouseListener(new java.awt.event.MouseAdapter() {
+        MnArchivo.setText("Archivo");
+        MnArchivo.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        MnArchivo.setName("Archivo"); // NOI18N
+        MnArchivo.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
-                jMenu1MouseReleased(evt);
+                MnArchivoMouseReleased(evt);
             }
         });
 
-        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Perfil.png"))); // NOI18N
-        jMenuItem1.setText("Mi Perfil");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        MiPerfil.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Perfil.png"))); // NOI18N
+        MiPerfil.setText("Mi Perfil");
+        MiPerfil.setName("MiPerfil"); // NOI18N
+        MiPerfil.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                MiPerfilActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem1);
-        jMenu1.add(jSeparator1);
+        MnArchivo.add(MiPerfil);
+        MnArchivo.add(jSeparator1);
 
         jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/arrow-top-left-24.png"))); // NOI18N
         jMenuItem2.setText("Cerrar Sesion");
+        jMenuItem2.setName("CerrarSesion"); // NOI18N
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem2ActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem2);
+        MnArchivo.add(jMenuItem2);
 
         jMenuItem3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/reply-24.png"))); // NOI18N
         jMenuItem3.setText("Salir");
+        jMenuItem3.setName("Salir"); // NOI18N
         jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem3ActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem3);
+        MnArchivo.add(jMenuItem3);
 
-        jMenuBar1.add(jMenu1);
+        MnPrincipal.add(MnArchivo);
 
-        jMenu2.setText("Movimientos");
-        jMenu2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        MnMovimientos.setText("Movimientos");
+        MnMovimientos.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        MnMovimientos.setName("Movimientos"); // NOI18N
 
         jMenuItem4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Cierre.png"))); // NOI18N
         jMenuItem4.setText("Cierre Sucursales");
+        jMenuItem4.setName("CierreSucursales"); // NOI18N
         jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem4ActionPerformed(evt);
             }
         });
-        jMenu2.add(jMenuItem4);
+        MnMovimientos.add(jMenuItem4);
 
-        jMenuBar1.add(jMenu2);
+        MnPrincipal.add(MnMovimientos);
 
-        jMenu3.setText("Gestiones");
-        jMenu3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        MnGestiones.setText("Gestiones");
+        MnGestiones.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        MnGestiones.setName("Gestiones"); // NOI18N
 
         jMenuItem7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Platos.png"))); // NOI18N
         jMenuItem7.setText("Platos");
+        jMenuItem7.setName("Platos"); // NOI18N
         jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem7ActionPerformed(evt);
             }
         });
-        jMenu3.add(jMenuItem7);
+        MnGestiones.add(jMenuItem7);
 
         jMenuItem8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Productos.png"))); // NOI18N
         jMenuItem8.setText("Productos");
+        jMenuItem8.setName("Productos"); // NOI18N
         jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem8ActionPerformed(evt);
             }
         });
-        jMenu3.add(jMenuItem8);
+        MnGestiones.add(jMenuItem8);
 
         jMenuItem10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Proveedores.png"))); // NOI18N
         jMenuItem10.setText("Proveedores");
+        jMenuItem10.setName("Proveedores"); // NOI18N
         jMenuItem10.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem10ActionPerformed(evt);
             }
         });
-        jMenu3.add(jMenuItem10);
+        MnGestiones.add(jMenuItem10);
 
         jMenuItem9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Sucursales.png"))); // NOI18N
         jMenuItem9.setText("Sucursales");
+        jMenuItem9.setName("Sucursales"); // NOI18N
         jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem9ActionPerformed(evt);
             }
         });
-        jMenu3.add(jMenuItem9);
+        MnGestiones.add(jMenuItem9);
 
         jMenuItem5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Usuarios.png"))); // NOI18N
         jMenuItem5.setText("Usuarios");
+        jMenuItem5.setName("Usuarios"); // NOI18N
         jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem5ActionPerformed(evt);
             }
         });
-        jMenu3.add(jMenuItem5);
+        MnGestiones.add(jMenuItem5);
 
-        jMenuBar1.add(jMenu3);
+        MnPrincipal.add(MnGestiones);
 
-        jMenu4.setText("Consultas");
-        jMenu4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-
-        jMenuItem13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Platos.png"))); // NOI18N
-        jMenuItem13.setText("Consultar Platos");
-        jMenu4.add(jMenuItem13);
-
-        jMenuBar1.add(jMenu4);
-
-        jMenu5.setText("Configuración");
-        jMenu5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        MnConfiguracion.setText("Configuración");
+        MnConfiguracion.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        MnConfiguracion.setName("Configuracion"); // NOI18N
 
         jMenuItem15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/TipoDocumento.png"))); // NOI18N
         jMenuItem15.setText("Tipo Documentos");
+        jMenuItem15.setName("TipoDocumentos"); // NOI18N
         jMenuItem15.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem15ActionPerformed(evt);
             }
         });
-        jMenu5.add(jMenuItem15);
+        MnConfiguracion.add(jMenuItem15);
 
         jMenuItem16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Balanza2.png"))); // NOI18N
         jMenuItem16.setText("Unidad de Medidas");
+        jMenuItem16.setName("UnidadMedidas"); // NOI18N
         jMenuItem16.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem16ActionPerformed(evt);
             }
         });
-        jMenu5.add(jMenuItem16);
+        MnConfiguracion.add(jMenuItem16);
 
         jMenuItem17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Categorias.png"))); // NOI18N
         jMenuItem17.setText("Categorias");
+        jMenuItem17.setName("Categorias"); // NOI18N
         jMenuItem17.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem17ActionPerformed(evt);
             }
         });
-        jMenu5.add(jMenuItem17);
+        MnConfiguracion.add(jMenuItem17);
 
         jMenuItem18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Roles.png"))); // NOI18N
         jMenuItem18.setText("Roles");
+        jMenuItem18.setName("Roles"); // NOI18N
         jMenuItem18.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem18ActionPerformed(evt);
             }
         });
-        jMenu5.add(jMenuItem18);
+        MnConfiguracion.add(jMenuItem18);
 
-        jMenuBar1.add(jMenu5);
+        MnPrincipal.add(MnConfiguracion);
 
-        setJMenuBar(jMenuBar1);
+        setJMenuBar(MnPrincipal);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -323,104 +368,97 @@ public class vPrincipal extends javax.swing.JFrame {
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         //<editor-fold desc="CERRAR SESION" defaultstate="collapsed">
-        int Cs= JOptionPane.showConfirmDialog(null,"Desea Cerrar sesion ?","Cierre de sesion",JOptionPane.YES_NO_OPTION);
-           if (Cs== 0) {
-               vAcceso vA;
-              vA = new view.vAcceso();
-               vA.setVisible(true);
-               this.dispose();
-           }else{}
+        int Cs = JOptionPane.showConfirmDialog(null, "Desea Cerrar sesion ?", "Cierre de sesion", JOptionPane.YES_NO_OPTION);
+        if (Cs == 0) {
+            vAcceso vA;
+            vA = new view.vAcceso();
+            vA.setVisible(true);
+            this.dispose();
+        } else {
+        }
         //</editor-fold>
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         //<editor-fold desc="SALIR" defaultstate="collapsed">
-        int Alerta = JOptionPane.showConfirmDialog(this,"Desea salir de Sistema ?","Salir",JOptionPane.YES_NO_OPTION);
+        int Alerta = JOptionPane.showConfirmDialog(this, "Desea salir de Sistema ?", "Salir", JOptionPane.YES_NO_OPTION);
 
-           if (Alerta==0) {
-               System.exit(0);
-           }
+        if (Alerta == 0) {
+            System.exit(0);
+        }
         //</editor-fold>
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+    private void MiPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MiPerfilActionPerformed
         //<editor-fold desc="VER PERFIL" defaultstate="collapsed">
         // Item Perfil
-         vPerfil vP = new vPerfil();
-         if (!ventana.equalsIgnoreCase("Mi Perfil") && !ventana.equalsIgnoreCase("Cambio Contra")) {
-            ventana="Mi Perfil";
-            
+        vPerfil vP = new vPerfil(Ac);
+        if (!ventana.equalsIgnoreCase("Mi Perfil") && !ventana.equalsIgnoreCase("Cambio Contra")) {
+            ventana = "Mi Perfil";
+
             Escritorio.add(vP);
             Dimension desktopSize = Escritorio.getSize();
             Dimension FrameSize = vP.getSize();
-            vP.setLocation((desktopSize.width - FrameSize.width)/2, (desktopSize.height- FrameSize.height)/2);
-            vP.show();             
-        }
-        else
-        {
-        JOptionPane.showMessageDialog(null,"LA VENTANA YA SE ENCUENTRA ABIERTA");
-        
+            vP.setLocation((desktopSize.width - FrameSize.width) / 2, (desktopSize.height - FrameSize.height) / 2);
+            vP.show();
+        } else {
+            JOptionPane.showMessageDialog(null, "LA VENTANA YA SE ENCUENTRA ABIERTA");
+
         }
         //</editor-fold>
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    }//GEN-LAST:event_MiPerfilActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         //<editor-fold desc="CIERRE SUCURSAL" defaultstate="collapsed">
         // Item Perfil
-         vCierreSucursal vS = new vCierreSucursal();
-         if (!ventana.equalsIgnoreCase("Cierre Sucursal")) {
-            ventana="Cierre Sucursal";
-            
+        vCierreSucursal vS = new vCierreSucursal();
+        if (!ventana.equalsIgnoreCase("Cierre Sucursal")) {
+            ventana = "Cierre Sucursal";
+
             Escritorio.add(vS);
             Dimension desktopSize = Escritorio.getSize();
             Dimension FrameSize = vS.getSize();
-            vS.setLocation((desktopSize.width - FrameSize.width)/2, (desktopSize.height- FrameSize.height)/2);
-            vS.show();             
-        }
-        else
-        {
-        JOptionPane.showMessageDialog(null,"LA VENTANA YA SE ENCUENTRA ABIERTA");
-        
+            vS.setLocation((desktopSize.width - FrameSize.width) / 2, (desktopSize.height - FrameSize.height) / 2);
+            vS.show();
+        } else {
+            JOptionPane.showMessageDialog(null, "LA VENTANA YA SE ENCUENTRA ABIERTA");
+
         }
         //</editor-fold>
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
         //<editor-fold desc="GESTION USUARIOS" defaultstate="collapsed">
-         vUsuarios vU = new vUsuarios();
-         if (!ventana.equalsIgnoreCase("Gestion Usuarios")) { // && !ventana.equalsIgnoreCase("Cambio Contra")
-            ventana="Gestion Usuarios";
-            
+        vUsuarios vU = new vUsuarios();
+        if (!ventana.equalsIgnoreCase("Gestion Usuarios")) { // && !ventana.equalsIgnoreCase("Cambio Contra")
+            ventana = "Gestion Usuarios";
+
             Escritorio.add(vU);
             Dimension desktopSize = Escritorio.getSize();
             Dimension FrameSize = vU.getSize();
-            vU.setLocation((desktopSize.width - FrameSize.width)/2, (desktopSize.height- FrameSize.height)/2);
-            vU.show();             
-        }
-        else
-        {
-        JOptionPane.showMessageDialog(null,"LA VENTANA YA SE ENCUENTRA ABIERTA");
-        
+            vU.setLocation((desktopSize.width - FrameSize.width) / 2, (desktopSize.height - FrameSize.height) / 2);
+            vU.show();
+        } else {
+            JOptionPane.showMessageDialog(null, "LA VENTANA YA SE ENCUENTRA ABIERTA");
+
         }
         //</editor-fold>
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
         //<editor-fold desc="GESTION PROVEEDORES" defaultstate="collapsed">
-         vProveedores vP = new vProveedores();
-         if (!ventana.equalsIgnoreCase("Gestion Proveedores")) { // && !ventana.equalsIgnoreCase("Cambio Contra")
-            ventana="Gestion Proveedores";
-            
+        vProveedores vP = new vProveedores();
+        if (!ventana.equalsIgnoreCase("Gestion Proveedores")) { // && !ventana.equalsIgnoreCase("Cambio Contra")
+            ventana = "Gestion Proveedores";
+
             Escritorio.add(vP);
             Dimension desktopSize = Escritorio.getSize();
             Dimension FrameSize = vP.getSize();
-            vP.setLocation((desktopSize.width - FrameSize.width)/2, (desktopSize.height- FrameSize.height)/2);
-            vP.show();             
-        }
-        else
-        {
-        JOptionPane.showMessageDialog(null,"LA VENTANA YA SE ENCUENTRA ABIERTA");
-        
+            vP.setLocation((desktopSize.width - FrameSize.width) / 2, (desktopSize.height - FrameSize.height) / 2);
+            vP.show();
+        } else {
+            JOptionPane.showMessageDialog(null, "LA VENTANA YA SE ENCUENTRA ABIERTA");
+
         }
         //</editor-fold>
     }//GEN-LAST:event_jMenuItem10ActionPerformed
@@ -428,147 +466,133 @@ public class vPrincipal extends javax.swing.JFrame {
     private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
         //<editor-fold desc="VER PRODUCTOS" defaultstate="collapsed">
         // Item Perfil
-         vProductos vPD = new vProductos();
-         if (!ventana.equalsIgnoreCase("Ver Productos")) { // && !ventana.equalsIgnoreCase("Cambio Contra")
-            ventana="Ver Productos";
-            
+        vProductos vPD = new vProductos();
+        if (!ventana.equalsIgnoreCase("Ver Productos")) { // && !ventana.equalsIgnoreCase("Cambio Contra")
+            ventana = "Ver Productos";
+
             Escritorio.add(vPD);
             Dimension desktopSize = Escritorio.getSize();
             Dimension FrameSize = vPD.getSize();
-            vPD.setLocation((desktopSize.width - FrameSize.width)/2, (desktopSize.height- FrameSize.height)/2);
-            vPD.show();             
-        }
-        else
-        {
-        JOptionPane.showMessageDialog(null,"LA VENTANA YA SE ENCUENTRA ABIERTA");
-        
+            vPD.setLocation((desktopSize.width - FrameSize.width) / 2, (desktopSize.height - FrameSize.height) / 2);
+            vPD.show();
+        } else {
+            JOptionPane.showMessageDialog(null, "LA VENTANA YA SE ENCUENTRA ABIERTA");
+
         }
         //</editor-fold>
     }//GEN-LAST:event_jMenuItem8ActionPerformed
 
     private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
         //<editor-fold desc="GESTION SUCURSALES" defaultstate="collapsed">
-         vSucursales vS = new vSucursales();
-         if (!ventana.equalsIgnoreCase("Gestion Sucursal")) {
-            ventana="Gestion Sucursal";
-            
+        vSucursales vS = new vSucursales();
+        if (!ventana.equalsIgnoreCase("Gestion Sucursal")) {
+            ventana = "Gestion Sucursal";
+
             Escritorio.add(vS);
             Dimension desktopSize = Escritorio.getSize();
             Dimension FrameSize = vS.getSize();
-            vS.setLocation((desktopSize.width - FrameSize.width)/2, (desktopSize.height- FrameSize.height)/2);
-            vS.show();             
-        }
-        else
-        {
-        JOptionPane.showMessageDialog(null,"LA VENTANA YA SE ENCUENTRA ABIERTA");
-        
+            vS.setLocation((desktopSize.width - FrameSize.width) / 2, (desktopSize.height - FrameSize.height) / 2);
+            vS.show();
+        } else {
+            JOptionPane.showMessageDialog(null, "LA VENTANA YA SE ENCUENTRA ABIERTA");
+
         }
         //</editor-fold>
     }//GEN-LAST:event_jMenuItem9ActionPerformed
 
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
         //<editor-fold desc="GESTION PLATOS" defaultstate="collapsed">
-         vPlatos vPl = new vPlatos();
-         if (!ventana.equalsIgnoreCase("Gestion Platos")) {
-            ventana="Gestion Platos";
-            
+        vPlatos vPl = new vPlatos();
+        if (!ventana.equalsIgnoreCase("Gestion Platos")) {
+            ventana = "Gestion Platos";
+
             Escritorio.add(vPl);
             Dimension desktopSize = Escritorio.getSize();
             Dimension FrameSize = vPl.getSize();
-            vPl.setLocation((desktopSize.width - FrameSize.width)/2, (desktopSize.height- FrameSize.height)/2);
-            vPl.show();             
-        }
-        else
-        {
-        JOptionPane.showMessageDialog(null,"LA VENTANA YA SE ENCUENTRA ABIERTA");
-        
+            vPl.setLocation((desktopSize.width - FrameSize.width) / 2, (desktopSize.height - FrameSize.height) / 2);
+            vPl.show();
+        } else {
+            JOptionPane.showMessageDialog(null, "LA VENTANA YA SE ENCUENTRA ABIERTA");
+
         }
         //</editor-fold>
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
     private void jMenuItem15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem15ActionPerformed
         //<editor-fold desc="C TIPO DOCUMENTO" defaultstate="collapsed">
-         vTipoDocumento vTd = new vTipoDocumento();
-         if (!ventana.equalsIgnoreCase("Config Tipo Documento")) {
-            ventana="Config Tipo Documento";
-            
+        vTipoDocumento vTd = new vTipoDocumento();
+        if (!ventana.equalsIgnoreCase("Config Tipo Documento")) {
+            ventana = "Config Tipo Documento";
+
             Escritorio.add(vTd);
             Dimension desktopSize = Escritorio.getSize();
             Dimension FrameSize = vTd.getSize();
-            vTd.setLocation((desktopSize.width - FrameSize.width)/2, (desktopSize.height- FrameSize.height)/2);
-            vTd.show();             
-        }
-        else
-        {
-        JOptionPane.showMessageDialog(null,"LA VENTANA YA SE ENCUENTRA ABIERTA");
-        
+            vTd.setLocation((desktopSize.width - FrameSize.width) / 2, (desktopSize.height - FrameSize.height) / 2);
+            vTd.show();
+        } else {
+            JOptionPane.showMessageDialog(null, "LA VENTANA YA SE ENCUENTRA ABIERTA");
+
         }
         //</editor-fold>
     }//GEN-LAST:event_jMenuItem15ActionPerformed
 
     private void jMenuItem16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem16ActionPerformed
         //<editor-fold desc="C UNIDAD MEDIDAS" defaultstate="collapsed">
-         vUnidadMedidas vUm = new vUnidadMedidas();
-         if (!ventana.equalsIgnoreCase("Config Unidad Medidas")) {
-            ventana="Config Unidad Medidas";
-            
+        vUnidadMedidas vUm = new vUnidadMedidas();
+        if (!ventana.equalsIgnoreCase("Config Unidad Medidas")) {
+            ventana = "Config Unidad Medidas";
+
             Escritorio.add(vUm);
             Dimension desktopSize = Escritorio.getSize();
             Dimension FrameSize = vUm.getSize();
-            vUm.setLocation((desktopSize.width - FrameSize.width)/2, (desktopSize.height- FrameSize.height)/2);
-            vUm.show();             
-        }
-        else
-        {
-        JOptionPane.showMessageDialog(null,"LA VENTANA YA SE ENCUENTRA ABIERTA");
-        
+            vUm.setLocation((desktopSize.width - FrameSize.width) / 2, (desktopSize.height - FrameSize.height) / 2);
+            vUm.show();
+        } else {
+            JOptionPane.showMessageDialog(null, "LA VENTANA YA SE ENCUENTRA ABIERTA");
+
         }
         //</editor-fold>
     }//GEN-LAST:event_jMenuItem16ActionPerformed
 
     private void jMenuItem17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem17ActionPerformed
         //<editor-fold desc="C CATEGORIAS" defaultstate="collapsed">
-         vCategorias vCt = new vCategorias();
-         if (!ventana.equalsIgnoreCase("Config Categorias")) {
-            ventana="Config Categorias";
-            
+        vCategorias vCt = new vCategorias();
+        if (!ventana.equalsIgnoreCase("Config Categorias")) {
+            ventana = "Config Categorias";
+
             Escritorio.add(vCt);
             Dimension desktopSize = Escritorio.getSize();
             Dimension FrameSize = vCt.getSize();
-            vCt.setLocation((desktopSize.width - FrameSize.width)/2, (desktopSize.height- FrameSize.height)/2);
-            vCt.show();             
-        }
-        else
-        {
-        JOptionPane.showMessageDialog(null,"LA VENTANA YA SE ENCUENTRA ABIERTA");
-        
+            vCt.setLocation((desktopSize.width - FrameSize.width) / 2, (desktopSize.height - FrameSize.height) / 2);
+            vCt.show();
+        } else {
+            JOptionPane.showMessageDialog(null, "LA VENTANA YA SE ENCUENTRA ABIERTA");
+
         }
         //</editor-fold>
     }//GEN-LAST:event_jMenuItem17ActionPerformed
 
     private void jMenuItem18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem18ActionPerformed
         //<editor-fold desc="C ROLES" defaultstate="collapsed">
-         vRoles vRl = new vRoles();
-         if (!ventana.equalsIgnoreCase("Config Roles") && !ventana.equalsIgnoreCase("Permisos")) {
-            ventana="Config Roles";
-            
+        vRoles vRl = new vRoles();
+        if (!ventana.equalsIgnoreCase("Config Roles") && !ventana.equalsIgnoreCase("Permisos")) {
+            ventana = "Config Roles";
+
             Escritorio.add(vRl);
             Dimension desktopSize = Escritorio.getSize();
             Dimension FrameSize = vRl.getSize();
-            vRl.setLocation((desktopSize.width - FrameSize.width)/2, (desktopSize.height- FrameSize.height)/2);
-            vRl.show();             
-        }
-        else
-        {
-        JOptionPane.showMessageDialog(null,"LA VENTANA YA SE ENCUENTRA ABIERTA");
-        
+            vRl.setLocation((desktopSize.width - FrameSize.width) / 2, (desktopSize.height - FrameSize.height) / 2);
+            vRl.show();
+        } else {
+            JOptionPane.showMessageDialog(null, "LA VENTANA YA SE ENCUENTRA ABIERTA");
+
         }
         //</editor-fold>
     }//GEN-LAST:event_jMenuItem18ActionPerformed
 
-    private void jMenu1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu1MouseReleased
-        JOptionPane.showMessageDialog(null, "pacho");
-    }//GEN-LAST:event_jMenu1MouseReleased
+    private void MnArchivoMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MnArchivoMouseReleased
+//        JOptionPane.showMessageDialog(null, "pacho");
+    }//GEN-LAST:event_MnArchivoMouseReleased
 
     /**
      * @param args the command line arguments
@@ -600,7 +624,7 @@ public class vPrincipal extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new vPrincipal().setVisible(true);
+//                new vPrincipal(Ac).setVisible(true);
             }
         });
     }
@@ -609,15 +633,13 @@ public class vPrincipal extends javax.swing.JFrame {
     public static javax.swing.JDesktopPane Escritorio;
     private javax.swing.JLabel LblNombre;
     private javax.swing.JLabel LblRoll;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
-    private javax.swing.JMenu jMenu4;
-    private javax.swing.JMenu jMenu5;
-    private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem MiPerfil;
+    private javax.swing.JMenu MnArchivo;
+    private javax.swing.JMenu MnConfiguracion;
+    private javax.swing.JMenu MnGestiones;
+    private javax.swing.JMenu MnMovimientos;
+    private javax.swing.JMenuBar MnPrincipal;
     private javax.swing.JMenuItem jMenuItem10;
-    private javax.swing.JMenuItem jMenuItem13;
     private javax.swing.JMenuItem jMenuItem15;
     private javax.swing.JMenuItem jMenuItem16;
     private javax.swing.JMenuItem jMenuItem17;
@@ -633,4 +655,35 @@ public class vPrincipal extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator1;
     // End of variables declaration//GEN-END:variables
 
+    void PermisosUsuario(List Lp, Acceso Ac) {
+
+        JMenuBar barraMenu = getJMenuBar();
+        for (int i = 0; i < barraMenu.getMenuCount(); i++) {
+            JMenu menu = barraMenu.getMenu(i);
+//            System.out.println("Menu:" + menu.getText());
+
+            for (int j = 0; j < menu.getMenuComponentCount(); j++) {
+                java.awt.Component oComp = menu.getMenuComponent(j);
+                if (oComp instanceof JMenuItem) {
+                    JMenuItem menuItem = (JMenuItem) oComp;
+
+//                    System.out.println("MenuItem:" + menuItem.getText());
+                    for (int k = 0; k < Lp.size(); k++) {
+                        Permisos Pr = (Permisos) Lp.get(k);
+                        String Codigo = Pr.getCodigoPermiso();
+                        String Nombre = Pr.getNombrePermiso();
+
+                        if (!menuItem.getName().equals(Nombre) && Codigo.equals("S")) {
+//                            if (!Codigo.equals("S")) {
+//                                menuItem.setVisible(false);
+//                            }
+                            menuItem.setEnabled(false);
+                        } else {
+                            menuItem.setEnabled(true);
+                        }
+                    }// FIn for k
+                }// Fin if
+            }// Fin for j
+        }// Fin for i
+    }
 }

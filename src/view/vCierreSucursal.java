@@ -17,7 +17,6 @@ import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.sql.Date;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -365,6 +364,7 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
         PopM_Tabla = new javax.swing.JPopupMenu();
         MnModificar = new javax.swing.JMenuItem();
         MnEliminar = new javax.swing.JMenuItem();
+        jDesktopPane1 = new javax.swing.JDesktopPane();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
@@ -460,6 +460,17 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
             }
         });
         PopM_Tabla.add(MnEliminar);
+
+        javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
+        jDesktopPane1.setLayout(jDesktopPane1Layout);
+        jDesktopPane1Layout.setHorizontalGroup(
+            jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+        jDesktopPane1Layout.setVerticalGroup(
+            jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
 
         setClosable(true);
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
@@ -676,10 +687,10 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
         Lbl_ValorFritos.setForeground(new java.awt.Color(255, 0, 0));
         Lbl_ValorFritos.setText("0.00");
         Lbl_ValorFritos.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+            }
             public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
                 Lbl_ValorFritosInputMethodTextChanged(evt);
-            }
-            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
             }
         });
 
@@ -828,10 +839,10 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
         TxtTotalNeto.setForeground(new java.awt.Color(153, 153, 153));
         TxtTotalNeto.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         TxtTotalNeto.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+            }
             public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
                 TxtTotalNetoInputMethodTextChanged(evt);
-            }
-            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
             }
         });
         TxtTotalNeto.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -1797,6 +1808,7 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
     private javax.swing.JTextField TxtTotalBruto;
     private javax.swing.JTextField TxtTotalNeto;
     private javax.swing.JTextField TxtValorGasto;
+    private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel13;

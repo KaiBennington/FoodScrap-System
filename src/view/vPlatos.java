@@ -16,7 +16,6 @@ import Model.Ingredientes;
 import Model.Platos;
 import Model.Productos;
 import Model.Secciones;
-import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -227,6 +226,7 @@ public class vPlatos extends javax.swing.JInternalFrame {
     }
 
     //</editor-fold>
+    
     //<editor-fold desc="Ocultar Filas" defaultstate="collapsed">
     void ocultarFilas(int index) {
         TblConsultarPlatos.getColumnModel().getColumn(index).setMaxWidth(0);
@@ -236,6 +236,7 @@ public class vPlatos extends javax.swing.JInternalFrame {
     }
 
     //</editor-fold>
+    
     //<editor-fold desc="VALIDAR TABLA INGREDIENTES" defaultstate="collapsed">
     public boolean validarTablaIngredientes(DefaultTableModel Ingredientes) {
         return Ingredientes.getRowCount() != 0;

@@ -27,29 +27,33 @@ public class vRoles extends javax.swing.JInternalFrame {
     /**
      * Creates new form vRoles
      */
+    
+//    vPermisos oVistaPermisos = new vPermisos(CamposRoles);
+    Map infoCampos = new HashMap();
+    Map PermisosOtorgados = new HashMap(); 
+
     public vRoles() {
         initComponents();
-        cargarId();
-        botonesInicio(false, false, false, false, true, false, false, false, false,false);
+        botonesInicio(false, false, false, false, true, false, false, false, false, false);
         mostrarDatos("");
+
     }
-    
-    
+
     //<editor-fold desc="MOSTRAR DATOS" defaultstate="collapsed">
-    void mostrarDatos(String Valor){        
-        TablasCAD ModelTable = new TablasCAD();         
-        TblTipoRoll.setModel(ModelTable.getTablaRoles(Valor));      
+    void mostrarDatos(String Valor) {
+        TablasCAD ModelTable = new TablasCAD();
+        TblTipoRoll.setModel(ModelTable.getTablaRoles(Valor));
         TableColumnModel columnModel = TblTipoRoll.getColumnModel();
         for (int i = 0; i < columnModel.getColumnCount(); i++) {
-        columnModel.getColumn(i).setPreferredWidth(100);
+            columnModel.getColumn(i).setPreferredWidth(100);
         }
-        
-    }       
+
+    }
     //</editor-fold>
-    
+
     //<editor-fold desc="BOTONES INICIO" defaultstate="collapsed">
-    void botonesInicio(boolean Ok,boolean id,boolean nombre,boolean siglas,boolean nuevo,boolean agregar,boolean modificar,boolean eliminar,boolean cancelar, boolean privilegios){ 
-        
+    void botonesInicio(boolean Ok, boolean id, boolean nombre, boolean siglas, boolean nuevo, boolean agregar, boolean modificar, boolean eliminar, boolean cancelar, boolean privilegios) {
+
         BtnNuevo.requestFocus();
         LblOk.setVisible(Ok);
         /////
@@ -59,42 +63,45 @@ public class vRoles extends javax.swing.JInternalFrame {
         BtnPrivilegios.setEnabled(privilegios);
         /////
         BtnNuevo.setVisible(nuevo);
-        BtnEliminar.setVisible(eliminar);        
+        BtnEliminar.setVisible(eliminar);
         /////
         BtnAgregar.setVisible(agregar);
         BtnModificar.setVisible(modificar);
-        BtnCancelar.setVisible(cancelar);      
+        BtnCancelar.setVisible(cancelar);
         buscarSi();
-        
+
     }
     //</editor-fold>
-    
+
     //<editor-fold desc="BUSCAR" defaultstate="collapsed">
-    void buscarSi(){
+    void buscarSi() {
         TxtBuscar.setVisible(true);
         LblBuscar.setVisible(true);
     }
-    void buscarNo(){
+
+    void buscarNo() {
         TxtBuscar.setVisible(false);
         LblBuscar.setVisible(false);
     }
     //</editor-fold>
-    
+
     //<editor-fold desc="LIMPIAR CAMPOS" defaultstate="collapsed">
-    public void limpiarCampos(){
+    public void limpiarCampos() {
         TxtNombre.setText("");
         TxtSiglas.setText("");
         TxtBuscar.setText("");
-        mostrarDatos("");        
+        LblPermisos.setText(PermisosOtorgados.size()+"");
+        LblPermisos.setVisible(true);
+        mostrarDatos("");
     }
     //</editor-fold>
-    
+
     //<editor-fold desc="CARGAR ID" defaultstate="collapsed">
-    void cargarId(){
+    void cargarId() {
         //Cargar ID
-        CargarCAD oCargarCAD = new CargarCAD() ;
+        CargarCAD oCargarCAD = new CargarCAD();
         Bandera B = new Bandera("Roles", "Id_Roll");
-        String R = oCargarCAD.cargarIds(B);           
+        String R = oCargarCAD.cargarIds(B);
         Lbl_Id.setText(R);
     }
     //</editor-fold>
@@ -120,6 +127,7 @@ public class vRoles extends javax.swing.JInternalFrame {
         jLabel4 = new javax.swing.JLabel();
         TxtSiglas = new javax.swing.JTextField();
         BtnPrivilegios = new javax.swing.JButton();
+        LblPermisos = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         BtnAgregar = new javax.swing.JButton();
@@ -182,7 +190,6 @@ public class vRoles extends javax.swing.JInternalFrame {
         Lbl_Id.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         Lbl_Id.setForeground(new java.awt.Color(255, 0, 0));
         Lbl_Id.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        Lbl_Id.setText("...");
 
         jLabel3.setFont(new java.awt.Font("Agency FB", 1, 16)); // NOI18N
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
@@ -210,6 +217,11 @@ public class vRoles extends javax.swing.JInternalFrame {
             }
         });
 
+        LblPermisos.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
+        LblPermisos.setForeground(new java.awt.Color(255, 0, 0));
+        LblPermisos.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        LblPermisos.setToolTipText("Cantidad de permisos Otorgados");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -217,28 +229,30 @@ public class vRoles extends javax.swing.JInternalFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(BtnPrivilegios, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(Lbl_Id, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(TxtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(TxtSiglas, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(LblPermisos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(BtnPrivilegios, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(Lbl_Id, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(TxtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(TxtSiglas, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(39, 39, 39))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap(17, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel1)
-                    .addComponent(Lbl_Id))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(Lbl_Id, javax.swing.GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(TxtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -247,7 +261,9 @@ public class vRoles extends javax.swing.JInternalFrame {
                     .addComponent(jLabel4)
                     .addComponent(TxtSiglas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(7, 7, 7)
-                .addComponent(BtnPrivilegios)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(LblPermisos, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(BtnPrivilegios))
                 .addGap(15, 15, 15))
         );
 
@@ -346,22 +362,21 @@ public class vRoles extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 329, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(LblOk))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addComponent(LblBuscar)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(TxtBuscar)))
-                        .addContainerGap())
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 329, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(LblOk))
-                        .addGap(0, 0, Short.MAX_VALUE))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                                .addComponent(TxtBuscar))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap())))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -378,9 +393,9 @@ public class vRoles extends javax.swing.JInternalFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(LblOk)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -404,47 +419,47 @@ public class vRoles extends javax.swing.JInternalFrame {
         // Btn Guardar
         Map rsp = new HashMap();
         Roles Rl = new Roles();
-        
+
         Rl.setIdRol(Integer.parseInt(Lbl_Id.getText()));
         Rl.setNombre(TxtNombre.getText());
         Rl.setSiglas(TxtSiglas.getText());
-        
-        rsp.put("Roles",Rl);
-        
+        Rl.setPermisosMod(Integer.parseInt(LblPermisos.getText()));
+
+        rsp.put("Roles", Rl);
+
         Validaciones V = new Validaciones();
         V.validarCamposRoles(rsp);
-        
+
         if (rsp.containsKey("Mensaje")) {
-            JOptionPane.showMessageDialog(null,rsp.get("Mensaje"));
+            JOptionPane.showMessageDialog(null, rsp.get("Mensaje"));
 //            rsp.get("campo");
 //            String Focus = (String)rsp.get("campo");
 //            System.out.println(""+Focus);
-        }else{
-            
+        } else {
+
             if (Lbl_Id.getText().equalsIgnoreCase("")) {
-            JOptionPane.showMessageDialog(null, "No se puede Guardar el Roll\nEl Campo 'ID' se encuentra vacio\nVerifique que tenga conexion con la BD");
+                JOptionPane.showMessageDialog(null, "No se puede Guardar el Roll\nVerifique que tenga conexion con la BD");
 
             } else {
-                vPermisos oVistaPermisos = new vPermisos();
-                Map permisosRol = oVistaPermisos.getMapPermisos();
-                boolean guardar = RolesCAD.guardar(Rl,permisosRol);
+                //
+                Map permisosRol = PermisosOtorgados;
+                boolean guardar = RolesCAD.guardar(Rl, permisosRol);
 
-                    if(!guardar){
-                        limpiarCampos();
-                        mostrarDatos("");
-                        cargarId();
-                        JOptionPane.showMessageDialog(null,Bandera.getRespuesta());
-                        TxtNombre.requestFocus();
-                    }else{ 
-                        limpiarCampos();
-                        botonesInicio(true, false, false, false, true, false, false, false, false,false);
-                        LblOk.setText(Bandera.getRespuesta());
-                        //LblOk.setVisible(true);
-                        cargarId();
-                        mostrarDatos("");
-                    }
+                if (!guardar) {
+                    PermisosOtorgados.clear();
+                    limpiarCampos();                    
+//                    mostrarDatos("");
+                    cargarId();
+                    JOptionPane.showMessageDialog(null, Bandera.getRespuesta());
+                    TxtNombre.requestFocus();
+                } else {
+                    PermisosOtorgados.clear();
+                    limpiarCampos();                    
+                    botonesInicio(true, false, false, false, true, false, false, false, false, false);
+                    LblOk.setText(Bandera.getRespuesta());
                 }
             }
+        }
         //</editor-fold>
     }//GEN-LAST:event_BtnAgregarActionPerformed
 
@@ -453,28 +468,28 @@ public class vRoles extends javax.swing.JInternalFrame {
         if (Lbl_Id.getText().equalsIgnoreCase("")) {
             JOptionPane.showMessageDialog(null, "No se puede Eliminar el Roll\nEl Campo 'ID' se encuentra vacio\nVerifique que tenga conexion con la BD");
             TxtNombre.requestFocus();
-        }else{
+        } else {
             // Btn Eliminar
             int IdRol = Integer.parseInt(Lbl_Id.getText());
-            
+
             Roles Rl = new Roles();
             Rl.setIdRol(IdRol);
 
             boolean Eliminar = RolesCAD.eliminar(Rl);
 
-                    if(!Eliminar){                                                
-                        limpiarCampos();
-                        mostrarDatos("");                        
-                        botonesInicio(false,false,false,false,true,false,false,false,false,false);
-                        cargarId();
-                        JOptionPane.showMessageDialog(null,Bandera.getRespuesta());
-                    }else{ 
-                        limpiarCampos();                        
-                        LblOk.setText(Bandera.getRespuesta());
-                        botonesInicio(true,false,false,false,true,false,false,false,false,false);
-                        cargarId();
-                        mostrarDatos("");
-                    }            
+            if (!Eliminar) {
+                limpiarCampos();
+                mostrarDatos("");
+                botonesInicio(false, false, false, false, true, false, false, false, false, false);
+                cargarId();
+                JOptionPane.showMessageDialog(null, Bandera.getRespuesta());
+            } else {
+                limpiarCampos();
+                LblOk.setText(Bandera.getRespuesta());
+                botonesInicio(true, false, false, false, true, false, false, false, false, false);
+                cargarId();
+                mostrarDatos("");
+            }
         }
         //</editor-fold>
     }//GEN-LAST:event_BtnEliminarActionPerformed
@@ -482,18 +497,24 @@ public class vRoles extends javax.swing.JInternalFrame {
     private void BtnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCancelarActionPerformed
         //<editor-fold desc="CANCELAR" defaultstate="collapsed">
         limpiarCampos();
-        botonesInicio(false, false, false, false, true, false, false, false, false,false);
-        cargarId();
+        PermisosOtorgados.clear();
+        botonesInicio(false, false, false, false, true, false, false, false, false, false);
         mostrarDatos("");
+        Lbl_Id.setText("");
+        LblPermisos.setText(PermisosOtorgados.size()+"");
+        LblPermisos.setVisible(false);
         //</editor-fold>
     }//GEN-LAST:event_BtnCancelarActionPerformed
 
     private void BtnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnNuevoActionPerformed
         //<editor-fold desc="NUEVO" defaultstate="collapsed">
-        botonesInicio(false, true, true, true, false, true, false, false, true,true);
+        PermisosOtorgados.clear();
+        botonesInicio(false, true, true, true, false, true, false, false, true, true);
         cargarId();
         buscarNo();
         limpiarCampos();
+        LblPermisos.setText(PermisosOtorgados.size()+"");
+        LblPermisos.setVisible(true);
         TxtNombre.requestFocus();
         //</editor-fold>
     }//GEN-LAST:event_BtnNuevoActionPerformed
@@ -503,49 +524,49 @@ public class vRoles extends javax.swing.JInternalFrame {
         //Boton Modificar
         Map rsp = new HashMap();
         Roles Rl = new Roles();
-        
+
         Rl.setIdRol(Integer.parseInt(Lbl_Id.getText()));
         Rl.setNombre(TxtNombre.getText());
-        Rl.setSiglas(TxtSiglas.getText());        
-        
-        rsp.put("Roles",Rl);
-        
+        Rl.setSiglas(TxtSiglas.getText());
+
+        rsp.put("Roles", Rl);
+
         Validaciones V = new Validaciones();
         V.validarCamposRoles(rsp);
-        
+
         if (rsp.containsKey("Mensaje")) {
-            JOptionPane.showMessageDialog(null,rsp.get("Mensaje"));
+            JOptionPane.showMessageDialog(null, rsp.get("Mensaje"));
 //            rsp.get("campo");
 //            String Focus = (String)rsp.get("campo");
 //            System.out.println(""+Focus);
-        }else{
-            
+        } else {
+
             if (Lbl_Id.getText().equalsIgnoreCase("")) {
-            JOptionPane.showMessageDialog(null,"No se encuentra el ID '"+Lbl_Id.getText()+"' en la BD");
-                } else {
+                JOptionPane.showMessageDialog(null, "No se encuentra el ID '" + Lbl_Id.getText() + "' en la BD");
+            } else {
                 boolean Modificar = RolesCAD.modificar(Rl);
 
-                    if(!Modificar){                        
-                        JOptionPane.showMessageDialog(null,Bandera.getRespuesta());
-                        limpiarCampos();
-                        mostrarDatos("");                        
-                        botonesInicio(false, false, false, false, true, false, false, false, false,false);
-                        cargarId();
-                    }else{ 
-                        limpiarCampos();
-                        botonesInicio(true, false, false, false, true, false, false, false, false,false);
-                        mostrarDatos(Rl.getNombre());
-                        cargarId();
-                        LblOk.setText(Bandera.getRespuesta());
-                        LblOk.setVisible(true);
-                    }
+                if (!Modificar) {
+                    JOptionPane.showMessageDialog(null, Bandera.getRespuesta());
+                    limpiarCampos();
+                    mostrarDatos("");
+                    botonesInicio(false, false, false, false, true, false, false, false, false, false);
+                    cargarId();
+                } else {
+                    limpiarCampos();
+                    botonesInicio(true, false, false, false, true, false, false, false, false, false);
+                    mostrarDatos(Rl.getNombre());
+                    cargarId();
+                    LblOk.setText(Bandera.getRespuesta());
+                    LblOk.setVisible(true);
                 }
             }
+        }
         //</editor-fold>
     }//GEN-LAST:event_BtnModificarActionPerformed
 
     private void TxtBuscarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TxtBuscarKeyPressed
-        if(evt.getKeyCode()==10){
+        if (evt.getKeyCode() == 10) {
             mostrarDatos(TxtBuscar.getText());
         }
     }//GEN-LAST:event_TxtBuscarKeyPressed
@@ -555,20 +576,23 @@ public class vRoles extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_TxtBuscarKeyReleased
 
     private void BtnPrivilegiosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnPrivilegiosActionPerformed
-        //Item Permisos;
-        vPermisos vP = new vPermisos();
+
+        infoCampos.put("Id", this.Lbl_Id.getText());
+        infoCampos.put("Nombre", this.TxtNombre.getText());
+        infoCampos.put("Siglas", this.TxtSiglas.getText());
+
+        vPermisos vP = new vPermisos(infoCampos,PermisosOtorgados);
         if (!vPrincipal.ventana.equalsIgnoreCase("Permisos")) {
-            vPrincipal.ventana="Permisos";
+            vPrincipal.ventana = "Permisos";
 
             Escritorio.add(vP);
             Dimension desktopSize = Escritorio.getSize();
             Dimension FrameSize = vP.getSize();
-            vP.setLocation((desktopSize.width - FrameSize.width)/2, (desktopSize.height- FrameSize.height)/2);
+            vP.setLocation((desktopSize.width - FrameSize.width) / 2, (desktopSize.height - FrameSize.height) / 2);
             vP.show();
-        }
-        else
-        {
-            JOptionPane.showMessageDialog(null,"LA VENTANA 'Permisos' YA SE ENCUENTRA ABIERTA");
+            this.dispose();
+        } else {
+            JOptionPane.showMessageDialog(null, "LA VENTANA 'Permisos' YA SE ENCUENTRA ABIERTA");
 
         }
 //         vPrivilegios vp = new vPrivilegios();
@@ -585,7 +609,7 @@ public class vRoles extends javax.swing.JInternalFrame {
         //<editor-fold desc="MENU MODIFICAR" defaultstate="collapsed">
         //Seleccion fila modificar
         Seleccion();
-        botonesInicio(false, false, true, true, false, false, true, false, true,true);
+        botonesInicio(false, false, true, true, false, false, true, false, true, true);
         TxtNombre.requestFocus();
         buscarNo();
         //</editor-fold>
@@ -595,7 +619,7 @@ public class vRoles extends javax.swing.JInternalFrame {
         //<editor-fold desc="MENU ELIMINAR" defaultstate="collapsed">
         //Seleccion fila Eliminar
         Seleccion();
-        botonesInicio(false, false, false, false, false, false, false, true, true,false);
+        botonesInicio(false, false, false, false, false, false, false, true, true, false);
         buscarNo();
         //</editor-fold>
     }//GEN-LAST:event_MnEliminarActionPerformed
@@ -610,14 +634,15 @@ public class vRoles extends javax.swing.JInternalFrame {
     private javax.swing.JButton BtnPrivilegios;
     private javax.swing.JLabel LblBuscar;
     private javax.swing.JLabel LblOk;
-    private javax.swing.JLabel Lbl_Id;
+    public javax.swing.JLabel LblPermisos;
+    public javax.swing.JLabel Lbl_Id;
     private javax.swing.JMenuItem MnEliminar;
     private javax.swing.JMenuItem MnModificar;
     private javax.swing.JPopupMenu PopM_Tabla;
     public javax.swing.JTable TblTipoRoll;
     private javax.swing.JTextField TxtBuscar;
-    private javax.swing.JTextField TxtNombre;
-    private javax.swing.JTextField TxtSiglas;
+    public javax.swing.JTextField TxtNombre;
+    public javax.swing.JTextField TxtSiglas;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -628,14 +653,14 @@ public class vRoles extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 
-void Seleccion(){
-        int fila=TblTipoRoll.getSelectedRow();
-        if (fila >= 0) {            
+    void Seleccion() {
+        int fila = TblTipoRoll.getSelectedRow();
+        if (fila >= 0) {
             Lbl_Id.setText(TblTipoRoll.getValueAt(fila, 0).toString());
             TxtNombre.setText(TblTipoRoll.getValueAt(fila, 1).toString());
-            TxtSiglas.setText(TblTipoRoll.getValueAt(fila,2).toString());                       
-        }else{
-            JOptionPane.showMessageDialog(null,"No se ha seleccionado ningun Roll de la tabla");
+            TxtSiglas.setText(TblTipoRoll.getValueAt(fila, 2).toString());
+        } else {
+            JOptionPane.showMessageDialog(null, "No se ha seleccionado ningun Roll de la tabla");
         }
     }
 

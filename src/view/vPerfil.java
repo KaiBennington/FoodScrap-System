@@ -5,7 +5,7 @@
  */
 package view;
 
-import Config.Bandera;
+import Model.Acceso;
 import java.awt.Dimension;
 import javax.swing.JOptionPane;
 
@@ -18,13 +18,21 @@ public class vPerfil extends javax.swing.JInternalFrame {
     /**
      * Creates new form vPerfil
      */
+    Acceso Ac;
     static String ventana="";
-    public vPerfil() {
+    public vPerfil(Acceso Ac) {
         initComponents();
-        LblNombreCompleto.setText(Bandera.Nombre + " " + Bandera.Apellido);
-        LblUsuario.setText(Bandera.Usuario);
-        LblPerfilUsuario.setText(Bandera.getNombreRol() + " ( " + Bandera.getSiglasRol()+" )");
+        this.Ac = Ac;
+        cargarDatos(Ac);
     }
+    
+    //<editor-fold desc="CARGAR DATOS" defaultstate="collapsed"> 
+    void cargarDatos(Acceso Ac) {
+        LblNombreCompleto.setText(Ac.getNombre() + " " + Ac.getApellido());
+        LblUsuario.setText(Ac.getUsuario());
+        LblPerfilUsuario.setText(Ac.getNomRoll() + " ( " + Ac.getSiglasRoll()+" )");
+    }
+    //</editor-fold>
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -114,7 +122,6 @@ public class vPerfil extends javax.swing.JInternalFrame {
         LblPerfilUsuario.setFont(new java.awt.Font("Agency FB", 1, 18)); // NOI18N
         LblPerfilUsuario.setForeground(new java.awt.Color(255, 0, 0));
         LblPerfilUsuario.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        LblPerfilUsuario.setText("Vendedor");
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
@@ -151,8 +158,8 @@ public class vPerfil extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel22)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(LblPerfilUsuario)
-                .addGap(101, 101, 101))
+                .addComponent(LblPerfilUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(72, 72, 72))
         );
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
@@ -202,7 +209,7 @@ public class vPerfil extends javax.swing.JInternalFrame {
         int Info= JOptionPane.showConfirmDialog(null,"¿Deseas cambiar tu contraseña?","Información",JOptionPane.YES_NO_OPTION);
         if (Info==0) {
 
-            vCambiarContra VCC= new vCambiarContra();
+            vCambiarContra VCC= new vCambiarContra(Ac);
             vPrincipal.Escritorio.add(VCC);
             Dimension desktopSize = vPrincipal.Escritorio.getSize();
             Dimension FrameSize = VCC.getSize();

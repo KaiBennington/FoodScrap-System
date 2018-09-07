@@ -11,8 +11,7 @@ package Model;
  */
 public class Permisos {
     
-    //<editor-fold desc="ATRIBUTOS" defaultstate="collapsed">
-    
+    //<editor-fold desc="ATRIBUTOS" defaultstate="collapsed">    
     private int IdPermiso;    
     private String CodigoPermiso;
     private String NombrePermiso;
@@ -73,6 +72,10 @@ public class Permisos {
     
     public Permisos() {
     }
+    
+    public Permisos(String CodigoPermiso, String NombrePermiso) {
+        this.CodigoPermiso = CodigoPermiso;
+        this.NombrePermiso = NombrePermiso;
+    }
     //</editor-fold>
-
 }

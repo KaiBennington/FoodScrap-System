@@ -7,6 +7,7 @@ package view;
 
 import CAD.UsuariosCAD;
 import Config.Bandera;
+import Model.Acceso;
 import Model.Usuarios;
 import java.awt.Dimension;
 import javax.swing.JOptionPane;
@@ -20,8 +21,10 @@ public class vCambiarContra extends javax.swing.JInternalFrame {
     /**
      * Creates new form vCambiarContra
      */
-    public vCambiarContra() {
+    Acceso Ac;
+    public vCambiarContra(Acceso Ac) {
         initComponents();
+        this.Ac = Ac;
         vPrincipal.ventana="Cambio Contra";
         LblMensajeNo.setVisible(false);
         LblMensajeSi.setVisible(false);
@@ -314,7 +317,7 @@ public class vCambiarContra extends javax.swing.JInternalFrame {
     // End of variables declaration//GEN-END:variables
 
     void volver(){
-        vPerfil vP = new vPerfil();        
+        vPerfil vP = new vPerfil(Ac);        
             vPrincipal.Escritorio.add(vP);            
             Dimension desktopSize = vPrincipal.Escritorio.getSize();
             Dimension FrameSize = vP.getSize();
