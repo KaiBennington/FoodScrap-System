@@ -532,4 +532,6 @@ public class CargarCAD extends ConexionDB {
         return ListaPermisos;
     }
     //</editor-fold>
+    
+    
 }

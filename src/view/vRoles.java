@@ -6,12 +6,14 @@
 package view;
 
 import CAD.CargarCAD;
+import CAD.PermisosCAD;
 import CAD.RolesCAD;
 import CAD.TablasCAD;
 import Config.Bandera;
 import Config.Validaciones;
 import Model.Roles;
 import java.awt.Dimension;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -32,12 +34,12 @@ public class vRoles extends javax.swing.JInternalFrame {
     Map infoCampos = new HashMap();
     Map PermisosOtorgados = new HashMap();
     Map PermisosOtorgados2 = new HashMap();
-
+    
     public vRoles() {
         initComponents();
         botonesInicio(false, false, false, false, true, false, false, false, false, false);
         mostrarDatos("");
-
+        
     }
 
     //<editor-fold desc="MOSTRAR DATOS" defaultstate="collapsed">
@@ -48,19 +50,20 @@ public class vRoles extends javax.swing.JInternalFrame {
         for (int i = 0; i < columnModel.getColumnCount(); i++) {
             columnModel.getColumn(i).setPreferredWidth(100);
         }
-
+        
     }
     //</editor-fold>
 
     //<editor-fold desc="BOTONES INICIO" defaultstate="collapsed">
     void botonesInicio(boolean Ok, boolean id, boolean nombre, boolean siglas, boolean nuevo, boolean agregar, boolean modificar, boolean eliminar, boolean cancelar, boolean privilegios) {
-
+        
         BtnNuevo.requestFocus();
         LblOk.setVisible(Ok);
         /////
         Lbl_Id.setEnabled(id);
         TxtNombre.setEnabled(nombre);
         TxtSiglas.setEnabled(siglas);
+        LblPermisos.setEnabled(privilegios);
         BtnPrivilegios.setEnabled(privilegios);
         /////
         BtnNuevo.setVisible(nuevo);
@@ -70,7 +73,7 @@ public class vRoles extends javax.swing.JInternalFrame {
         BtnModificar.setVisible(modificar);
         BtnCancelar.setVisible(cancelar);
         buscarSi();
-
+        
     }
     //</editor-fold>
 
@@ -79,7 +82,7 @@ public class vRoles extends javax.swing.JInternalFrame {
         TxtBuscar.setVisible(true);
         LblBuscar.setVisible(true);
     }
-
+    
     void buscarNo() {
         TxtBuscar.setVisible(false);
         LblBuscar.setVisible(false);
@@ -420,32 +423,32 @@ public class vRoles extends javax.swing.JInternalFrame {
         // Btn Guardar
         Map rsp = new HashMap();
         Roles Rl = new Roles();
-
+        
         Rl.setIdRol(Integer.parseInt(Lbl_Id.getText()));
         Rl.setNombre(TxtNombre.getText());
         Rl.setSiglas(TxtSiglas.getText());
         Rl.setPermisosMod(Integer.parseInt(LblPermisos.getText()));
-
+        
         rsp.put("Roles", Rl);
-
+        
         Validaciones V = new Validaciones();
         V.validarCamposRoles(rsp);
-
+        
         if (rsp.containsKey("Mensaje")) {
             JOptionPane.showMessageDialog(null, rsp.get("Mensaje"));
 //            rsp.get("campo");
 //            String Focus = (String)rsp.get("campo");
 //            System.out.println(""+Focus);
         } else {
-
+            
             if (Lbl_Id.getText().equalsIgnoreCase("")) {
                 JOptionPane.showMessageDialog(null, "No se puede Guardar el Roll\nVerifique que tenga conexion con la BD");
-
+                
             } else {
                 //
                 Map permisosRol = PermisosOtorgados;
                 boolean guardar = RolesCAD.guardar(Rl, permisosRol);
-
+                
                 if (!guardar) {
                     PermisosOtorgados.clear();
                     limpiarCampos();
@@ -472,12 +475,12 @@ public class vRoles extends javax.swing.JInternalFrame {
         } else {
             // Btn Eliminar
             int IdRol = Integer.parseInt(Lbl_Id.getText());
-
+            
             Roles Rl = new Roles();
             Rl.setIdRol(IdRol);
-
+            
             boolean Eliminar = RolesCAD.eliminar(Rl);
-
+            
             if (!Eliminar) {
                 limpiarCampos();
                 mostrarDatos("");
@@ -499,10 +502,11 @@ public class vRoles extends javax.swing.JInternalFrame {
         //<editor-fold desc="CANCELAR" defaultstate="collapsed">
         limpiarCampos();
         PermisosOtorgados.clear();
+        PermisosOtorgados2.clear();
         botonesInicio(false, false, false, false, true, false, false, false, false, false);
         mostrarDatos("");
         Lbl_Id.setText("");
-        LblPermisos.setText(PermisosOtorgados.size() + "");
+        LblPermisos.setText(PermisosOtorgados2.size() + "");
         LblPermisos.setVisible(false);
         //</editor-fold>
     }//GEN-LAST:event_BtnCancelarActionPerformed
@@ -526,28 +530,28 @@ public class vRoles extends javax.swing.JInternalFrame {
         //Boton Modificar
         Map rsp = new HashMap();
         Roles Rl = new Roles();
-
+        
         Rl.setIdRol(Integer.parseInt(Lbl_Id.getText()));
         Rl.setNombre(TxtNombre.getText());
         Rl.setSiglas(TxtSiglas.getText());
-
+        
         rsp.put("Roles", Rl);
-
+        
         Validaciones V = new Validaciones();
         V.validarCamposRoles(rsp);
-
+        
         if (rsp.containsKey("Mensaje")) {
             JOptionPane.showMessageDialog(null, rsp.get("Mensaje"));
 //            rsp.get("campo");
 //            String Focus = (String)rsp.get("campo");
 //            System.out.println(""+Focus);
         } else {
-
+            
             if (Lbl_Id.getText().equalsIgnoreCase("")) {
                 JOptionPane.showMessageDialog(null, "No se encuentra el ID '" + Lbl_Id.getText() + "' en la BD");
             } else {
                 boolean Modificar = RolesCAD.modificar(Rl);
-
+                
                 if (!Modificar) {
                     JOptionPane.showMessageDialog(null, Bandera.getRespuesta());
                     limpiarCampos();
@@ -578,15 +582,15 @@ public class vRoles extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_TxtBuscarKeyReleased
 
     private void BtnPrivilegiosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnPrivilegiosActionPerformed
-
+        
         infoCampos.put("Id", this.Lbl_Id.getText());
         infoCampos.put("Nombre", this.TxtNombre.getText());
         infoCampos.put("Siglas", this.TxtSiglas.getText());
-
+        
         vPermisos vP = new vPermisos(infoCampos, PermisosOtorgados);
         if (!vPrincipal.ventana.equalsIgnoreCase("Permisos")) {
             vPrincipal.ventana = "Permisos";
-
+            
             Escritorio.add(vP);
             Dimension desktopSize = Escritorio.getSize();
             Dimension FrameSize = vP.getSize();
@@ -595,7 +599,7 @@ public class vRoles extends javax.swing.JInternalFrame {
             this.dispose();
         } else {
             JOptionPane.showMessageDialog(null, "LA VENTANA 'Permisos' YA SE ENCUENTRA ABIERTA");
-
+            
         }
 //         vPrivilegios vp = new vPrivilegios();
 //         vp.setVisible(true);
@@ -610,19 +614,24 @@ public class vRoles extends javax.swing.JInternalFrame {
     private void MnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnModificarActionPerformed
         //<editor-fold desc="MENU MODIFICAR" defaultstate="collapsed">
         //Seleccion fila modificar
-        Seleccion();
-        botonesInicio(false, false, true, true, false, false, true, false, true, true);
-        TxtNombre.requestFocus();
-        buscarNo();
+        if (Seleccion()) {
+            botonesInicio(false, false, true, true, false, false, true, false, true, true);
+            TxtNombre.requestFocus();
+            buscarNo();
+        }
+
         //</editor-fold>
     }//GEN-LAST:event_MnModificarActionPerformed
 
     private void MnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnEliminarActionPerformed
         //<editor-fold desc="MENU ELIMINAR" defaultstate="collapsed">
         //Seleccion fila Eliminar
-        Seleccion();
-        botonesInicio(false, false, false, false, false, false, false, true, true, false);
-        buscarNo();
+        if (Seleccion()) {
+            botonesInicio(false, false, false, false, false, false, false, true, true, false);
+            BtnEliminar.requestFocus();
+            buscarNo();
+        }
+
         //</editor-fold>
     }//GEN-LAST:event_MnEliminarActionPerformed
 
@@ -655,26 +664,43 @@ public class vRoles extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 
-    void Seleccion() {
+    public boolean Seleccion() {
         int fila = TblTipoRoll.getSelectedRow();
         if (fila >= 0) {
             Lbl_Id.setText(TblTipoRoll.getValueAt(fila, 0).toString());
             TxtNombre.setText(TblTipoRoll.getValueAt(fila, 1).toString());
             TxtSiglas.setText(TblTipoRoll.getValueAt(fila, 2).toString());
+            
+            cargarListaPermisos(Integer.parseInt(TblTipoRoll.getValueAt(fila, 0).toString()), "S");
+            return true;
         } else {
             JOptionPane.showMessageDialog(null, "No se ha seleccionado ningun Roll de la tabla");
+            buscarSi();
+            return false;
         }
     }
 
+    //<editor-fold desc="CARGAR LISTA PERMISOS" defaultstate="collapsed">
+    void cargarListaPermisos(int IdRoll, String Estado) {
+        //Cargar Lista Permisos
+        PermisosCAD oPermisosCAD = new PermisosCAD();
+        Map listaPermisosRoll = oPermisosCAD.CargarPermisos(IdRoll, Estado);
+        PermisosOtorgados = listaPermisosRoll;
+        LblPermisos.setText(iterateUsingEntrySet(PermisosOtorgados) + "");
+        LblPermisos.setVisible(true);
+    }
+    //</editor-fold>
+
     //<editor-fold desc="VALIDAR PERMISOS OTORGADOS" defaultstate="collapsed">
-        public int iterateUsingEntrySet(Map<String, Integer> map) {
+    public int iterateUsingEntrySet(Map map) {
+        //<String, Integer>
+        PermisosOtorgados2.clear();
         for (Iterator it = map.entrySet().iterator(); it.hasNext();) {
             Map.Entry<String, String> entry = (Map.Entry<String, String>) it.next();
             if (entry.getValue().equals("S")) {
                 PermisosOtorgados2.put(entry.getKey(), entry.getValue());
-                System.out.println(entry.getKey() + ":" + entry.getValue());
+//                System.out.println(entry.getKey() + ":" + entry.getValue());
             }
-            
         }
         return PermisosOtorgados2.size();
     }

@@ -70,7 +70,6 @@ public class vPermisos extends javax.swing.JInternalFrame {
                     if (isCheck) {
                         JCheckBox oCheck = (JCheckBox) oPanel.getComponent(i);
                         if (mapPermisos.containsKey(oCheck.getName())) {
-//                            Map itemAMostrar = (Map) mapPermisos.get(oCheck.getName());
                             
                             String nomPrevio = mapPermisos.get(oCheck.getName()).toString();
                             if ("S".equalsIgnoreCase(nomPrevio)) {
@@ -631,7 +630,10 @@ public class vPermisos extends javax.swing.JInternalFrame {
 
     private void CbxMenusItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_CbxMenusItemStateChanged
         TabPanes.removeAll();
-        TabPanes.add((Component) mapComponentes.get(CbxMenus.getSelectedItem()));
+        if (CbxMenus.getSelectedIndex() > 0) {
+            TabPanes.add((Component) mapComponentes.get(CbxMenus.getSelectedItem()));
+        }
+        
     }//GEN-LAST:event_CbxMenusItemStateChanged
 
 

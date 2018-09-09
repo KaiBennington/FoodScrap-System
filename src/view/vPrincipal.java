@@ -93,7 +93,7 @@ public class vPrincipal extends javax.swing.JFrame {
         LblRoll.setText(Ac.getNomRoll() + " ( " + Ac.getSiglasRoll() + " )");
     }
     //</editor-fold>
-    
+
     //<editor-fold desc="PERMISOS USUARIOS" defaultstate="collapsed"> 
     void PermisosUsuario(List Lp, Acceso Ac) {
 
@@ -110,7 +110,6 @@ public class vPrincipal extends javax.swing.JFrame {
                         Permisos Pr = (Permisos) Lp.get(k);
                         String Codigo = Pr.getCodigoPermiso();
                         String Nombre = Pr.getNombrePermiso();
-                        
 
                         if (menuItem.getName().equals(Nombre)) {
                             if (!Codigo.equals("S")) {
@@ -118,8 +117,8 @@ public class vPrincipal extends javax.swing.JFrame {
                                 break;
                             }
                             menuItem.setVisible(true);
-                             break;
-                        } 
+                            break;
+                        }
                     }// FIn for k
                 }// Fin if
             }// Fin for j
@@ -676,5 +675,4 @@ public class vPrincipal extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator1;
     // End of variables declaration//GEN-END:variables
 
-    
 }

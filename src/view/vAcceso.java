@@ -319,10 +319,15 @@ public class vAcceso extends javax.swing.JFrame {
 
                     CargarCAD oCargarCAD = new CargarCAD();
                     List R = oCargarCAD.cargarPermisos(Ac);
-                    if (R.isEmpty()) {                        
+                    if (R.isEmpty()) {
                         Bandera.setSubRespuesta("El usuario no tiene permisos");
+                        LblMensajeNo.setText(Bandera.getSubRespuesta());
+                        TxtUsuario.requestFocus();
+                        TxtUsuario.setText("");
+                        TxtContrasena.setText("");
+                        PBCargar.setVisible(false);
                         return;
-                    }                    
+                    }
                     //PBCargar :: poner a cargar la barra de progreso ! FALTA
                     LblMensajeNo.setText("");
                     vPrincipal vP = new vPrincipal(Ac, R);
@@ -338,6 +343,5 @@ public class vAcceso extends javax.swing.JFrame {
     }//Fin metodo Acceso
 
     //<editor-fold desc="CARGAR PERMISOS" defaultstate="collapsed">
-    
     //</editor-fold>
 }
