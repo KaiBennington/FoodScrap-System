@@ -13,6 +13,7 @@ import Config.Validaciones;
 import Model.Roles;
 import java.awt.Dimension;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import javax.swing.JOptionPane;
 import javax.swing.table.TableColumnModel;
@@ -27,10 +28,10 @@ public class vRoles extends javax.swing.JInternalFrame {
     /**
      * Creates new form vRoles
      */
-    
 //    vPermisos oVistaPermisos = new vPermisos(CamposRoles);
     Map infoCampos = new HashMap();
-    Map PermisosOtorgados = new HashMap(); 
+    Map PermisosOtorgados = new HashMap();
+    Map PermisosOtorgados2 = new HashMap();
 
     public vRoles() {
         initComponents();
@@ -90,7 +91,7 @@ public class vRoles extends javax.swing.JInternalFrame {
         TxtNombre.setText("");
         TxtSiglas.setText("");
         TxtBuscar.setText("");
-        LblPermisos.setText(PermisosOtorgados.size()+"");
+        LblPermisos.setText(PermisosOtorgados2.size() + "");
         LblPermisos.setVisible(true);
         mostrarDatos("");
     }
@@ -447,14 +448,14 @@ public class vRoles extends javax.swing.JInternalFrame {
 
                 if (!guardar) {
                     PermisosOtorgados.clear();
-                    limpiarCampos();                    
+                    limpiarCampos();
 //                    mostrarDatos("");
                     cargarId();
                     JOptionPane.showMessageDialog(null, Bandera.getRespuesta());
                     TxtNombre.requestFocus();
                 } else {
                     PermisosOtorgados.clear();
-                    limpiarCampos();                    
+                    limpiarCampos();
                     botonesInicio(true, false, false, false, true, false, false, false, false, false);
                     LblOk.setText(Bandera.getRespuesta());
                 }
@@ -501,7 +502,7 @@ public class vRoles extends javax.swing.JInternalFrame {
         botonesInicio(false, false, false, false, true, false, false, false, false, false);
         mostrarDatos("");
         Lbl_Id.setText("");
-        LblPermisos.setText(PermisosOtorgados.size()+"");
+        LblPermisos.setText(PermisosOtorgados.size() + "");
         LblPermisos.setVisible(false);
         //</editor-fold>
     }//GEN-LAST:event_BtnCancelarActionPerformed
@@ -509,11 +510,12 @@ public class vRoles extends javax.swing.JInternalFrame {
     private void BtnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnNuevoActionPerformed
         //<editor-fold desc="NUEVO" defaultstate="collapsed">
         PermisosOtorgados.clear();
+        PermisosOtorgados2.clear();
         botonesInicio(false, true, true, true, false, true, false, false, true, true);
         cargarId();
         buscarNo();
         limpiarCampos();
-        LblPermisos.setText(PermisosOtorgados.size()+"");
+        LblPermisos.setText(PermisosOtorgados2.size() + "");
         LblPermisos.setVisible(true);
         TxtNombre.requestFocus();
         //</editor-fold>
@@ -581,7 +583,7 @@ public class vRoles extends javax.swing.JInternalFrame {
         infoCampos.put("Nombre", this.TxtNombre.getText());
         infoCampos.put("Siglas", this.TxtSiglas.getText());
 
-        vPermisos vP = new vPermisos(infoCampos,PermisosOtorgados);
+        vPermisos vP = new vPermisos(infoCampos, PermisosOtorgados);
         if (!vPrincipal.ventana.equalsIgnoreCase("Permisos")) {
             vPrincipal.ventana = "Permisos";
 
@@ -663,5 +665,19 @@ public class vRoles extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, "No se ha seleccionado ningun Roll de la tabla");
         }
     }
+
+    //<editor-fold desc="VALIDAR PERMISOS OTORGADOS" defaultstate="collapsed">
+        public int iterateUsingEntrySet(Map<String, Integer> map) {
+        for (Iterator it = map.entrySet().iterator(); it.hasNext();) {
+            Map.Entry<String, String> entry = (Map.Entry<String, String>) it.next();
+            if (entry.getValue().equals("S")) {
+                PermisosOtorgados2.put(entry.getKey(), entry.getValue());
+                System.out.println(entry.getKey() + ":" + entry.getValue());
+            }
+            
+        }
+        return PermisosOtorgados2.size();
+    }
+    //</editor-fold>
 
 }

@@ -7,6 +7,7 @@ package view;
 
 import CAD.CargarCAD;
 import Model.Acceso;
+import Model.Lista;
 import Model.Permisos;
 import java.awt.Color;
 import java.awt.Component;
@@ -41,14 +42,12 @@ public class vPrincipal extends javax.swing.JFrame {
     static String ventana = "";
     Map mapListaPermisos = new HashMap();
     Acceso Ac;
-//    List R;
 
-    public vPrincipal(Acceso Ac) {
+    public vPrincipal(Acceso Ac, List L) {
         initComponents();
         this.Ac = Ac;
         cargarDatos(Ac);
-        cargarPermisos(Ac);
-//        recorrerMenu(jMenuBar1.getSubElements());
+        PermisosUsuario(L, Ac);
     }
 
     //<editor-fold desc="IMAGEN DE FONDO" defaultstate="collapsed"> 
@@ -94,15 +93,37 @@ public class vPrincipal extends javax.swing.JFrame {
         LblRoll.setText(Ac.getNomRoll() + " ( " + Ac.getSiglasRoll() + " )");
     }
     //</editor-fold>
+    
+    //<editor-fold desc="PERMISOS USUARIOS" defaultstate="collapsed"> 
+    void PermisosUsuario(List Lp, Acceso Ac) {
 
-    //<editor-fold desc="CARGAR ID" defaultstate="collapsed">
-    void cargarPermisos(Acceso Ac) {
-        //Cargar Permisos
-        CargarCAD oCargarCAD = new CargarCAD();
-        List R = oCargarCAD.cargarPermisos(Ac);
-        if (!R.isEmpty()) {
-            PermisosUsuario(R, Ac);
-        }
+        JMenuBar barraMenu = getJMenuBar();
+        for (int i = 0; i < barraMenu.getMenuCount(); i++) {
+            JMenu menu = barraMenu.getMenu(i);
+
+            for (int j = 0; j < menu.getMenuComponentCount(); j++) {
+                java.awt.Component oComp = menu.getMenuComponent(j);
+                if (oComp instanceof JMenuItem) {
+                    JMenuItem menuItem = (JMenuItem) oComp;
+
+                    for (int k = 0; k < Lp.size(); k++) {
+                        Permisos Pr = (Permisos) Lp.get(k);
+                        String Codigo = Pr.getCodigoPermiso();
+                        String Nombre = Pr.getNombrePermiso();
+                        
+
+                        if (menuItem.getName().equals(Nombre)) {
+                            if (!Codigo.equals("S")) {
+                                menuItem.setVisible(false);
+                                break;
+                            }
+                            menuItem.setVisible(true);
+                             break;
+                        } 
+                    }// FIn for k
+                }// Fin if
+            }// Fin for j
+        }// Fin for i
     }
     //</editor-fold>
 
@@ -655,35 +676,5 @@ public class vPrincipal extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator1;
     // End of variables declaration//GEN-END:variables
 
-    void PermisosUsuario(List Lp, Acceso Ac) {
-
-        JMenuBar barraMenu = getJMenuBar();
-        for (int i = 0; i < barraMenu.getMenuCount(); i++) {
-            JMenu menu = barraMenu.getMenu(i);
-//            System.out.println("Menu:" + menu.getText());
-
-            for (int j = 0; j < menu.getMenuComponentCount(); j++) {
-                java.awt.Component oComp = menu.getMenuComponent(j);
-                if (oComp instanceof JMenuItem) {
-                    JMenuItem menuItem = (JMenuItem) oComp;
-
-//                    System.out.println("MenuItem:" + menuItem.getText());
-                    for (int k = 0; k < Lp.size(); k++) {
-                        Permisos Pr = (Permisos) Lp.get(k);
-                        String Codigo = Pr.getCodigoPermiso();
-                        String Nombre = Pr.getNombrePermiso();
-
-                        if (!menuItem.getName().equals(Nombre) && Codigo.equals("S")) {
-//                            if (!Codigo.equals("S")) {
-//                                menuItem.setVisible(false);
-//                            }
-                            menuItem.setEnabled(false);
-                        } else {
-                            menuItem.setEnabled(true);
-                        }
-                    }// FIn for k
-                }// Fin if
-            }// Fin for j
-        }// Fin for i
-    }
+    
 }

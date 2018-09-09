@@ -44,7 +44,7 @@ public class vPermisos extends javax.swing.JInternalFrame {
         componenteTabPane();
         this.infoCampos = infoCampos;
         this.mapPermisos = permisosOtorgados;
-        verificarCamposRoles(mapPermisos);
+        verificarMapPermisos(mapPermisos);
 
     }
 
@@ -58,7 +58,7 @@ public class vPermisos extends javax.swing.JInternalFrame {
     //</editor-fold>
 
     //<editor-fold desc="MAP VERIFICAR PERMISOS" defaultstate="collapsed"> 
-    public void verificarCamposRoles(Map mapPermisos) {
+    public void verificarMapPermisos(Map mapPermisos) {
 
         if (!mapPermisos.isEmpty()) {
             Iterator entries = mapComponentes.entrySet().iterator();
@@ -70,7 +70,14 @@ public class vPermisos extends javax.swing.JInternalFrame {
                     if (isCheck) {
                         JCheckBox oCheck = (JCheckBox) oPanel.getComponent(i);
                         if (mapPermisos.containsKey(oCheck.getName())) {
-                            oCheck.setSelected(true);
+//                            Map itemAMostrar = (Map) mapPermisos.get(oCheck.getName());
+                            
+                            String nomPrevio = mapPermisos.get(oCheck.getName()).toString();
+                            if ("S".equalsIgnoreCase(nomPrevio)) {
+                                oCheck.setSelected(true);
+                            }else{
+                                oCheck.setSelected(false);
+                            }
                             //continue;
                         }
                         mapPermisos.put(oCheck.getName(), "S");
@@ -583,6 +590,7 @@ public class vPermisos extends javax.swing.JInternalFrame {
                 if (isCheck) {
                     JCheckBox oCheck = (JCheckBox) oPanel.getComponent(i);
                     if (!oCheck.isSelected()) {
+                        mapPermisos.put(oCheck.getName(), "N");
                         continue;
                     }
                     mapPermisos.put(oCheck.getName(), "S");
@@ -610,7 +618,7 @@ public class vPermisos extends javax.swing.JInternalFrame {
             vR.TxtSiglas.setText(Siglas);
             ///
             vR.PermisosOtorgados = mapPermisos;
-            vR.LblPermisos.setText(Integer.toString(mapPermisos.size()));
+            vR.LblPermisos.setText(""+vR.iterateUsingEntrySet(vR.PermisosOtorgados));
             ///
             vR.botonesInicio(false, true, true, true, false, true, false, false, true, true);
             vR.show();

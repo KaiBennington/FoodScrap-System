@@ -5,7 +5,7 @@
  */
 package Model;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -13,18 +13,25 @@ import java.util.ArrayList;
  */
 public class Lista {
     
-    private ArrayList<Ingredientes> ListaIngredientes = new ArrayList<>();
+    
+    private List PermisosUsuario;
+
+    public Lista(List PermisosUsuario) {
+        this.PermisosUsuario = PermisosUsuario;
+    }
 
     public Lista() {
     }
 
-    public ArrayList<Ingredientes> getListaIngredientes() {
-        return ListaIngredientes;
+    public List getPermisosUsuario() {
+        return PermisosUsuario;
     }
 
-    public void setListaIngredientes(ArrayList<Ingredientes> ListaIngredientes) {
-        this.ListaIngredientes = ListaIngredientes;
+    public void setPermisosUsuario(List PermisosUsuario) {
+        this.PermisosUsuario = PermisosUsuario;
     }
+
+    
     
     
     

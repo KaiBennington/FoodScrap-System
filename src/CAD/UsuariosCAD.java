@@ -8,10 +8,12 @@ package CAD;
 import Config.Bandera;
 import Model.Acceso;
 import Model.ConexionDB;
+import Model.Lista;
 import Model.Usuarios;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  *
@@ -158,12 +160,14 @@ public class UsuariosCAD extends ConexionDB{
             }
             
             if("existe".equalsIgnoreCase(resul)){
-                respuesta = true;
+                
                 A.setNombre(rs.getString("Nombre"));
                 A.setApellido(rs.getString("Apellidos")); 
                 A.setUsuario(rs.getString("Usuario"));
                 A.setNomRoll(rs.getString("Nombre_Rol"));
                 A.setSiglasRoll(rs.getString("Siglas_Rol"));
+                
+                respuesta = true;
             }
         } catch (SQLException e) {
             System.err.println("Error "+e);

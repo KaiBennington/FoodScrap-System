@@ -5,10 +5,14 @@
  */
 package view;
 
+import CAD.CargarCAD;
 import CAD.UsuariosCAD;
+import Config.Bandera;
 import Config.Validaciones;
 import Model.Acceso;
+import Model.Lista;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.swing.*;
 import javax.swing.JOptionPane;
@@ -313,17 +317,27 @@ public class vAcceso extends javax.swing.JFrame {
                     PBCargar.setVisible(false);
                 } else {
 
+                    CargarCAD oCargarCAD = new CargarCAD();
+                    List R = oCargarCAD.cargarPermisos(Ac);
+                    if (R.isEmpty()) {                        
+                        Bandera.setSubRespuesta("El usuario no tiene permisos");
+                        return;
+                    }                    
                     //PBCargar :: poner a cargar la barra de progreso ! FALTA
                     LblMensajeNo.setText("");
-                    vPrincipal vP = new vPrincipal(Ac);
+                    vPrincipal vP = new vPrincipal(Ac, R);
                     vP.setVisible(true);
                     this.dispose();//descanse
                 }
             }
         } catch (Exception e) {
 
-            LblMensajeNo.setText("Acceso Denegado");
+            LblMensajeNo.setText(Bandera.getSubRespuesta());
         }
 
     }//Fin metodo Acceso
+
+    //<editor-fold desc="CARGAR PERMISOS" defaultstate="collapsed">
+    
+    //</editor-fold>
 }
