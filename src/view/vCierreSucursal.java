@@ -378,6 +378,13 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
         jLabel6 = new javax.swing.JLabel();
         jSeparator3 = new javax.swing.JSeparator();
         TabPrincipal = new javax.swing.JTabbedPane();
+        JP_Platos = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jPanel5 = new javax.swing.JPanel();
+        jLabel15 = new javax.swing.JLabel();
+        Lbl_ValorFritos = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        Lbl_ItemFritos = new javax.swing.JLabel();
         JP_Gastos = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         TxtDescripcionGasto = new javax.swing.JTextField();
@@ -389,13 +396,6 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
         Lbl_ItemGastos = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         Lbl_ValorGastos = new javax.swing.JLabel();
-        JP_Platos = new javax.swing.JPanel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jPanel5 = new javax.swing.JPanel();
-        jLabel15 = new javax.swing.JLabel();
-        Lbl_ValorFritos = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
-        Lbl_ItemFritos = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
         TxtPapaDevuelve = new javax.swing.JTextField();
@@ -524,6 +524,86 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
         jLabel6.setText("Negocio/Sucursal :");
 
         TabPrincipal.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
+
+        JP_Platos.setBackground(new java.awt.Color(255, 255, 255));
+
+        jScrollPane3.setBackground(new java.awt.Color(255, 255, 255));
+        jScrollPane3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jScrollPane3.setToolTipText("");
+
+        jPanel5.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel5.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel5.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 268, Short.MAX_VALUE)
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 371, Short.MAX_VALUE)
+        );
+
+        jScrollPane3.setViewportView(jPanel5);
+
+        jLabel15.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
+        jLabel15.setText("Valor Total :");
+
+        Lbl_ValorFritos.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
+        Lbl_ValorFritos.setForeground(new java.awt.Color(255, 0, 0));
+        Lbl_ValorFritos.setText("0.00");
+        Lbl_ValorFritos.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+            }
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+                Lbl_ValorFritosInputMethodTextChanged(evt);
+            }
+        });
+
+        jLabel13.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
+        jLabel13.setText("CPV");
+        jLabel13.setToolTipText("Cantidad Platos Vendidos");
+
+        Lbl_ItemFritos.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
+        Lbl_ItemFritos.setForeground(new java.awt.Color(255, 0, 0));
+        Lbl_ItemFritos.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        Lbl_ItemFritos.setText("0");
+
+        javax.swing.GroupLayout JP_PlatosLayout = new javax.swing.GroupLayout(JP_Platos);
+        JP_Platos.setLayout(JP_PlatosLayout);
+        JP_PlatosLayout.setHorizontalGroup(
+            JP_PlatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(JP_PlatosLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(JP_PlatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(JP_PlatosLayout.createSequentialGroup()
+                        .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(Lbl_ItemFritos, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(24, 24, 24)
+                        .addComponent(jLabel15)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(Lbl_ValorFritos, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(10, Short.MAX_VALUE))
+        );
+        JP_PlatosLayout.setVerticalGroup(
+            JP_PlatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(JP_PlatosLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 306, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(JP_PlatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(Lbl_ValorFritos, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+                    .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(Lbl_ItemFritos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+
+        TabPrincipal.addTab("Platos Vendidos", JP_Platos);
 
         JP_Gastos.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -656,86 +736,6 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
         );
 
         TabPrincipal.addTab("Gastos", JP_Gastos);
-
-        JP_Platos.setBackground(new java.awt.Color(255, 255, 255));
-
-        jScrollPane3.setBackground(new java.awt.Color(255, 255, 255));
-        jScrollPane3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jScrollPane3.setToolTipText("");
-
-        jPanel5.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel5.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jPanel5.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 268, Short.MAX_VALUE)
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 371, Short.MAX_VALUE)
-        );
-
-        jScrollPane3.setViewportView(jPanel5);
-
-        jLabel15.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
-        jLabel15.setText("Valor Total :");
-
-        Lbl_ValorFritos.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
-        Lbl_ValorFritos.setForeground(new java.awt.Color(255, 0, 0));
-        Lbl_ValorFritos.setText("0.00");
-        Lbl_ValorFritos.addInputMethodListener(new java.awt.event.InputMethodListener() {
-            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
-            }
-            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
-                Lbl_ValorFritosInputMethodTextChanged(evt);
-            }
-        });
-
-        jLabel13.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
-        jLabel13.setText("CPV");
-        jLabel13.setToolTipText("Cantidad Platos Vendidos");
-
-        Lbl_ItemFritos.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
-        Lbl_ItemFritos.setForeground(new java.awt.Color(255, 0, 0));
-        Lbl_ItemFritos.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        Lbl_ItemFritos.setText("0");
-
-        javax.swing.GroupLayout JP_PlatosLayout = new javax.swing.GroupLayout(JP_Platos);
-        JP_Platos.setLayout(JP_PlatosLayout);
-        JP_PlatosLayout.setHorizontalGroup(
-            JP_PlatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(JP_PlatosLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(JP_PlatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(JP_PlatosLayout.createSequentialGroup()
-                        .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(Lbl_ItemFritos, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(24, 24, 24)
-                        .addComponent(jLabel15)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(Lbl_ValorFritos, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(10, Short.MAX_VALUE))
-        );
-        JP_PlatosLayout.setVerticalGroup(
-            JP_PlatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(JP_PlatosLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 306, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(JP_PlatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(Lbl_ValorFritos, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
-                    .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(Lbl_ItemFritos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-
-        TabPrincipal.addTab("Platos Vendidos", JP_Platos);
 
         jPanel6.setBackground(new java.awt.Color(255, 255, 255));
         jPanel6.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -1670,6 +1670,7 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
                 mapGastos.remove(TblGastos.getValueAt(fila, 0).toString());
                 tb.removeRow(fila);
                 gastos();
+                calcularResta();
 
             } else {
                 return;

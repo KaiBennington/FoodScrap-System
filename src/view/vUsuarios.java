@@ -840,12 +840,14 @@ public class vUsuarios extends javax.swing.JInternalFrame {
                     TxtUsuario.setText("");
                     JOptionPane.showMessageDialog(null, Bandera.getRespuesta());
                     TxtDocumento.requestFocus();
+                    mostrarDatos("");
                 } else {
                     limpiarCampos();
                     botonesInicio(true, false, true, false, false, false, false);
                     buscarSi();
                     LblOk.setText(Bandera.getRespuesta());
                     LblOk.setVisible(true);
+                    mostrarDatos("");
                 }
             }
         }
@@ -918,6 +920,7 @@ public class vUsuarios extends javax.swing.JInternalFrame {
                 LblOk.setText(Bandera.getRespuesta());
                 LblOk.setVisible(true);
                 botonesInicio(true, false, true, false, false, false, false);
+                mostrarDatos("");
             }
         }
         //</editor-fold>

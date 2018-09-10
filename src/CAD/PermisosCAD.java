@@ -8,6 +8,7 @@ package CAD;
 import Config.Bandera;
 import Model.ConexionDB;
 import Model.Permisos;
+import Model.Roles;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -21,6 +22,39 @@ import java.util.Map;
  */
 public class PermisosCAD extends ConexionDB {
 
+    //<editor-fold desc="ELIMINAR PERMISOS" defaultstate="collapsed">
+    public static boolean eliminar(Roles Rl) {
+        PreparedStatement pst;
+        ResultSet rs = null;
+        boolean respuesta = false;
+
+        try {
+            String Sql = "CALL EliminarPermisosRoll(?)";
+            pst = getConexion().prepareStatement(Sql);
+            pst.setInt(1, Rl.getIdRol());
+            rs = pst.executeQuery();
+
+            String resul = "";
+            if (rs.next()) {
+                resul = rs.getString("Mensaje");
+            }
+
+            if ("El Permiso fue eliminado".equalsIgnoreCase(resul)) {
+                Bandera.setSubRespuesta(resul);
+                respuesta = true;
+            } else {
+                Bandera.setSubRespuesta(resul);
+                respuesta = false;
+            }
+        } catch (SQLException e) {
+            System.err.println("Error " + e);
+        } finally {
+            desconectar();
+            return respuesta;
+        }
+    }//Fin Metodo Eliminar
+    //</editor-fold>
+    
     //<editor-fold desc="CARGAR PERMISOS" defaultstate="collapsed">
     public Map CargarPermisos(int IdRoll, String Estado) {
         //Lista Permisos
@@ -41,7 +75,7 @@ public class PermisosCAD extends ConexionDB {
                 Nombre = rs.getString(1);
                 Codigo = rs.getString(2);
 
-                Lista.put(Nombre,Codigo);
+                Lista.put(Nombre, Codigo);
             }
             return Lista;
         } catch (SQLException ex) {
@@ -49,6 +83,9 @@ public class PermisosCAD extends ConexionDB {
         return Lista;
     }// FIN Metodo Cargar Permisos
     //</editor-fold>
+    
+    
+    ////// ( Pendiente )
 
     //<editor-fold desc="CARGAR MODULOS" defaultstate="collapsed">
     public ArrayList CargarModulos() {
@@ -132,4 +169,6 @@ public class PermisosCAD extends ConexionDB {
         return existePermiso;
     }// FIN Metodo Validar Permisos
     //</editor-fold>
+
+    
 }

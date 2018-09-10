@@ -162,6 +162,7 @@ public class vPrincipal extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("FoodScrap System V1.0 (easy order)");
         setName("VistaPrincipal"); // NOI18N
+        setResizable(false);
 
         LblNombre.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         LblNombre.setText("Nombre");

@@ -127,9 +127,9 @@ public class RolesCAD extends ConexionDB {
             return respuesta;
         }
     }//Fin Metodo Modificar
-    //</editor-fold>
+    //</editor-fold>   /// Pendiente ( organizar )
 
-    //<editor-fold desc="ELIMINAR TIPO DOCUMENTO" defaultstate="collapsed">
+    //<editor-fold desc="ELIMINAR ROLES" defaultstate="collapsed">
     public static boolean eliminar(Roles Rl) {
 
         PreparedStatement pst;
@@ -137,23 +137,31 @@ public class RolesCAD extends ConexionDB {
         boolean respuesta = false;
 
         try {
-            String Sql = "CALL EliminarRoles(?)";
-            pst = getConexion().prepareStatement(Sql);
-            pst.setInt(1, Rl.getIdRol());
-            rs = pst.executeQuery();
-
-            String resul = "";
-            if (rs.next()) {
-                resul = rs.getString("Mensaje");
-            }
-
-            if ("Tipo Documento Eliminado con exito".equalsIgnoreCase(resul)) {
-                Bandera.setRespuesta(resul);
-                respuesta = true;
+            boolean eliminarPermisos = PermisosCAD.eliminar(Rl);
+            
+            if (!eliminarPermisos) {
+                return false;
             } else {
-                Bandera.setRespuesta(resul);
-                respuesta = false;
-            }
+                
+                String Sql = "CALL EliminarRoll(?)";
+                pst = getConexion().prepareStatement(Sql);
+                pst.setInt(1, Rl.getIdRol());
+                rs = pst.executeQuery();
+
+                String resul = "";
+                if (rs.next()) {
+                    resul = rs.getString("Mensaje");
+                }
+
+                if ("El Roll fue eliminado".equalsIgnoreCase(resul)) {
+                    Bandera.setRespuesta(resul);
+                    respuesta = true;
+                } else {
+                    Bandera.setRespuesta(resul);
+                    respuesta = false;
+                }
+            }// Fin if Eliminar Permisos
+
         } catch (SQLException e) {
             System.err.println("Error " + e);
         } finally {

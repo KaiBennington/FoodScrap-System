@@ -708,6 +708,7 @@ public class vProductos extends javax.swing.JInternalFrame {
                 LblOk.setText(Bandera.getRespuesta());
                 LblOk.setVisible(true);
                 Bandera.setRespuesta("");
+                mostrarDatos("");
             }
         }
         //</editor-fold>
