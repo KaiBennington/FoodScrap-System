@@ -7,7 +7,6 @@ package CAD;
 
 import Config.Bandera;
 import Model.ConexionDB;
-import static Model.ConexionDB.getConexion;
 import Model.Permisos;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -27,7 +26,6 @@ public class PermisosCAD extends ConexionDB {
         //Lista Permisos
         PreparedStatement pst;
         ResultSet rs = null;
-//        ArrayList Lista = new ArrayList();
         Map Lista = new HashMap();
         try {
 
@@ -43,9 +41,7 @@ public class PermisosCAD extends ConexionDB {
                 Nombre = rs.getString(1);
                 Codigo = rs.getString(2);
 
-//                Permisos oPermiso = new Permisos(Codigo, Nombre);
                 Lista.put(Nombre,Codigo);
-                // System.out.println(""+Lista);
             }
             return Lista;
         } catch (SQLException ex) {
