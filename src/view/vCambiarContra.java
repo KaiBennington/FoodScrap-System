@@ -330,7 +330,7 @@ public class vCambiarContra extends javax.swing.JInternalFrame {
     
     public void Cambiar(){
         try {
-            String Usuario = Bandera.getUsuario();
+            String Usuario = Ac.getUsuario();
             String Actual = TxtContraActual.getText();
             String Nueva = TxtNuevaContra.getText();
             

@@ -14,7 +14,6 @@ import Config.Configuraciones;
 import Config.Validaciones;
 import Model.Roles;
 import java.awt.Dimension;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -31,17 +30,37 @@ public class vRoles extends javax.swing.JInternalFrame {
     /**
      * Creates new form vRoles
      */
-//    vPermisos oVistaPermisos = new vPermisos(CamposRoles);
+    
     Map infoCampos = new HashMap();
     Map PermisosOtorgados = new HashMap();
     Map PermisosOtorgados2 = new HashMap();
 
+    String Estado = "";
+
     public vRoles() {
         initComponents();
-        botonesInicio(false, false, false, false, true, false, false, false, false, false);
+        CambiarEstado(Estado);
         mostrarDatos("");
 
     }
+
+    //<editor-fold desc="CAMBIAR ESTADO" defaultstate="collapsed">
+    public void CambiarEstado(String Estado) {
+        switch (Estado) {
+            case "Guardar":
+                botonesInicio(false, true, true, true, false, true, false, false, true, true);
+                break;
+            case "Modificar":
+                botonesInicio(false, false, true, true, false, false, true, false, true, true);
+                break;
+            case "Eliminar":
+                botonesInicio(false, false, false, false, false, false, false, true, true, false);
+                break;
+            default:
+                botonesInicio(false, false, false, false, true, false, false, false, false, false);
+        }
+    }
+    //</editor-fold>
 
     //<editor-fold desc="MOSTRAR DATOS" defaultstate="collapsed">
     void mostrarDatos(String Valor) {
@@ -538,10 +557,11 @@ public class vRoles extends javax.swing.JInternalFrame {
 
     private void BtnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCancelarActionPerformed
         //<editor-fold desc="CANCELAR" defaultstate="collapsed">
+        Estado = "";
         limpiarCampos();
         PermisosOtorgados.clear();
         PermisosOtorgados2.clear();
-        botonesInicio(false, false, false, false, true, false, false, false, false, false);
+        CambiarEstado(Estado);
         mostrarDatos("");
         Lbl_Id.setText("");
         LblPermisos.setText(PermisosOtorgados2.size() + "");
@@ -551,9 +571,10 @@ public class vRoles extends javax.swing.JInternalFrame {
 
     private void BtnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnNuevoActionPerformed
         //<editor-fold desc="NUEVO" defaultstate="collapsed">
+        Estado = "Guardar";
         PermisosOtorgados.clear();
         PermisosOtorgados2.clear();
-        botonesInicio(false, true, true, true, false, true, false, false, true, true);
+        CambiarEstado(Estado);
         cargarId();
         buscarNo();
         limpiarCampos();
@@ -625,7 +646,7 @@ public class vRoles extends javax.swing.JInternalFrame {
         infoCampos.put("Nombre", this.TxtNombre.getText());
         infoCampos.put("Siglas", this.TxtSiglas.getText());
 
-        vPermisos vP = new vPermisos(infoCampos, PermisosOtorgados);
+        vPermisos vP = new vPermisos(infoCampos, PermisosOtorgados, Estado);
         if (!vPrincipal.ventana.equalsIgnoreCase("Permisos")) {
             vPrincipal.ventana = "Permisos";
 
@@ -652,8 +673,9 @@ public class vRoles extends javax.swing.JInternalFrame {
     private void MnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnModificarActionPerformed
         //<editor-fold desc="MENU MODIFICAR" defaultstate="collapsed">
         //Seleccion fila modificar
+        Estado = "Modificar";
         if (Seleccion()) {
-            botonesInicio(false, false, true, true, false, false, true, false, true, true);
+            CambiarEstado(Estado);
             TxtNombre.requestFocus();
             buscarNo();
         }
@@ -664,8 +686,9 @@ public class vRoles extends javax.swing.JInternalFrame {
     private void MnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnEliminarActionPerformed
         //<editor-fold desc="MENU ELIMINAR" defaultstate="collapsed">
         //Seleccion fila Eliminar
+        Estado = "Eliminar";
         if (Seleccion()) {
-            botonesInicio(false, false, false, false, false, false, false, true, true, false);
+            CambiarEstado(Estado);
             BtnEliminar.requestFocus();
             buscarNo();
         }

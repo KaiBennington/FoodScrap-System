@@ -38,10 +38,12 @@ public class vPermisos extends javax.swing.JInternalFrame {
     private static Map mapComponentes = new HashMap();
     private static Map mapPermisos = new HashMap();
     Map infoCampos = new HashMap();
+    String Estado = "";
 
-    public vPermisos(Map infoCampos, Map permisosOtorgados) {
+    public vPermisos(Map infoCampos, Map permisosOtorgados, String Estado) {
         initComponents();
         componenteTabPane();
+        this.Estado = Estado;
         this.infoCampos = infoCampos;
         this.mapPermisos = permisosOtorgados;
         verificarMapPermisos(mapPermisos);
@@ -619,7 +621,8 @@ public class vPermisos extends javax.swing.JInternalFrame {
             vR.PermisosOtorgados = mapPermisos;
             vR.LblPermisos.setText(""+vR.iterateUsingEntrySet(vR.PermisosOtorgados));
             ///
-            vR.botonesInicio(false, true, true, true, false, true, false, false, true, true);
+            vR.Estado = this.Estado;
+            vR.CambiarEstado(Estado);
             vR.show();
             this.dispose();
         } else {

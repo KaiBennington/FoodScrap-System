@@ -1897,8 +1897,8 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
 
         int fila = TblCierreSucursales.getSelectedRow();
         if (fila >= 0) {
-
-            CbxSucursal.setSelectedIndex(Integer.parseInt(TblCierreSucursales.getValueAt(fila, 2).toString()));
+            
+            CbxSucursal.setSelectedItem(verificarSucursalCombo(Integer.parseInt(TblCierreSucursales.getValueAt(fila, 2).toString())));
             LblNumFactura.setText(TblCierreSucursales.getValueAt(fila, 0).toString());
 
             String Fecha = TblCierreSucursales.getValueAt(fila, 1).toString();
@@ -1930,4 +1930,14 @@ public class vCierreSucursal extends javax.swing.JInternalFrame {
 
         }
     }
+    
+    
+    //<editor-fold desc="CARGAR NOMBRE SUCURSAL" defaultstate="collapsed">
+    String verificarSucursalCombo(int IdSucursal) {
+        //Cargar Lista Permisos
+        CargarCAD oCargarCAD = new CargarCAD();
+        String P = oCargarCAD.cargarNombreSucursal(IdSucursal);
+        return P;
+    }
+    //</editor-fold>
 }
